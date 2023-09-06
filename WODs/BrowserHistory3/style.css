@@ -20,3 +20,27 @@ img{
     float: left;
 }
 
+.left {
+    float: left;
+    width: 300px;
+}
+
+.right {
+    float:right;
+    width: 300px;
+}
+
+.center {
+    margin-left: 300px;
+    margin-right: 300px;
+}
+
+li{
+    list-style-type: none;
+    display: inline;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+
+

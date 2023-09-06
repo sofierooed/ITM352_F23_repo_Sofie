@@ -8,6 +8,8 @@ img {
     height: 200px;
 }
 
+
+
 h1, h2 {
     text-align: center;
     font-family:  Tahoma, sans-serif; 
@@ -47,9 +49,7 @@ div{
     display: flex;
 }
 
-p{
 
-}
 
 /*
 @import url(https://fonts.googleapis.com/css?family=Oswald);
