@@ -1,6 +1,7 @@
 body {
     width: 800px; 
     margin: 0 auto;
+    background-color: lightblue;
 }
 
 img {
@@ -48,6 +49,7 @@ div{
     border: 5px solid black;
     display: flex;
 }
+
 
 
 
