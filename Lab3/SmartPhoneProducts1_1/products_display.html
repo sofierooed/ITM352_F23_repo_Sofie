@@ -3,18 +3,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smartphone Products</title>
-    <link rel="stylesheet" href="products-style.css">
+    <link rel="stylesheet" href="./products-style.css">
     <style id="localStyle"></style>
 </head>
 <body>
     <h1>Used Smart Phone Store</h1>
 
-    <div> <input id='speedSlider' type='range' min=".1" max="5" step=".1" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';" style="direction: rtl;">
+    <div> 
+        <input id='speedSlider' type='range' min=".1" max="5" step=".1" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';" style="direction: rtl;">
     </div>
     
     <div><main>
-       
-        
 
     <section class="item" onmouseover="this.className='item rotate';" onclick="this.className='item';">
         <h2>HTC</h2>
