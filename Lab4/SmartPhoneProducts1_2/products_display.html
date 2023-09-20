@@ -3,11 +3,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smartphone Products</title>
+
     <link rel="stylesheet" href="./products-style.css">
+
     <style id="localStyle"></style>
+    <script>
+        let store_name = 'Sofie Roeed';
+    </script>
+
+    
 </head>
-<body>
-    <h1>Used Smart Phone Store</h1>
+<body onload="hits_span.innerHTML = hits; spins_span.innerHTML = spins;">
+    <header>
+        <h1> <script>document.write(store_name);</script>´s Used Smart Phone Store</h1>
+        <p style="text-align: center; font-weight: bold;">
+            Hits:<span id="hits_span">0</span>
+            Spins:<span id="spins_span">0</span>
+        </p>
+    </header>
+
 
     <div> 
         <h4>Change the speed of the rotation here:</h4>
@@ -45,9 +59,16 @@
         <p>&dollar; 10.00</p>
         <img src="./images/Blackberry.jpg">
     </section>
+    
+    <script>
+    let hits = 0;
+    spins = 2;
+    </script>
+
 </main></div>
+
 </body>
 <footer>
-    <h1>Your One Stop Phone Shop</h1>
+    <h1><script>document.write(store_name);</script> One Stop Phone Shop</h1>
 </footer>
 </html>
