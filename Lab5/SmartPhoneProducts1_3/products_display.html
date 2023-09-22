@@ -1,0 +1,135 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Products</title>
+    <link rel="stylesheet" href="./products-style.css">
+    <style id="localStyle"></style>
+    <script> 
+    const store_name = 'Sofie Roeed';
+    let first_name = 'Sofie'
+    let last_name = 'Roeed'
+    let full_name = '<span style="font-size: 60px; font-weight: bold;">' + first_name + '</span> ' +'<span style="font-size:36px; font-style: italic;">' + last_name + '</span>';
+
+    let initials = `${first_name[0]}.${last_name[0]}.`;
+    let line = 1;
+    let now = new Date();
+    let currentYear = now.getFullYear();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let ampm = (hours < 12) ? 'AM' : 'PM'; hours = (hours + 11) % 12 + 1;
+
+    let hits = 0;
+    let spins = 0;
+
+    </script>
+</head>
+<body>
+    <header>
+        <script> document.write(full_name);</script>
+        <h1> Used Smart Phone Store</h1>
+    </header>
+
+<!--create a centered paragraph with two labeled sections for displaying "Hits" and "Spins," inner HTML set to "0."-->
+    <p style="text-align: center; font-weight: bold;">
+        Hits:<span id="hits_span">0</span>
+        Spins:<span id="spins_span">0</span>
+        </p>
+    
+    <p>Hit/Spin:<span id="hit_spin_span">0</span></p>
+
+    <div> 
+        <h4>Change the speed of the rotation here:</h4>
+
+
+<!--Create slider for speed rotation on pictures-->
+        <input id='speedSlider' type='range' min=".1" max="5" step=".1" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';" style="direction: rtl;">
+    </div>
+    
+    <div><main>
+<!--Create section for product display (HTC)-->
+    <section class="item"
+    onmouseover="this.className='item rotate'; spins_span.innerHTML = ++spins; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);" 
+    onclick="this.className='item'; hits_span.innerHTML = ++hits; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);">
+        <h2>HTC</h2>
+        <p>&dollar; 40.00</p>
+        <img src= "./images/HTC.jpg">
+    </section>
+<!--Create section for product display (Apple)-->
+    <section class="item"
+    onmouseover="this.className='item rotate'; spins_span.innerHTML = ++spins; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);" 
+    onclick="this.className='item'; hits_span.innerHTML = ++hits; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);">
+        <h2>Apple</h2>
+        <p>&dollar; 75.00</p>
+        <img src="./images/iphone-3gs.jpg"> 
+    </section>
+<!--Create section for product display (Nokia)-->
+    <section class="item"
+    onmouseover="this.className='item rotate'; spins_span.innerHTML = ++spins; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);" 
+    onclick="this.className='item'; hits_span.innerHTML = ++hits; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);">
+        <h2>Nokia</h2>
+        <p>&dollar; 35.00</p>
+        <img src="./images/Nokia.jpg">
+    </section>
+<!--Create section for product display (Samsung)-->
+    <section class="item"
+    onmouseover="this.className='item rotate'; spins_span.innerHTML = ++spins; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);" 
+    onclick="this.className='item'; hits_span.innerHTML = ++hits; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);">
+        <h2>Samsung</h2>
+        <p>&dollar; 45.00</p>
+        <img src="./images/Samsung.jpg">
+    </section>
+<!--Create section for product display (Blackberry)-->
+    <section class="item"
+    onmouseover="this.className='item rotate'; spins_span.innerHTML = ++spins; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);" 
+    onclick="this.className='item'; hits_span.innerHTML = ++hits; 
+    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);">
+        <h2>Blackberry</h2>
+        <p>&dollar; 10.00</p>
+        <img src="./images/Blackberry.jpg">
+    </section>
+</main></div>
+</body>
+<footer>
+    <script>
+        // HTML table as a string template using backticks
+        let tableHtml = `
+            <table border="1" style="margin-left: auto; margin-right: auto; text-align: center;">
+                <tbody>
+                    <tr>
+                        <th colspan="2">
+                            <h1>Your One Stop For Used Phones - ${initials}'s</h1>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>${line++}.</td>
+                        <td><br>Copyright @ ${first_name} ${last_name}</td>
+                    </tr>
+                    <tr>
+                        <td>${line++}.</td>
+                        <td>${currentYear}</td>
+                    </tr>
+                    <tr>
+                        <td>${line++}.</td>
+                        <td>${hours}:${minutes} ${ampm}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+
+        // Output the HTML table using document.write()
+        document.write(tableHtml);
+    </script>
+
+</footer>
+
+</html>

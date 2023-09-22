@@ -1,0 +1,71 @@
+body {
+    width: 800px; 
+    margin: 0 auto;
+    background-color: lightblue;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+}
+
+
+
+h1, h2 {
+    text-align: center;
+    font-family:  Tahoma, sans-serif; 
+}
+
+h1 {
+    color: darkblue;
+    font-variant: small-caps;
+    font-style: italic;
+    text-decoration: underline;
+    font-size: 3em;
+    background-color: lightblue;
+    margin: 10px;
+    padding: 10px;
+    border-style: dashed;
+    border-width: 3px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-color: darkblue
+}
+
+main{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    background-position:center;
+    background-image: url('images/phone_globe.jpeg');
+    background-repeat: no-repeat;
+    font-weight:500;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-family: sans; color: whitesmoke;
+}
+
+div{
+    border: 5px solid black;
+    display: flex;
+}
+
+.rotate img
+{
+  animation: rotation .3s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+h4{
+  color: darkblue;
+}
+
+
