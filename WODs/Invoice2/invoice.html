@@ -4,7 +4,8 @@
     <script>
     /* Invoice file for five different products */
     
-    // Product Data
+    /// Product Data
+    
     // Product 1
     let item1 = 'Gillette Sensor 3 Razor';
     let quantity1 = 2;
@@ -121,18 +122,26 @@
           <tr>
             <td colspan="4" width="100%">&nbsp;</td>
           </tr>
+
+          <!--Display subtotal with variable-->
           <tr>
             <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
             <td width="54%">$<script>document.write(subtotal.toFixed(2));</script></td>
           </tr>
+
+          <!--Display tax with variable-->
           <tr>
             <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ <script>document.write(tax_rate)</script>%</span></td>
             <td width="54%">$<script>document.write(tax.toFixed(2))</script></td>
           </tr>
+
+          <!--Display shipping with variable-->
           <tr>
             <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Shipping </script></span></td>
             <td width="54%">$<script>document.write(shipping.toFixed(2))</script></td>
           </tr>
+
+          <!--Display total with variable-->
           <tr>
             <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
             <td width="54%"><strong>$<script>document.write(grand_total.toFixed(2))</script></strong></td>

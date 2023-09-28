@@ -48,7 +48,8 @@
         <h4>Change the speed of the rotation here:</h4>
         <input id='speedSlider' type='range' min=".1" max="5" step=".1" onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';" style="direction: rtl;">
     </div>
-    
+
+<!-- -------------------------------------------------- -->   
     <div><main>
 <!--Create section for product display (HTC)-->
     <section class="item"   
@@ -57,7 +58,7 @@
             this.className='item rotate'; //the code updates the class of the <section> element to item rotate.
             spins_span.innerHTML = ++spins; //increments the variable spins and updates the content of inner HTML with the id spins_span to display the new value of spins.
     }
-    
+
     //Update the you win element by the spins
     hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
     over_half ||= (spins < 2 * hits) && (hits < spins) ;
@@ -70,7 +71,7 @@
     } else{ //if the class name does not contain item rotate, eg has been clicked before
         this.className = 'item rotate'; //start the item to spin again, not incrementing hits
     }
-    
+   
     //Update the you win element by the hits
     hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
     over_half ||= (spins < 2 * hits) && (hits < spins);
@@ -82,6 +83,8 @@
         <p>&dollar; 40.00</p>
         <img src= "./images/HTC.jpg">
     </section>
+
+<!-- -------------------------------------------------- -->   
 <!--Create section for product display (Apple)-->
 <section class="item"
 onmouseover="
@@ -111,7 +114,9 @@ win_span.innerHTML=over_half;
         <p>&dollar; 75.00</p>
         <img src="./images/iphone-3gs.jpg"> 
     </section>
-<!--Create section for product display (Nokia)-->
+
+<!-- -------------------------------------------------- -->   
+    <!--Create section for product display (Nokia)-->
 <section class="item"
 onmouseover="
     if(this.className === 'item'){
@@ -140,6 +145,8 @@ win_span.innerHTML=over_half;
         <p>&dollar; 35.00</p>
         <img src="./images/Nokia.jpg">
     </section>
+
+<!-- -------------------------------------------------- -->   
 <!--Create section for product display (Samsung)-->
 <section class="item"
 onmouseover="
@@ -169,7 +176,9 @@ win_span.innerHTML=over_half;
         <p>&dollar; 45.00</p>
         <img src="./images/Samsung.jpg">
     </section>
-<!--Create section for product display (Blackberry)-->
+
+<!-- -------------------------------------------------- -->   
+    <!--Create section for product display (Blackberry)-->
 <section class="item"
 onmouseover="
     if(this.className === 'item'){
@@ -200,7 +209,7 @@ win_span.innerHTML=over_half;
     </section>
 </main></div>
 </body>
-
+<!-- -------------------------------------------------- -->   
 <footer>
     <script>
         // HTML table as a string template using backticks
