@@ -25,6 +25,7 @@
     let hits = 0;
     let spins = 0;
     let over_half = false;
+    let progress = 'Get going!';
 
     </script>
 </head>
@@ -59,10 +60,25 @@
             spins_span.innerHTML = ++spins; //increments the variable spins and updates the content of inner HTML with the id spins_span to display the new value of spins.
     }
 
-    //Update the you win element by the spins
-    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-    over_half ||= (spins < 2 * hits) && (hits < spins) ;
-    win_span.innerHTML= over_half;"
+    // -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
     
     onclick="
         if(this.className === 'item rotate'){ //if the class name contains item rotate
@@ -72,10 +88,25 @@
         this.className = 'item rotate'; //start the item to spin again, not incrementing hits
     }
    
-    //Update the you win element by the hits
-    hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-    over_half ||= (spins < 2 * hits) && (hits < spins);
-    win_span.innerHTML=over_half;
+    // -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
     ">
 
     <!--Identify the HTC items by adding picture, price and name-->
@@ -93,9 +124,25 @@ onmouseover="
         spins_span.innerHTML = ++spins;
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins) ;
-win_span.innerHTML= over_half;"
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 
 onclick="
     if(this.className === 'item rotate'){
@@ -105,9 +152,25 @@ onclick="
     this.className = 'item rotate';
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins);
-win_span.innerHTML=over_half;
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 ">
 <!--Identify the Apple items by adding picture, price and name-->
         <h2>Apple</h2>
@@ -124,9 +187,25 @@ onmouseover="
         spins_span.innerHTML = ++spins;
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins) ;
-win_span.innerHTML= over_half;"
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 
 onclick="
     if(this.className === 'item rotate'){
@@ -136,9 +215,25 @@ onclick="
     this.className = 'item rotate';
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins);
-win_span.innerHTML=over_half;
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 ">
 <!--Identify the Nokia items by adding picture, price and name-->
         <h2>Nokia</h2>
@@ -155,9 +250,25 @@ onmouseover="
         spins_span.innerHTML = ++spins;
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins) ;
-win_span.innerHTML= over_half;"
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 
 onclick="
     if(this.className === 'item rotate'){
@@ -167,9 +278,25 @@ onclick="
     this.className = 'item rotate';
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins);
-win_span.innerHTML=over_half;
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 ">
 <!--Identify the Samsung items by adding picture, price and name-->
         <h2>Samsung</h2>
@@ -186,9 +313,25 @@ onmouseover="
         spins_span.innerHTML = ++spins;
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins) ;
-win_span.innerHTML= over_half;"
+    // -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 
 onclick="
     if(this.className === 'item rotate'){
@@ -198,9 +341,25 @@ onclick="
     this.className = 'item rotate';
 }
 
-hit_spin_span.innerHTML=(hits_span.innerHTML/spins_span.innerHTML).toFixed(2);
-over_half ||= (spins < 2 * hits) && (hits < spins);
-win_span.innerHTML=over_half;
+// -- Winning progress depends on hits/spins
+        let hits_spins_ratio = hits/spins;
+        if (progress !== 'You win!') {
+            if (hits_spins_ratio >= 0.5 && hits < spins) {
+                progress = 'You win!';
+            } else if (hits_spins_ratio >= 0.5) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio >= 0.25) {
+                progress = 'Almost there!';
+            } else if (hits_spins_ratio > 0) {
+                progress = 'On your way!';
+            } else {
+                progress = 'Get going!';
+    }
+}
+
+    //Update the you win element by the progress
+    hit_spin_span.innerHTML = hits_spins_ratio.toFixed(2);
+    win_span.innerHTML = progress;"
 ">
 <!--Identify the Blackberry items by adding picture, price and name-->
         <h2>Blackberry</h2>
@@ -242,5 +401,7 @@ win_span.innerHTML=over_half;
     </script>
 
 </footer>
+
+
 
 </html>
