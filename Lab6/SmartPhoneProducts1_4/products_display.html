@@ -400,6 +400,57 @@ onclick="
         document.write(tableHtml);
     </script>
 
+<!--Create a switch with variable month-->
+<script>
+        // Get the current month index (0-11)
+        let monthIndex = new Date().getMonth();
+
+        // Define an array of month names
+        let monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Initialize the month variable with the name of the current month
+        let month = monthNames[monthIndex];
+
+        // Define the num_days variable
+        let num_days;
+
+        // Create a switch statement based on the current month
+        switch (month) {
+            case "January":
+            case "March":
+            case "May":
+            case "July":
+            case "August":
+            case "October":
+            case "December":
+                num_days = 31;
+                break;
+            case "April":
+            case "June":
+            case "September":
+            case "November":
+                num_days = 30;
+                break;
+            case "February":
+                num_days = 28;
+                break;
+            default:
+                console.error("Invalid month name.");
+                num_days = -1; // Indicates an error
+                break;
+        }
+
+        // Output the result to the document
+        if (num_days !== -1) {
+            document.write(`<p>Number of days in ${month}: ${num_days}</p>`);
+        } else {
+            document.write("<p>Error: Invalid month name.</p>");
+        }
+</script>
+
 </footer>
 
 
