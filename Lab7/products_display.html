@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Display</title>
+    <script src="./products_data.js"></script>
+</head>
+<body>
+    <!--Create HTML table with border-->
+    <table border="1">
+        <!-- Create the header row with two columns: Number and Item -->
+        <tr>
+            <th>Number</th>
+            <th>Item</th>
+        </tr>
+
+        <!-- JavaScript code to generate table rows -->
+        <script>
+            // Loop through the product variables and generate table rows
+            for (let i = 1; i <= 5; i++) {
+                // Extract the product name and number using eval()
+                let productName = eval('name' + i);
+                let productNumber = i;
+
+                // Dynamically generate a table row for each product
+                document.write(`
+                    <tr>
+                        <td>${productNumber}</td>
+                        <td>${productName}</td>
+                    </tr>
+                `);
+            }
+        </script>
+    </table>
+
+</body>
+</html>

@@ -1,20 +1,23 @@
+//Retrieve data from products file
 require("./products_data.js");
 
+//Define variables
 let num_products = 5;
+let product_num = 0;
 
-for(let product_num=0; product_num < num_products, product_num++;) {
-    if(product_num > num_products/2){
-        console.log("Don’t ask for anything else!");
-        process.exit(1);
-    }
-    if(product_num > num_products*0.25 && product_num < num_products*0.75) {
-        console.log(`${eval('name' + product_num)} is sold out`);
-        continue;
-    }
-
-console.log(`${product_num}. ${eval('name' + product_num)}`);
-
-
+// Create a loop to print product names dynamically
+while (eval("typeof name" + (product_num + 1)) !== 'undefined') {
+    product_num++;// Increment the product number counter
 }
-console.log('That\'s all we have!')
-
+// Create a loop to print product information based on product number
+for (let i = 1; i <= product_num; i++) {
+    // If the product number is within 25% to 75% of the available products, mark it as sold out
+    if (i > (product_num * 0.25) && i <= (product_num * 0.75)) {
+        console.log(`${eval('name' + i)} is sold out`);
+    } else {
+        // For all other products, print the product number and name
+        console.log(`${i}. ${eval('name' + i)}`);
+    }
+}
+// Print a message indicating the end of the product list
+console.log("That's all we have!");
