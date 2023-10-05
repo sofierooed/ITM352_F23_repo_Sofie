@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Products</title>
+    <link rel="stylesheet" href="products-style.css">
+
+
+<script src="./products_data.js"></script></script>
+
+</head>
+<body>
+    <h1>Used Smart Phone Store</h1>
+
+    <div><main>
+
+<script>
+
+    //Create a for-loop to create and display sections for products
+for(let i = 1; eval("typeof name"+i) != 'undefined'; i++){
+    let section = `
+    <section class="item">
+        <h2>${eval("name" + i)}</h2>
+        <p>$${eval("price" + i)}</p>
+        <img src="${eval("image" + i)}">
+    </section>
+`;
+document.write(section);
+}
+
+
+</script>
+
+</main></div>
+</body>
+<footer>
+    <h1>Your One Stop Phone Shop</h1>
+</footer>
+</html>
