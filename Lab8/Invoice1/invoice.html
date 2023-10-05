@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        /* Invoice file for five different products */
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+            // Product Data
+    // Product 1
+    /*
+    let item1 = 'Gillette Sensor 3 Razor';
+    let quantity1 = 2;
+    let price1 = 1.23;
+    */
+    let product1 = {
+        "item": 'Gillette Sensor 3 Razor',
+        "quantity": 2,
+        "price": 1.23,
+    }
+    product1.quantity = 0;
+
+    // Product 2
+    let item2 = 'Barbasol Shaving Cream';
+    let quantity2 = 2;
+    let price2 = 2.64;
+
+    // Product 3
+    let item3 = 'Nautica Cologne';
+    let quantity3 = 2;
+    let price3 = 6.17;
+
+    // Product 4
+    let item4 = 'Rubbing Alcohol';
+    let quantity4 = 1;
+    let price4 = 0.98;
+
+    // Product 5
+    let item5 = 'Colgate Classic Toothbrush';
+    let quantity5 = 12;
+    let price5 = 1.89;
+
+    //Compute extended price
+    let extended_price1 = product1.price * product1.quantity;
+    let extended_price2 = price2 * quantity2;
+    let extended_price3 = price3 * quantity3;
+    let extended_price4 = price4 * quantity4;
+    let extended_price5 = price5 * quantity5;
+
+    //Compute subtotal price
+    let subtotal = extended_price1 + extended_price2 + extended_price3 + extended_price4 + extended_price5;
+
+    //Compute tax amount
+    let tax_rate = 0.0575
+    let tax = subtotal * tax_rate;
+
+    //Compute grand total adding tax and subtotal price
+    let grand_total = subtotal + tax;
+    </script>
+</head>
+<body>
+    <script>
+
+    // Create table to display the invoice and prices
+    let tableHtml = `
+    <table border="0" style="margin-left: auto; margin-right: auto;">
+        <tbody>
+            <tr>
+                <th colspan="4">
+                    <h1>Invoice</h1>
+                    </th>
+            </tr>
+                    <tr>
+                        <td style = "font-size: 20px;">Item</td>
+                        <td style = "font-size: 20px;">Quantity</td>
+                        <td style = "font-size: 20px;">Price</td>
+                        <td style = "font-size: 20px;">Extended price</td>
+                    </tr>
+                    <tr>
+                        <td>${product1.item}</td>
+                        <td>${product1.quantity}</td>
+                        <td>$${product1.price}</td>
+                        <td>$${extended_price1}</td>
+                    </tr>
+                    <tr>
+                        <td>${item2}</td>
+                        <td>${quantity2}</td>
+                        <td>$${price2}</td>
+                        <td>$${extended_price2}</td>
+                    </tr>
+                    <tr>
+                        <td>${item3}</td>
+                        <td>${quantity3}</td>
+                        <td>$${price3}</td>
+                        <td>$${extended_price3}</td>
+                    </tr>
+                    <tr>
+                        <td>${item4}</td>
+                        <td>${quantity4}</td>
+                        <td>$${price4}</td>
+                        <td>$${extended_price4}</td>
+                    </tr>
+                    <tr>
+                        <td>${item5}</td>
+                        <td>${quantity5}</td>
+                        <td>$${price5}</td>
+                        <td>$${extended_price5}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr> 
+                        <td>Subtotal</td>
+                        <td></td>
+                        <td> $${subtotal.toFixed(2)}</td>
+                        <td></td>
+                    </tr>
+                    <tr> 
+                        <td>Tax @ 5.75%</td>
+                        <td></td>
+                        <td> $${tax.toFixed(2)}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style = "font-weight: bold;"> Total </td> 
+                        <td></td>
+                        <td style = "font-weight: bold;"> $${grand_total.toFixed(2)}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+    `;
+    document.write(tableHtml);
+
+    </script>
+</body>
+</html>
