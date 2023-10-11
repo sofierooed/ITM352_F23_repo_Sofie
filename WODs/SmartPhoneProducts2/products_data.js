@@ -19,3 +19,6 @@ let image4 = "./images/Samsung.jpg";
 let name5 = "Blackberry";
 let price5 = 10.00;
 let image5 = "./images/Blackberry.jpg";
+
+
+
