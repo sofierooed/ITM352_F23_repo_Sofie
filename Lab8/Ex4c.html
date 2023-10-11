@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ex3a</title>
+    <title>Ex4c</title>
+    <style>
+        /* Highlight rows when hovering */
+        tr:hover {
+            background-color: yellow;
+        }
+    </style>
 </head>
 <body>
     <script>
@@ -23,6 +29,8 @@
 
 
     </script>
+
+     
 <!-- Display table -->
 <table style="border: 1px solid black;text-align: center;">
     <thead id="tablehead">
@@ -34,27 +42,16 @@
             <th style="border: 1px solid black;">Extended Cost</th>
         </tr>
     </thead>
-    <tbody 
-    
-    onclick="new_row = this.appendChild(document.createElement('tr')); //Create a new row and append it to the body when clicked
+    <tbody id='invoice_table'>
 
-    //Create new variable for number of cells in the header row
-    let first_row_cells = document.getElementById('tablehead').rows[0];
-
-    //Create loop which creates a new row with inner html in all the cells
-    for(let i = 0; i < first_row_cells.cells.length; i++){
-        new_cell = new_row.appendChild(document.createElement('td'));
-        new_cell.innerHTML= 'xxx';
-    }
-    ">
         <script>
-            // Create loop 
+            // Loop through product_quantities and create table rows with data
             for(let i in product_quantities){
-                //Define variable for extended cost
+                // Calculate the extended cost for each product
                 let extended_cost = product_quantities[i] * products[i]['price'];
 
-                //Output the different values in the two arrays
-            document.write(`<tr style="border: 1px solid black;">
+                // Generate HTML for each row with an onclick event to delete rows
+            document.write(`<tr style="border: 1px solid black;" onclick="deleteRow(this.rowIndex);">
                 <td style="border: 1px solid black;">${Number(i)+1}</td> <!-- Display product number -->
                 <td style="border: 1px solid black;">${product_quantities[i]}</td> <!-- Display quantity -->
                 <td style="border: 1px solid black;">${products[i]['name']}</td> <!-- Display product name -->
@@ -66,6 +63,42 @@
         </script>
     </tbody>
 </table>
+
+<!-- Create button for an onclick event to add new rows-->
+<input type="button" value="Add New Row" onclick="addNewRow()">
+
+<script>
+    // Function to add a new row when button is clicked
+    function addNewRow() {
+        let tableBody = document.getElementById('invoice_table');
+        let numRows = tableBody.rows.length;
+
+        // Add a new row at the end of the table
+        let newRow = tableBody.insertRow(numRows);
+
+        // Get the number of cells in the header row
+        let firstRowCells = document.getElementById('tablehead').rows[0].cells.length;
+
+        // Create cells in the new row and set their content to 'xxx'
+        for (let i = 0; i < firstRowCells; i++) {
+            let newCell = newRow.insertCell(i);
+            newCell.innerHTML = 'xxx';
+        }
+
+         // Assign an onclick event to the new row, so it can be deleted with the onclick event
+            newRow.onclick = function() {
+                deleteRow(this.rowIndex);
+            };
+
+    }
+
+    // Function to delete a row by rowIndex
+    function deleteRow(rowIndex) {
+        // Delete the selected row based on its rowIndex
+            document.getElementById('invoice_table').deleteRow(rowIndex-1);
+        }
+
+</script>
 
 </body>
 </html>

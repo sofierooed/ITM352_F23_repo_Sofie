@@ -34,7 +34,7 @@
             <th style="border: 1px solid black;">Extended Cost</th>
         </tr>
     </thead>
-    <tbody 
+    <tbody id='invoice_table'
     
     onclick="new_row = this.appendChild(document.createElement('tr')); //Create a new row and append it to the body when clicked
 
@@ -66,6 +66,23 @@
         </script>
     </tbody>
 </table>
+
+<input type="button" value="Delete Last Row" onclick="deleteLastRow()">
+
+<script>
+    // Function to delete the last row
+    function deleteLastRow() {
+        let tableBody = document.getElementById('invoice_table');
+        let numRows = tableBody.rows.length;
+
+        // Check if there are rows to delete
+        if (numRows > 0) {
+            // Delete the last row
+            tableBody.deleteRow(numRows - 1);
+        }
+    }
+
+</script>
 
 </body>
 </html>

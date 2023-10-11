@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+    <style>
+    td:hover {
+        background-color: chartreuse;
+    }
+    td {
+        height:25px;width:20px;text-align:center;cursor:cell;
+    }
+
+    </style>
+</head>
+<body>
+    <table border="5">
+        <script>
+            //Create array for board
+            const TicTacToe = [
+                ["-", "-", "-"],
+                ["-", "-", "-"],
+                ["-", "-", "-"]
+            ];
+
+            // Loop through the rows, define i, if i is less than lenght in array
+            for (let i = 0; i < TicTacToe.length; i++){
+                // Output the beginning of a new table row (<tr>)
+                document.write("<tr>");
+                    
+                    //Loop through columns, define j, if j is less than the lenght of the array in the array
+                    for(let j = 0; j < TicTacToe[i].length; j++){
+                        // Output a table cell (td) containing the value at the current row and column
+                        document.write(`<td onclick="makeMove(${i},${j})">${TicTacToe[i][j]}</td>`);
+                    }
+                    // Finish the current table row (</tr>) in the table
+                    document.write("</tr>");
+            }
+        // Function to make a move in Tic Tac Toe
+        function makeMove(row, col) {
+            // Check if the selected cell is empty ("-")
+            if (TicTacToe[row][col] === "-") {
+                // Update the TicTacToe array with the current player's mark (either "X" or "O")
+                TicTacToe[row][col] = marks[move_num % 2];
+                // Update the content of the clicked cell to display the current player's mark
+                document.getElementsByTagName("td")[3 * row + col].innerHTML = marks[move_num % 2];
+                // Update the status message to indicate the next player's turn
+                status_div.innerHTML = marks[(++move_num) % 2] + " goes";
+
+                // Check for a win or draw
+                // Flatten the TicTacToe array into a single string to represent the game board
+                const board_str = TicTacToe.map(e => e.join('')).join('');
+                // Regular expression to check for a win
+                const re = /^(?:(?:...){0,2}([OX])\1\1|.{0,2}([OX])..\2..\2|([OX])...\3...\3|..([OX]).\4.\4)/g;
+                // Attempt to find a match of the regular expression in the board string
+                const win = re.exec(board_str);
+
+                // Check if there's a win
+                if (win) {
+                     // If there's a match, it's a win
+                    status_div.innerHTML = marks[move_num % 2] + " wins!";
+                } else if (move_num + 1 === 9) {
+                    // If all moves have been made and no win, it's a draw
+                    status_div.innerHTML = "It's a draw!";
+                }
+            }
+        }
+
+        
+        </script>
+    </table>
+    <!-- Create div with id-->
+    <div id="status_div"></div>
+    <script>
+        //Make output to the div with id status_div
+        status_div.innerHTML = "X goes first";
+
+        //Create array for marks
+        marks =["X","O"]
+
+        //Define variable for move
+        move_num = 0
+
+        
+    </script>
+
+</body>
+</html>
