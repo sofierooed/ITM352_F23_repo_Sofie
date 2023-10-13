@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex3a</title>
+</head>
+<body>
+    <!-- Display table -->
+    <table style="border: 1px solid black;text-align: center;">
+        <tr style="border: 1px solid black;"><th style="border: 1px solid black;">Product #</th><th>Quantity</th></tr>
+
+        <script>
+            //Array for product quantities
+            let product_quantities = [2, 1, 1, 3, 12];
+
+            for(let i = 0; i < product_quantities.length; i++){
+                document.write(`<tr style="border: 1px solid black;"><td style="border: 1px solid black;">${Number(i)+1}</td><td>${product_quantities[i]}</td></tr>`);
+            };
+
+        </script>
+    </table>
+
+</body>
+</html>
