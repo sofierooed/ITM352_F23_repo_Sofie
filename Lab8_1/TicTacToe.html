@@ -4,25 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TicTacToe</title>
+    <style> td:hover {
+        background-color: chartreuse;
+        }
+        td {
+        height:25px;width:20px;text-align:center;cursor:cell;
+        }
+    </style>
+    <script>
+        marks =["X","O"]
+        let move_num = 0
+    </script>
 </head>
 <body>
     <table border="5">
         <script>
             //Create array for board
             TicTacToe = [
-                ["X", "O", "X"],
-                ["O", "X", "O"],
-                ["X", "O", "X"]
+                ["-", "-", "-"],
+                ["-", "-", "-"],
+                ["-", "-", "-"]
             ];
-            //Create for loop to display table
-            for(i=0; i<TicTacToe.length; i++){
+
+            //Create for loop to display table where i is the value in the tictactoe array
+            for(let i=0; i<TicTacToe.length; i++){
                 // Output the beginning of a new table row (<tr>)
                 document.write("<tr>");
                     //Loop through columns, define j, if j is less than the lenght of the array in the array
                     for(let j = 0; j < TicTacToe[i].length; j++){
                         // Output a table cell (td) containing the value at the current row and column
-                        document.write(`<td onclick="makeMove(${i},${j})">${TicTacToe[i][j]}</td>`);
-                    }
+                        document.write(`<td onclick="if (this.innerHTML === '-') {
+                            this.innerHTML = '${marks[move_num % 2]}';
+                            document.getElementById('status_div').innerHTML = '${marks[(move_num) % 2]}' + ' goes';
+                            move_num++; // Increment move_num only after a move is made
+                            }">${TicTacToe[i][j]}</td>`);
+                    }   
                     // Finish the current table row (</tr>) in the table
                     document.write("</tr>");
             };
@@ -31,5 +47,9 @@
         
 
     </table>
+    <div id=status_div></div>
+    <script>
+        document.getElementById("status_div").innerHTML = "X goes first";
+    </script>
 </body>
 </html>
