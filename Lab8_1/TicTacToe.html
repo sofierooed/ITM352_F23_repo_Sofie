@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe</title>
+</head>
+<body>
+    <table border="5">
+        <script>
+            //Create array for board
+            TicTacToe = [
+                ["X", "O", "X"],
+                ["O", "X", "O"],
+                ["X", "O", "X"]
+            ];
+            //Create for loop to display table
+            for(i=0; i<TicTacToe.length; i++){
+                // Output the beginning of a new table row (<tr>)
+                document.write("<tr>");
+                    //Loop through columns, define j, if j is less than the lenght of the array in the array
+                    for(let j = 0; j < TicTacToe[i].length; j++){
+                        // Output a table cell (td) containing the value at the current row and column
+                        document.write(`<td onclick="makeMove(${i},${j})">${TicTacToe[i][j]}</td>`);
+                    }
+                    // Finish the current table row (</tr>) in the table
+                    document.write("</tr>");
+            };
+        </script>
+    
+        
+
+    </table>
+</body>
+</html>
