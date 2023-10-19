@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="./products_data.js"></script></script>
+    <script>
+
+// Function to check if a quantity is correct, with the option to return errors
+function isValidQuantity(input, returnErrors = false){
+    // assume no errors at first
+    errors = []; 
+    // Check if string is a number value
+    if(Number(input) != input) errors.push('Not a number!'); 
+    // Check if it is non-negative
+    if(input < 1) errors.push('Negative value!'); 
+    // Check that it is an integer
+    if(parseInt(input) != input) errors.push('Not an integer!'); 
+
+    // Return either the array of errors or a boolean indicating correctness based on returnErrors flag
+    return returnErrors ? errors : (errors.length == 0);
+};
+
+function generate_item_rows(product_quantities_array){
+  for(let i in product_quantities_array){
+    let quantity = product_quantities_array[i];
+    let quantityError = isValidQuantity(quantity, true)
+    if(quantityError.length > 0){
+      let errorMessages = quantityError.join("<br>");
+      document.write(`
+          <tr>
+            <td width="43%">${products[i].brand}</td>
+            <td align="center" width="11%">${quantities[i]} <div style="color:red;">${errorMessages}</div></td>
+            <td width="13%">$${products[i].price}</td>
+            <td width="54%">$${0}</td>
+          </tr>
+          `);
+          subtotal += 0
+    }
+    else{
+    let extended_price = quantity * products[i].price;
+    document.write(`
+          <tr>
+            <td width="43%">${products[i].brand}</td>
+            <td align="center" width="11%">${quantities[i]}</td>
+            <td width="13%">$${products[i].price}</td>
+            <td width="54%">$${extended_price}</td>
+          </tr>
+          `);
+          subtotal += extended_price
+  };
+}
+}
+
+    /* Invoice file for five different products */
+    //Array of quantities
+    quantities = [1, true, 100, 1, 12]
+
+    //Compute subtotal price
+    let subtotal = 0
+
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="2" >
+        <tbody>
+          <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">Quantity</th>
+            <th style="text-align: center;" width="13%">Price</th>
+            <th style="text-align: center;" width="54%">Extended price</th>
+          </tr>
+        <script>
+          generate_item_rows(quantities);
+
+
+              //Compute tax amount
+              let tax_rate = 5.75
+              let tax = subtotal * (tax_rate/100);
+
+              //Compute variable for shipping
+              if(subtotal < 50) {
+                shipping=2
+              } else if (subtotal < 100) {
+                shipping=5
+              } else {
+                shipping = 0.05*subtotal
+              }
+
+              //Compute grand total adding tax and subtotal price
+              let grand_total = subtotal + tax + shipping;
+
+        </script>
+          <tr>
+            <td colspan="4" width="100%">&nbsp;</td>
+          </tr>
+
+          <!--Display subtotal with variable-->
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+            <td width="54%">$<script>document.write(subtotal.toFixed(2));</script></td>
+          </tr>
+
+          <!--Display tax with variable-->
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Tax @ <script>document.write(tax_rate)</script>%</span></td>
+            <td width="54%">$<script>document.write(tax.toFixed(2))</script></td>
+          </tr>
+
+          <!--Display shipping with variable-->
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%">Shipping </script></span></td>
+            <td width="54%">$<script>document.write(shipping.toFixed(2))</script></td>
+          </tr>
+
+          <!--Display total with variable-->
+          <tr>
+            <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+            <td width="54%"><strong>$<script>document.write(grand_total.toFixed(2))</script></strong></td>
+          </tr>
+        </tbody>
+      </table>
+</body>
+</html>
