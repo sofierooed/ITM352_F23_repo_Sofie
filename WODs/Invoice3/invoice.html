@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="./products_data.js"></script></script>
-    <script>
+  <script src="./products_data.js"></script>
+  <script>
 
-// Function to check if a quantity is correct, with the option to return errors
-function isValidQuantity(input, returnErrors = false){
-    // assume no errors at first
-    errors = []; 
-    // Check if string is a number value
-    if(Number(input) != input) errors.push('Not a number!'); 
-    // Check if it is non-negative
-    if(input < 1) errors.push('Negative value!'); 
-    // Check that it is an integer
-    if(parseInt(input) != input) errors.push('Not an integer!'); 
+    /* Function to check if a quantity is correct, with the option to return errors */
+    function isValidQuantity(input, returnErrors = false){
+      // assume no errors at first
+      errors = []; 
+      // Check if string is a number value
+      if(Number(input) != input) errors.push('Not a number!'); 
+      // Check if it is non-negative
+      if(input < 1) errors.push('Negative value!'); 
+      // Check that it is an integer
+      if(parseInt(input) != input) errors.push('Not an integer!'); 
 
-    // Return either the array of errors or a boolean indicating correctness based on returnErrors flag
-    return returnErrors ? errors : (errors.length == 0);
-};
+      // Return either the array of errors or a boolean indicating correctness based on returnErrors flag
+      return returnErrors ? errors : (errors.length == 0);
+    };
 
-function generate_item_rows(product_quantities_array){
-  // Loop through the product quantities array
-  for(let i in product_quantities_array){
-    // Retrieve the quantity for the current product
-    let quantity = product_quantities_array[i];
-    // Check if the quantity is valid using the 'isValidQuantity' function, with 'true' as the second argument
-    let quantityError = isValidQuantity(quantity, true)
-    // If there are quantity validation errors, display error messages.
-    if(quantityError.length > 0){
-      // Join the quantity error messages with "<br>" tags for line breaks.
-      let errorMessages = quantityError.join("<br>");
-      // Output a table row with product information and error messages, using a template string.
-      document.write(`
+    /*Function to generate invoice rows*/
+    function generate_item_rows(product_quantities_array){
+      // Loop through the product quantities array
+      for(let i in product_quantities_array){
+        // Retrieve the quantity for the current product
+        let quantity = product_quantities_array[i];
+        // Check if the quantity is valid using the 'isValidQuantity' function, with 'true' as the second argument
+        let quantityError = isValidQuantity(quantity, true)
+        // If there are quantity validation errors, display error messages.
+        if(quantityError.length > 0){
+          // Join the quantity error messages with "<br>" tags for line breaks.
+          let errorMessages = quantityError.join("<br>");
+          // Output a table row with product information and error messages, using a template string.
+          document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
             <td align="center" width="11%">${quantities[i]} <div style="color:red;">${errorMessages}</div></td>
@@ -41,12 +42,12 @@ function generate_item_rows(product_quantities_array){
           `);
           // Update the subtotal, in this case, adding 0.
           subtotal += 0
-    }
-    // If there are no quantity validation errors, calculate the extended price for the product.
-    else{
-    let extended_price = quantity * products[i].price;
-    // Output a table row with product information and the calculated extended price, using a template string.
-    document.write(`
+        }
+        // If there are no quantity validation errors, calculate the extended price for the product.
+        else{
+          let extended_price = quantity * products[i].price;
+          // Output a table row with product information and the calculated extended price, using a template string.
+          document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
             <td align="center" width="11%">${quantities[i]}</td>
@@ -56,9 +57,9 @@ function generate_item_rows(product_quantities_array){
           `);
           // Update the subtotal by adding the extended price.
           subtotal += extended_price
-  };
-}
-}
+        };
+      }
+    }
 
     /* Invoice file for five different products */
     //Array of quantities
@@ -67,41 +68,40 @@ function generate_item_rows(product_quantities_array){
     //Compute subtotal price
     let subtotal = 0
 
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-    <table border="2" >
-        <tbody>
-          <tr>
-            <th style="text-align: center;" width="43%">Item</th>
-            <th style="text-align: center;" width="11%">Quantity</th>
-            <th style="text-align: center;" width="13%">Price</th>
-            <th style="text-align: center;" width="54%">Extended price</th>
-          </tr>
-        <script>
-          generate_item_rows(quantities);
+  <table border="2" >
+    <tbody>
+      <tr>
+        <th style="text-align: center;" width="43%">Item</th>
+        <th style="text-align: center;" width="11%">Quantity</th>
+        <th style="text-align: center;" width="13%">Price</th>
+        <th style="text-align: center;" width="54%">Extended price</th>
+      </tr>
+      <script>
+        generate_item_rows(quantities);
+      
+        //Compute tax amount
+        let tax_rate = 5.75
+        let tax = subtotal * (tax_rate/100);
 
+        //Compute variable for shipping
+        if(subtotal < 50) {
+          shipping=2
+        } else if (subtotal < 100) {
+          shipping=5
+        } else {
+          shipping = 0.05*subtotal
+        }
 
-              //Compute tax amount
-              let tax_rate = 5.75
-              let tax = subtotal * (tax_rate/100);
+        //Compute grand total adding tax and subtotal price
+        let grand_total = subtotal + tax + shipping;
 
-              //Compute variable for shipping
-              if(subtotal < 50) {
-                shipping=2
-              } else if (subtotal < 100) {
-                shipping=5
-              } else {
-                shipping = 0.05*subtotal
-              }
-
-              //Compute grand total adding tax and subtotal price
-              let grand_total = subtotal + tax + shipping;
-
-        </script>
+      </script>
           <tr>
             <td colspan="4" width="100%">&nbsp;</td>
           </tr>
