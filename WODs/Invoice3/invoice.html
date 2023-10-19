@@ -20,11 +20,17 @@ function isValidQuantity(input, returnErrors = false){
 };
 
 function generate_item_rows(product_quantities_array){
+  // Loop through the product quantities array
   for(let i in product_quantities_array){
+    // Retrieve the quantity for the current product
     let quantity = product_quantities_array[i];
+    // Check if the quantity is valid using the 'isValidQuantity' function, with 'true' as the second argument
     let quantityError = isValidQuantity(quantity, true)
+    // If there are quantity validation errors, display error messages.
     if(quantityError.length > 0){
+      // Join the quantity error messages with "<br>" tags for line breaks.
       let errorMessages = quantityError.join("<br>");
+      // Output a table row with product information and error messages, using a template string.
       document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
@@ -33,10 +39,13 @@ function generate_item_rows(product_quantities_array){
             <td width="54%">$${0}</td>
           </tr>
           `);
+          // Update the subtotal, in this case, adding 0.
           subtotal += 0
     }
+    // If there are no quantity validation errors, calculate the extended price for the product.
     else{
     let extended_price = quantity * products[i].price;
+    // Output a table row with product information and the calculated extended price, using a template string.
     document.write(`
           <tr>
             <td width="43%">${products[i].brand}</td>
@@ -45,6 +54,7 @@ function generate_item_rows(product_quantities_array){
             <td width="54%">$${extended_price}</td>
           </tr>
           `);
+          // Update the subtotal by adding the extended price.
           subtotal += extended_price
   };
 }
