@@ -10,8 +10,9 @@
     <br>
     <input type="button" value="Swap" 
         onclick="
+        let firstname_1 = firstname.innerHTML;
         firstname.innerHTML = lastname.innerHTML;
-        lastname.innerHTML = firstname.innerHTML;
+        lastname.innerHTML = firstname_1;
         ">
 </body>
 </html>
