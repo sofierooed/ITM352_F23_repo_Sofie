@@ -1,0 +1,34 @@
+<script>
+
+    function isValidQuantity(q, returnErrors = false) {
+        // assume no errors at first
+        errors = [];
+        // Check if string is a number value
+        if (Number(q) != q) {
+            errors.push('Not a number!');
+
+        }
+        // Check if it is non-negative
+        else {
+            if (q < 0) errors.push('Negative value!');
+            // Check that it is an integer
+            if (parseInt(q) != q) errors.push('Not an integer!');
+        }
+        // Return either the array of errors or a boolean indicating correctness based on returnErrors flag
+        return returnErrors ? errors : (errors.length == 0);
+    };
+
+
+    let params = (new URL(document.location)).searchParams;
+
+    if (params.has('quantity_textbox')) {
+        let qty = (params.get('quantity_textbox'));
+        if (isValidQuantity(qty, false) === true) {
+            document.write(`Thank for you for ordering ${qty} things!`);
+        }
+        else{
+            document.write(`Invalid quantity. Press the back button and try again.`);
+        }
+    }
+
+</script>

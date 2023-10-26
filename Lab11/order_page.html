@@ -11,7 +11,7 @@
     <script>
         //Function to output errors if quantity is not valid
         function checkQuantityTextbox() {
-            let qty = quantity_textbox.value;
+            let qty = quantity_form['quantity_textbox'].value;
             let errors = isValidQuantity(qty, true);
             qty_textbox_message.innerHTML = errors.join(', ');
         }
@@ -23,8 +23,9 @@
             // Check if string is a number value
             if (Number(q) != q) {
                 errors.push('Not a number!');
-                // Check if it is non-negative
+
             }
+            // Check if it is non-negative
             else {
                 if (q < 0) errors.push('Negative value!');
                 // Check that it is an integer
@@ -34,7 +35,7 @@
             return returnErrors ? errors : (errors.length == 0);
         };
 
-        //Function to display purchase is quantity is valid
+        //Function to display purchase if quantity is valid
         function displayPurchase() {
             let qty = quantity_textbox.value;
             if (isValidQuantity(qty, false === true)) {
@@ -42,15 +43,16 @@
             }
         }
     </script>
+    <form name="quantity_form" action="" method="GET">
+        <!--Text form element for quantity-->
+        <label>Quantity Desired:</label>
+        <br>
+        <input type="text" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
+        <span id='qty_textbox_message'>Enter a quantity</span>
+        <br>
+        <input type="submit" value="Purchase" >
 
-    <label>Quantity Desired:</label>
-    <br>
-    <input type="text" id="quantity_textbox" onkeyup="checkQuantityTextbox();">
-    <span id='qty_textbox_message'>Enter a quantity</span>
-    <br>
-    <input type="button" value="Purchase" onclick="displayPurchase()">
-
-
+    </form>
 
 </body>
 
