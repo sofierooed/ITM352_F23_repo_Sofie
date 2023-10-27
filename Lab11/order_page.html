@@ -45,12 +45,36 @@
     </script>
     <form name="quantity_form" action="" method="GET">
         <!--Text form element for quantity-->
-        <label>Quantity Desired:</label>
-        <br>
+        <label>Quantity Desired:</label><br>
         <input type="text" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
-        <span id='qty_textbox_message'>Enter a quantity</span>
-        <br>
-        <input type="submit" value="Purchase" >
+        <span id='qty_textbox_message'>Enter a quantity</span><br>
+        <input type="submit" value="Purchase">
+
+        <script>
+            // Parse the query parameters from the URL
+            let params = (new URL(document.location)).searchParams;
+            
+            // Check if a 'quantity_textbox' parameter is present in the URL
+            if (params.has('quantity_textbox')) {
+                // Get the value of the 'quantity_textbox' parameter
+                let qty = (params.get('quantity_textbox'));
+                // Check if the quantity is valid using the 'isValidQuantity' function
+                if (isValidQuantity(qty, false) === true) {
+                    // Redirect to the 'display_purchase.html' page with the same query parameters
+                    window.location.href = "display_purchase.html" + document.location.search;
+                }
+                else {
+                    // If the quantity is not valid, display an error message
+                    document.write(`Invalid quantity. Try again.`);
+                }
+            }
+
+            if (params.has('quantity_textbox')) {
+                quantity_form["quantity_textbox"].value = params.get('quantity_textbox');
+                checkQuantityTextbox(quantity_form["quantity_textbox"]);
+            }
+
+        </script>
 
     </form>
 
