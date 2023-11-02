@@ -7,6 +7,6 @@ http.createServer(function (req, res) {
     res.write(`<h1>The server date is: ${Date.now()}</h1>`); //send a response to the client
     res.write('<h1>The client date is: <script>document.write( Date.now() );</script></h1>'); // send another response
     res.end(); //end the response
-}).listen(8081); //the server object listens on port 8081
+}).listen(8080); //the server object listens on port 8080
 
-console.log('Hello world HTTP server listening on localhost port 8081');
+console.log('Hello world HTTP server listening on localhost port 8080');
