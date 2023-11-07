@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <form action="./invoice.html" method="GET">
     <h1>Sofie´s Used Smart Phone Store</h1>
 
     <div>
@@ -25,6 +26,8 @@
                         <h2>${products[i].brand} </h2>
                         <p>$${products[i].price}</p>
                         <img src="${products[i].image}">
+                        <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+                        <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
                     </section>
                     `);
                 }
@@ -33,8 +36,10 @@
         </main>
     </div>
 </body>
-<footer>
+<footer style="text-align: center;">
+    <br>
+    <input type="submit">
     <h1>Your One Stop Phone Shop</h1>
 </footer>
-
+</form>
 </html>
