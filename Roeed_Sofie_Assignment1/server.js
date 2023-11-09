@@ -20,12 +20,13 @@ function isNonNegInt(quantities, returnErrors) {
 
 // monitor all requests regardless of method and path
 app.all('*', function (request, response, next) {
-   console.log(request.method + ' to ' + request.path);
+   console.log(request.method + ' to ' + request.path /*+ 'with qs' + JSON.stringify(request.query)*/);
    next();
 });
 
 // process purchase request (validate quantities, check quantity available)
 <** your code here ***>
+app.post('*', )
 
 // route all other GET requests to files in public 
 app.use(express.static(__dirname + '/public'));
