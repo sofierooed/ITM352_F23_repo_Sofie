@@ -16,7 +16,7 @@ function isNonNegInt(quantities, returnErrors) {
    return (returnErrors);
 };
 
-// Routing 
+// Routing
 
 // monitor all requests regardless of method and path
 app.all('*', function (request, response, next) {
