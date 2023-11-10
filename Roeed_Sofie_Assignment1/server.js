@@ -4,7 +4,7 @@ const products_array = require(__dirname + '/product_data.json');
 const express = require('express');
 const app = express();
 
-// Function to check if quantities entered are (1) whole numbers, (2) not negative, and (3) a number and not a word or character; taken from previous labs
+// Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
 function isNonNegInt(quantities, returnErrors) {
    errors = []; // assume no errors at first
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
@@ -25,8 +25,8 @@ app.all('*', function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-<** your code here ***>
-app.post('*', )
+//<** your code here ***>
+//app.post('*', )
 
 // route all other GET requests to files in public 
 app.use(express.static(__dirname + '/public'));

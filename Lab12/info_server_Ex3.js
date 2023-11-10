@@ -8,6 +8,7 @@ app.all('*', function (request, response, next) {
     next();
 });
 
+
 app.post("/process_form", function (request, response) {
     let q = request.body['quantity0'];
     if (typeof q != 'undefined') {

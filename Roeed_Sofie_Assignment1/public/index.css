@@ -1,0 +1,31 @@
+@import url(https://fonts.googleapis.com/css?family=Trirong);
+
+h1 {
+    text-align: center;
+    font-family: 'Trirong';
+    font-size: 70px; 
+    margin-top: 10px;
+    margin-bottom: 0%;
+}
+
+h2 {
+    margin-top: 0%;
+    text-align: center;
+    font-family:  'Trirong'; 
+}
+
+body {
+    width: auto; 
+    margin: 0 auto;
+    background-color: #FFE6F2;
+}
+
+
+.row {
+    display: flex;
+  }
+  
+.column {
+    flex: 30%;
+    padding: 5px;
+  }
