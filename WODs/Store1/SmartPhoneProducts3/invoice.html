@@ -4,9 +4,8 @@
 <head>
   <script src="./products_data.js"></script>
   <script>
-    params = (new URL(document.location)).searchParams
-
-    quantities = [];
+    let params = (new URL(document.location)).searchParams
+    let quantities = [];
 
     //Create loop to generate the quanitities array
     for (let i = 0; i < products.length; i++) {

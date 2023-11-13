@@ -1,5 +1,5 @@
 //Load product data
-const products_array = require(__dirname + '/product_data.json');
+const products_array = require(__dirname + '/product_data.js');
 
 const express = require('express');
 const app = express();
@@ -29,8 +29,8 @@ app.all('*', function (request, response, next) {
 
 // when the server recieves a GET request for "/product_data.js", the server will respong in javascript with a string of data provided by the JSON file
 app.get("/product_data.js", function (request, response, next) {
-   response.type('.js');
-   var products_str = `var products = ${JSON.stringify(products)};`;
+   response.type('application/javascript');
+   var products_str = `var products = ${JSON.stringify(products_array)};`;
    response.send(products_str);
 });
 
