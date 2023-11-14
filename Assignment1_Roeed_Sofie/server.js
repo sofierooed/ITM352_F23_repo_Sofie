@@ -1,5 +1,5 @@
 //Load product data
-const products_array = require(__dirname + '/product_data.js');
+const products_array = require(__dirname + '/product_data.json');
 
 const express = require('express');
 const app = express();
