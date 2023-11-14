@@ -35,8 +35,13 @@ app.get("/product_data.js", function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-//<** your code here ***>
-//app.post('*', )
+app.post("/process_form", function (request, response) {
+   let q = request.body['quantity0'];
+   if (typeof q != 'undefined') {
+      response.send(`Thank you for purchasing ${q} things!`);
+   }
+   //response.send(request.body); //Assignment 1 validate data here
+});
 
 // route all other GET requests to files in public 
 app.use(express.static(__dirname + '/public'));
