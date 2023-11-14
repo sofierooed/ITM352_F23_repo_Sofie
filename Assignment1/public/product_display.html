@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>by.sofie webshop</title>
+
+</head>
+<body>
+    <h1>by.Sofie webshop</h1>
+
+    <script>
+        for (let i = 0; i < products.length; i++) {
+            document.write(`
+        <section class="item">
+            <h2>${products[i].name}</h2>
+            <p>$${products[i].price}</p>
+            <img src="${products[i].image}">
+            <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+            <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
+        </section>
+        `);
+        }
+    </script>
+    
+</body>
+</html>

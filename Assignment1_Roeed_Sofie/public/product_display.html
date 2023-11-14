@@ -23,14 +23,14 @@
                     {
                         name: "Blue Bag",
                         price: 500.00,
-                        image: "./images.bag_blue.jpg",
+                        image: "./images/bag_blue.jpg",
                         quantity_available: 4
                     },
 
                     {
                         name: "Orange Bag",
                         price: 500.00,
-                        image: "./images.bag_orange.jpg",
+                        image: "./images/bag_orange.jpg",
                         quantity_available: 10
                     },
 
@@ -62,20 +62,31 @@
                         quantity_available: 7
                     }
                 ];
+            </script>
 
-
-                for (let i = 0; i < products.length; i++) {
-                    document.write(`
+            <form action="./invoice.html" method="get">
+                <div class="products-container">
+                <script>
+                    for (let i = 0; i < products.length; i++) {
+                        document.write(`
                     <section class="item">
                         <h2>${products[i].name}</h2>
                         <p>$${products[i].price}</p>
                         <img src="${products[i].image}">
+                        <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+                        <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
                     </section>
                     `);
-                }
-            </script>
+                    }
+                </script>
+                </div>
         </main>
     </div>
 </body>
+<footer style="text-align: center;">
+    <br>
+    <input type="submit">
+</footer>
+</form>
 
 </html>

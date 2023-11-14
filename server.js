@@ -8,3 +8,4 @@ app.all('*', function (request, response, next) {
 let root = (typeof argv["rootdir"] != "undefined")?argv["rootdir"] : ".";
 app.use(express.static( root ));
 app.listen(8081, () => console.log(`listening on port 8081 rootdir ${root}`));
+
