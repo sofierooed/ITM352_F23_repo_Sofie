@@ -14,6 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
 function isNonNegInt(quantities, returnErrors) {
    let errors = []; // assume no errors at first
+   if (quantities === '') {
+      quantities = 0;
+   }
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
    if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
@@ -42,19 +45,21 @@ app.get("/product_data.js", function (request, response, next) {
 app.post("/purchase", function (request, response) {
    console.log(`in purchase`, request.body) //See input in console for checkup
 
-   let errors = []; //Assume no errors
-
+   let errors = [];
+   let all_txtboxes = [];
 
    //Checking if the quantity for each product is a valid non-negative integer, and recording any errors that occur
    for (let i in products) {
       let qty = request.body['quantity' + i];
+      // Collect the values of all textboxes
+      all_txtboxes.push(qty);
+
       if (isNonNegInt(qty) === false) {
          errors['quantity' + i] = isNonNegInt(qty, true);
       }
    }
 
-
-   //If valid, create invoice
+   // If valid create invoice
    if (Object.entries(errors).length === 0) {
       response.send(`Thank you for purchasing things!`);
    }
@@ -62,7 +67,7 @@ app.post("/purchase", function (request, response) {
    //response.send(request.body); //Assignment 1 validate data here
    //Not valid, send back to display products
    else {
-      response.send(`Not valid. Hit the back button and submit again`);
+      response.send(` Not valid. Hit the back button and submit again`);
    }
 });
 
