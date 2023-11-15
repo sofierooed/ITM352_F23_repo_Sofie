@@ -39,7 +39,7 @@ app.get("/product_data.js", function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-app.post("/process_form", function (request, response) {
+app.post("./purchase", function (request, response) {
    console.log(`in process_form`, request.body) //See input in console for checkup
 
    let errors = []; //Assume no errors
@@ -59,7 +59,7 @@ app.post("/process_form", function (request, response) {
    //response.send(request.body); //Assignment 1 validate data here
    //Not valid, send back to display products
    else {
-      response.send(`not valid. Hit the back button and submit again`);
+      response.send(`Not valid. Hit the back button and submit again`);
    }
 });
 
