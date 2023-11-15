@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
 function isNonNegInt(quantities, returnErrors) {
-   errors = []; // assume no errors at first
+   let errors = []; // assume no errors at first
    if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
    if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
    if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
@@ -31,7 +31,7 @@ app.all('*', function (request, response, next) {
    next();
 });
 
-// when the server recieves a GET request for "/product_data.js", the server will respong in javascript with a string of data provided by the JSON file
+// when the server recieves a GET request for "/product_data.js", the server will respond in javascript with a string of data provided by the JSON file
 app.get("/product_data.js", function (request, response, next) {
    response.type('application/javascript');
    var products_str = `var products = ${JSON.stringify(products_array)};`;
@@ -39,11 +39,13 @@ app.get("/product_data.js", function (request, response, next) {
 });
 
 // process purchase request (validate quantities, check quantity available)
-app.post("./purchase", function (request, response) {
-   console.log(`in process_form`, request.body) //See input in console for checkup
+app.post("/purchase", function (request, response) {
+   console.log(`in purchase`, request.body) //See input in console for checkup
 
    let errors = []; //Assume no errors
 
+
+   //Checking if the quantity for each product is a valid non-negative integer, and recording any errors that occur
    for (let i in products) {
       let qty = request.body['quantity' + i];
       if (isNonNegInt(qty) === false) {
@@ -51,8 +53,9 @@ app.post("./purchase", function (request, response) {
       }
    }
 
+
    //If valid, create invoice
-   if (Object.entries(errors).length === 0) {//(typeof qty != 'undefined') {
+   if (Object.entries(errors).length === 0) {
       response.send(`Thank you for purchasing things!`);
    }
 
