@@ -10,6 +10,8 @@
     <!-- Link to stylesheet and HTML Template-->
     <link rel="stylesheet" href="products-style.css">
 
+    
+
 
 </head>
 
@@ -31,6 +33,7 @@
                                             WELCOME TO BY.SOFIE  <br>
                                             accessories shop
                                         </h1>
+                                        <img src="./images/flower_bag.jpg" class="header_image">
                                         <p>
                                             Our hats and bags are custom painted in your favourite colors. <br>
                                             Please scroll further down to see our products.
@@ -51,6 +54,7 @@
     <form action="/purchase" method="POST">
         <div class="products-container">
             <script>
+                //Loop to display products
                 for (let i = 0; i < products.length; i++) {
                     document.write(`
                     <section class="item">

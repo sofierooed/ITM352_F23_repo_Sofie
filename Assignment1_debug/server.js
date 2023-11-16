@@ -1,12 +1,11 @@
 //Load product data
-const products_array = require(__dirname + '/product_data.json');
+let products = require(__dirname + '/product_data.json');
 
 //Express application setup
 const express = require('express');
 const app = express();
 
 // Load product data outside of the route handlers
-let products = products_array;
 
 
 // Middleware to automatically decode data encoded in a POST request and allow access through request.body
@@ -48,7 +47,7 @@ app.all('*', function (request, response, next) {
 // respond with a JavaScript string of data provided by the JSON file
 app.get("/product_data.js", function (request, response, next) {
    response.type('application/javascript');
-   var products_str = `var products = ${JSON.stringify(products_array)};`;
+   let products_str = `let products = ${JSON.stringify(products)};`;
    response.send(products_str);
 });
 
@@ -87,13 +86,12 @@ app.post("/purchase", function (request, response) {
    // Console.log the new inventory
    console.log("New Inventory:", products);
 
-   // Check if all values in all_txtboxes are zero
+   // Check if all values in all_txtboxes are zero, retrieved code form ChatGPT
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
 
    // If valid create invoice (no errors, and not all zero inputs)
    if (Object.entries(errors).length === 0 && !allZeros) {
-         // Redirect to the invoice.html page
-         response.send(`HEY`);
+         response.send(`Thank you for purchasing things`);
    } 
    
    else {

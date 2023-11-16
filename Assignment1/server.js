@@ -5,9 +5,11 @@ const products_array = require(__dirname + '/product_data.json');
 const express = require('express');
 const app = express();
 
-// Load product data outside of the route handlers
+// Load product data outside of the route handlers IS THIS NEEDED?
 let products = products_array;
 
+//QS
+const qstr = require(`querystring`)
 
 // Middleware to automatically decode data encoded in a POST request and allow access through request.body
 app.use(express.urlencoded({ extended: true }));
@@ -93,12 +95,12 @@ app.post("/purchase", function (request, response) {
    // If valid create invoice (no errors, and not all zero inputs)
    if (Object.entries(errors).length === 0 && !allZeros) {
          // Redirect to the invoice.html page
-         response.send(`HEY`);
+         response.redirect(`invoice.html`);
    } 
    
    else {
       //Not valid, send back to display products
-      response.send(` Not valid. Hit the back button and submit again`);
+      response.redirect(`product_display.html`);
    }
 });
 

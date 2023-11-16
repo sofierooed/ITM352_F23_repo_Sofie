@@ -10,6 +10,29 @@
     <!-- Link to stylesheet and HTML Template-->
     <link rel="stylesheet" href="products-style.css">
 
+    <script>
+        // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
+        function isNonNegInt(quantities, returnErrors) {
+            let errors = []; // assume no errors at first
+            //Set quantities to 0 if no input (empty string)
+            if (quantities === '') {
+                quantities = 0;
+            }
+            // Check if string is a number value
+            if (Number(quantities) != quantities) errors.push(' Not a number');
+            // Check if it is non-negative
+            if (quantities < 0) errors.push(' Negative value');
+            // Check that it is an integer
+            if (parseInt(quantities) != quantities) errors.push(' Not an integer');
+
+            // Log any errors to the console
+            console.log(errors);
+
+            // Determine whether to return errors or a boolean indicating validation success
+            var returnErrors = returnErrors ? errors : (errors.length == 0);
+            return (returnErrors);
+        };
+    </script>
 
 </head>
 
@@ -28,7 +51,7 @@
                                 <div class="col-md-7">
                                     <div class="detail-box">
                                         <h1>
-                                            WELCOME TO BY.SOFIE  <br>
+                                            WELCOME TO BY.SOFIE <br>
                                             accessories shop
                                         </h1>
                                         <p>
@@ -51,6 +74,7 @@
     <form action="/purchase" method="POST">
         <div class="products-container">
             <script>
+                //Loop to display products
                 for (let i = 0; i < products.length; i++) {
                     document.write(`
                     <section class="item">
@@ -66,11 +90,11 @@
         </div>
         </main>
 </body>
-        <footer style="text-align: center;">
-            <br>
-            <input type="submit">
-            <br>
-        </footer>
-    </form>
+<footer style="text-align: center;">
+    <br>
+    <input type="submit">
+    <br>
+</footer>
+</form>
 
 </html>
