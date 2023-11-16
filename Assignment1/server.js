@@ -1,6 +1,7 @@
 //Load product data
 const products_array = require(__dirname + '/product_data.json');
 
+//Express application setup
 const express = require('express');
 const app = express();
 
@@ -8,20 +9,27 @@ const app = express();
 let products = products_array;
 
 
-// express middleware the automatically de-codes data encoded in a post request and allows it to be accessed through request.body
+// Middleware to automatically decode data encoded in a POST request and allow access through request.body
 app.use(express.urlencoded({ extended: true }));
 
 // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
 function isNonNegInt(quantities, returnErrors) {
    let errors = []; // assume no errors at first
+   //Set quantities to 0 if no input (empty string)
    if (quantities === '') {
       quantities = 0;
    }
-   if (Number(quantities) != quantities) errors.push(' Not a number'); // Check if string is a number value
-   if (quantities < 0) errors.push(' Negative value'); // Check if it is non-negative
-   if (parseInt(quantities) != quantities) errors.push(' Not an integer'); // Check that it is an integer
+   // Check if string is a number value
+   if (Number(quantities) != quantities) errors.push(' Not a number'); 
+   // Check if it is non-negative
+   if (quantities < 0) errors.push(' Negative value'); 
+   // Check that it is an integer
+   if (parseInt(quantities) != quantities) errors.push(' Not an integer'); 
 
+   // Log any errors to the console
+   console.log(errors);
 
+   // Determine whether to return errors or a boolean indicating validation success
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return (returnErrors);
 };
@@ -34,39 +42,59 @@ app.all('*', function (request, response, next) {
    next();
 });
 
-// when the server recieves a GET request for "/product_data.js", the server will respond in javascript with a string of data provided by the JSON file
+// When the server receives a GET request for "/product_data.js",
+// respond with a JavaScript string of data provided by the JSON file
 app.get("/product_data.js", function (request, response, next) {
    response.type('application/javascript');
    var products_str = `var products = ${JSON.stringify(products_array)};`;
    response.send(products_str);
 });
 
-// process purchase request (validate quantities, check quantity available)
+// Process purchase request (validate quantities, check quantity available)
 app.post("/purchase", function (request, response) {
-   console.log(`in purchase`, request.body) //See input in console for checkup
+   console.log(`in purchase`, request.body) //See input in console for
 
-   let errors = [];
-   let all_txtboxes = [];
+   let errors = []; //Assuming no errors
+   let all_txtboxes = []; //Assuming no input
 
-   //Checking if the quantity for each product is a valid non-negative integer, and recording any errors that occur
+   //Checking if the quantity for each product is a valid input, and recording any errors that occur
    for (let i in products) {
       let qty = request.body['quantity' + i];
+
+      // Set quantity to zero if it's an empty string or not provided
+      qty = qty === '' ? 0 : qty;
+
       // Collect the values of all textboxes
       all_txtboxes.push(qty);
 
+      // Validate quantity input with non negative integer function
       if (isNonNegInt(qty) === false) {
          errors['quantity' + i] = isNonNegInt(qty, true);
+      } //Validate quantity input with avaliable quantities
+      else if (parseInt(qty) > products[i].quantity_available) {
+         // Display error in console if quantity exceeds available quantity
+         console.error(`Quantity exceeds the available quantity for ${products[i].name}`);
+         errors['quantity' + i] = 'Quantity exceeds the available quantity';
+      }
+      else {
+         // Update inventory for the purchased item
+         products[i].quantity_available -= parseInt(qty);
       }
    }
 
-   // If valid create invoice
-   if (Object.entries(errors).length === 0) {
-      response.send(`Thank you for purchasing things!`);
-   }
+   // Console.log the new inventory
+   console.log("New Inventory:", products);
 
-   //response.send(request.body); //Assignment 1 validate data here
-   //Not valid, send back to display products
+   // Check if all values in all_txtboxes are zero
+   const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
+
+   // If valid create invoice (no errors, and not all zero inputs)
+   if (Object.entries(errors).length === 0 && !allZeros) {
+      response.send(`Thank you for purchasing things!`);
+   } 
+   
    else {
+      //Not valid, send back to display products
       response.send(` Not valid. Hit the back button and submit again`);
    }
 });
