@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("font-awesome.min.css");
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fdf2f6;
+}
+
+header {
+    background-color: #fdf2f6;
+    text-align: left;
+    margin-top: 10px;
+}
+
+
+h1 {
+    color: #ff7eb9;
+    font-variant: small-caps;
+    font-size: 3em;
+    margin: 10px;
+    padding: 10px;
+}
+
+h3 {
+    color: black;
+    text-align: left;
+    font-size: 20px;
+}
+
+h4 {
+    color: black;
+    text-align: center;
+    font-size: 50px;
+}
+
+.img-box {
+    display: inline-block;
+    margin: 10px;
+    width: 10cm;
+}
+
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.item {
+    width: 25%;
+    margin: 20px;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Added border-radius for rounded images */
+}
+
+footer {
+    text-align: center;
+    margin: 20px 0;
+    background-color: #ff7eb9; /* Added background color to footer for consistency */
+    padding: 10px; /* Added padding for better spacing */
+}
+
+/*SLIDER*/
+.slider_section {
+    background-color: #ff7eb9;
+    text-align: center;
+}
+
+.slider_container {
+    margin: 20px 0;
+}
+
+.detail-box {
+    text-align: left;
+    padding: 20px;
+}
+
+.detail-box h1 {
+    color: #fdf2f6;
+}
+
+.detail-box p {
+    color: #fdf2f6;
+}
+
+.detail-box a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #ff7eb9;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.detail-box a:hover {
+    background-color: #ff7eb9;
+    color: #fdf2f6;
+}
+
+.carousel_btn-box {
+    margin-top: 20px;
+}
+
+.carousel_btn-box a {
+    font-size: 24px;
+    color: #ff7eb9;
+}
+
+.carousel_btn-box img {
+    margin: 0 10px;
+}
+
+

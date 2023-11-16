@@ -1,0 +1,34 @@
+[
+    {
+        "image": "./images/HTC.jpg",
+        "brand": "HTC",
+        "price": 40.00
+    },
+
+    {
+        "image": "./images/iphone-3gs.jpg", 
+        "brand": "Apple", 
+        "price": 75.00
+    },
+
+    {
+        "image": "./images/Nokia.jpg", 
+        "brand": "Nokia", 
+        "price": 35.00
+    },
+
+    {
+        "image": "./images/Samsung.jpg", 
+        "brand": "Samsung", 
+        "price": 45.00
+    },
+
+    {
+        "image": "./images/Blackberry.jpg", 
+        "brand": "Blackberry", 
+        "price": 10.00
+    }
+]
+
+
+

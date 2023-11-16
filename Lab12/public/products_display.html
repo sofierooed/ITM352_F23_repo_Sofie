@@ -7,34 +7,47 @@
     <link rel="stylesheet" href="products-style.css">
 
 
-    <script src="./products_data.js"></script>
+    <script src="./product_data.js" type="text/javascript"></script>
     </script>
 
 </head>
 
 <body>
+    
     <form action="process_form" method="POST">
+        <script>document.write(`<h3>${products[0]["brand"]} at \$${products[0]["price"]}</h3>`);</script>
     <h1>Sofie´s Used Smart Phone Store</h1>
 
     <div>
         <main>
             <script>
-
-                for (i = 0; i < products.length; i++) {
-                    document.write(`
-                    <section class="item">
-                        <h2>${products[i].brand} </h2>
-                        <p>$${products[i].price}</p>
-                        <img src="${products[i].image}">
-                        <p><label for="quantity${i}_label">Quantity Desired:</label></p>
-                        <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
-                    </section>
-                    `);
-                }
+if (typeof products !== 'undefined') {
+                        for (let i = 0; i < products.length; i++) {
+                            document.write(`
+                            <section class="item">
+                                <h2>${products[i].brand}</h2>
+                                <p>$${products[i].price}</p>
+                                <img src="${products[i].image}">
+                                <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+                                <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
+                            </section>
+                            `);
+                        }
+                    } else {
+                        console.error('Products not defined');
+                    }
 
             </script>
         </main>
     </div>
+            <!-- Display total sold values -->
+            <div>
+                <script>
+                    for (i in products) {
+                        document.write(`<h4>${products[i]["total_sold"]} ${products[i]["brand"]} have been sold!</h4>`);
+                    }
+                </script>
+            </div>
 </body>
 <footer style="text-align: center;">
     <br>
