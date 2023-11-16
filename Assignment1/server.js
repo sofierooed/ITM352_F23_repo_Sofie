@@ -8,8 +8,8 @@ const app = express();
 // Load product data outside of the route handlers IS THIS NEEDED?
 let products = products_array;
 
-//QS
-const qstr = require(`querystring`)
+// Importing the 'querystring' module to provide utilities for parsing and formatting URL query strings.
+const qs = require('querystring');
 
 // Middleware to automatically decode data encoded in a POST request and allow access through request.body
 app.use(express.urlencoded({ extended: true }));
@@ -92,10 +92,13 @@ app.post("/purchase", function (request, response) {
    // Check if all values in all_txtboxes are zero
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
 
-   // If valid create invoice (no errors, and not all zero inputs)
+   // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
+   var qstr = qs.stringify(request.body);
+
+   // If valid create invoice with input as querystring (no errors, and not all zero inputs)
    if (Object.entries(errors).length === 0 && !allZeros) {
          // Redirect to the invoice.html page
-         response.redirect(`invoice.html`);
+         response.redirect(`invoice.html?${qstr}`);
    } 
    
    else {
