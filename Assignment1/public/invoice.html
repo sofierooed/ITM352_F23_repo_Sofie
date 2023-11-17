@@ -55,7 +55,7 @@
                     document.write(`
                         <tr class="item">
                             <td width="43%">
-                                <img src="${products[i].image}" id="textbox">
+                                <img src="${products[i].image}" class="product-icon">
                                 ${products[i].name}
                             </td>
                             <td align="center" width="11%">${quantity}</td>
@@ -122,7 +122,7 @@
                 // Generate item rows with quantities obtained from the URL parameters
                 generate_item_rows(quantities);
             </script>
-            
+
             <script>
                 // Compute tax amount
                 let tax_rate = 5.25;
@@ -185,7 +185,8 @@
     <br>
 </body>
 <footer>
-    Shipping policy: A subtotal $0 - $499.00 will be $20 shipping. A subtotal $500.00 - $1999.00 will be $50 shipping Subtotals over $2000 will be charged 5% of the subtotal amount
+    Shipping policy: A subtotal $0 - $499.00 will be $20 shipping. A subtotal $500.00 - $1999.00 will be $50 shipping
+    Subtotals over $2000 will be charged 5% of the subtotal amount
 </footer>
 
 </html>
