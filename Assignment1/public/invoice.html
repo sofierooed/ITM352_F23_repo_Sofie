@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="invoice.css">
 
 
-
 </head>
 
 <body>
@@ -54,12 +53,19 @@
                     // Output a table row with product information and the calculated extended price, using a template string.
                     document.write(`
                         <tr class="item">
-                            <td width="43%">${products[i].name}</td>
+                            <td width="43%">
+                                <div class="product-info">
+                                    <img src="${products[i].image}" class="product-icon">
+                                    <div class="popup">${products[i].description}</div>
+                                </div>
+                                ${products[i].name}
+                            </td>
                             <td align="center" width="11%">${quantity}</td>
                             <td width="13%">$${products[i].price}</td>
                             <td width="54%">$${extended_price}</td>
                         </tr>
             `);
+
 
                     // Update the subtotal by adding the extended price.
                     subtotal += extended_price;
