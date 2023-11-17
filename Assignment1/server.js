@@ -102,7 +102,7 @@ app.post("/purchase", function (request, response) {
    } 
    
    else {
-      //Not valid, send back to display products
+      //Not valid, send back to display products and display error messages
       response.redirect(`product_display.html`);
    }
 });
