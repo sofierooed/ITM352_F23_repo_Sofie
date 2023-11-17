@@ -4,18 +4,6 @@ img{
     margin-right: 20px;
 }
 
-.popup {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 15px;
-    z-index: 1;
-}
-
-.item:hover .popup {
-    display: block;
-}
 
 .invoice-box {
     max-width: 800px;
