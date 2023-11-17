@@ -4,6 +4,22 @@ img{
     margin-right: 20px;
 }
 
+.img_mouseover .prod_description {
+    display: none;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    background-color:#ff7eb9;
+    color: white;
+    padding: .5em;
+    min-width: 10rem;
+    font-size: 15px;
+}
+
+.img_mouseover:hover .prod_description {
+    display: block;
+}
+
 
 .invoice-box {
     max-width: 800px;
@@ -53,6 +69,11 @@ img{
     background: #eee;
     border-bottom: 1px solid #ddd;
     font-weight: bold;
+}
+
+.invoice-box table tr.hover_info td {
+    color: #ff7eb9;
+    font-size: 10px;
 }
 
 .invoice-box table tr.heading2 td {

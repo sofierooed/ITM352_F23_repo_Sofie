@@ -52,11 +52,17 @@
                     let extended_price = quantity * products[i].price;
 
                     // Output a table row with product information and the calculated extended price, using a template string.
+                    //Included IR5
                     document.write(`
                         <tr class="item">
                             <td width="43%">
-                                <img src="${products[i].image}" class="product-icon">
-                                ${products[i].name}
+                                <div class="img_mouseover">
+                                    <img src="${products[i].image}" >
+                                        ${products[i].name}
+                                        <div class="prod_description">
+                                            ${products[i].description}
+                                        </div>
+                                </div>
                             </td>
                             <td align="center" width="11%">${quantity}</td>
                             <td width="13%">$${products[i].price}</td>
@@ -95,7 +101,7 @@
             </tr>
 
             <tr class="information">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr>
                             <td>
@@ -103,7 +109,6 @@
                                 Inkognitogata<br />
                                 0258 Oslo, Norway
                             </td>
-
                         </tr>
                     </table>
                 </td>
@@ -177,6 +182,13 @@
                 <td></td>
                 <td>$
                     <script>document.write(grand_total.toFixed(2))</script>
+                </td>
+            </tr>
+            <tr class="hover_info">
+                <td>
+                    <div>
+                        *Hover over product icon for more information
+                    </div>
                 </td>
             </tr>
         </table>
