@@ -55,7 +55,7 @@
                     document.write(`
                         <tr class="item">
                             <td width="43%">
-                                <img src="${products[i].image}">
+                                <img src="${products[i].image}" id="textbox">
                                 ${products[i].name}
                             </td>
                             <td align="center" width="11%">${quantity}</td>
@@ -122,7 +122,7 @@
                 // Generate item rows with quantities obtained from the URL parameters
                 generate_item_rows(quantities);
             </script>
-
+            
             <script>
                 // Compute tax amount
                 let tax_rate = 5.25;
@@ -141,7 +141,6 @@
                 // Compute grand total adding tax and subtotal price
                 let grand_total = subtotal + tax + shipping;
             </script>
-
             <!--Table bottom-->
             <tr class="heading2">
                 <td></td>
