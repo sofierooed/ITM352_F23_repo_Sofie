@@ -8,36 +8,80 @@
     <script src="./product_data.js" type="text/javascript"></script>
     <link rel="stylesheet" href="invoice.css">
 
-    <!--JS to generate todays date using DOM, retrieved from ChatGPT-->
-    <script>
-        // Wait for the DOM content to be fully loaded before executing the script
-        document.addEventListener("DOMContentLoaded", function () {
 
-            // Get the element with the id "invoiceDate" from the HTML
-            let dateElement = document.getElementById("invoiceDate");
 
-            // Create a new Date object to represent the current date and time
-            // Convert the date to a string in a human-readable format using toDateString()
-            let currentDate = new Date().toDateString();
-
-            // Set the innerHTML of the selected element to display the current date 
-            dateElement.innerHTML = new Date().toDateString();
-        });
-    </script>
 </head>
 
 <body>
+    <script>
+
+        // JS to generate todays date using DOM, retrieved from ChatGPT
+        // Wait for the DOM content to be fully loaded before executing the script
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the element with the id "invoiceDate" from the HTML
+            let dateElement = document.getElementById("invoiceDate");
+            // Create a new Date object to represent the current date and time
+            // Convert the date to a string in a human-readable format using toDateString()
+            let currentDate = new Date().toDateString();
+            // Set the innerHTML of the selected element to display the current date 
+            dateElement.innerHTML = new Date().toDateString();
+        });
+
+        // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
+        let params = (new URL(document.location)).searchParams
+        let quantities = [];
+        let subtotal = 0;
+
+        //Create loop to generate the quanitities array
+        for (let i = 0; i < products.length; i++) {
+            paramName = `quantity${i}`;
+            quantity = params.get(paramName);
+            quantities.push(quantity);
+        };
+
+        /* Function to generate invoice rows */
+        function generate_item_rows(product_quantities_array) {
+            // Loop through the product quantities array
+            for (let i = 0; i < product_quantities_array.length; i++) {
+                // Retrieve the quantity for the current product
+                let quantity = product_quantities_array[i];
+
+                // Check if the quantity is greater than 0 before generating the table row
+                if (quantity > 0) {
+                    // Calculate the extended price for the product
+                    let extended_price = quantity * products[i].price;
+
+                    // Output a table row with product information and the calculated extended price, using a template string.
+                    document.write(`
+                        <tr class="item">
+                            <td width="43%">${products[i].name}</td>
+                            <td align="center" width="11%">${quantity}</td>
+                            <td width="13%">$${products[i].price}</td>
+                            <td width="54%">$${extended_price}</td>
+                        </tr>
+            `);
+
+                    // Update the subtotal by adding the extended price.
+                    subtotal += extended_price;
+                }
+            }
+        }
+
+
+    </script>
+
+
     <!--Table to display invoice-->
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
-                <td colspan="2">
+                <td colspan="4">
                     <table>
                         <tr class="top">
                             <td class="title">
                                 by.Sofie
                             </td>
-                            <td>
+                            <td class="invoice-created">
                                 Invoice<br />
                                 Created: <span id="invoiceDate"></span><br />
                             </td>
@@ -60,6 +104,7 @@
                     </table>
                 </td>
             </tr>
+
             <!-- Table headers-->
             <tr class="heading">
                 <td>Item</td>
@@ -67,61 +112,77 @@
                 <td>Price</td>
                 <td>Extended Price</td>
             </tr>
-            <!--Insert loop for invoice generation-->
-            <tr class="item">
-                <td>Website design</td>
-                <td></td>
-                <td>$300.00</td>
-                <td></td>
-            </tr>
 
-            <tr class="item">
-                <td>Hosting (3 months)</td>
-                <td></td>
-                <td>$75.00</td>
-                <td></td>
-            </tr>
+            <!-- Dynamic rows generated by JavaScript -->
+            <script>
+                // Generate item rows with quantities obtained from the URL parameters
+                generate_item_rows(quantities);
+            </script>
 
-            <tr class="item">
-                <td>Domain name (1 year)</td>
-                <td></td>
-                <td>$10.00</td>
-                <td></td>
-            </tr>
+            <script>
+                // Compute tax amount
+                let tax_rate = 5.25;
+                let tax = subtotal * (tax_rate / 100);
+
+                // Compute variable for shipping
+                let shipping;
+                if (subtotal < 500) {
+                    shipping = 20;
+                } else if (subtotal < 2000) {
+                    shipping = 50;
+                } else {
+                    shipping = 0.05 * subtotal;
+                }
+
+                // Compute grand total adding tax and subtotal price
+                let grand_total = subtotal + tax + shipping;
+            </script>
 
             <!--Table bottom-->
-            <tr class="subtotal">
+            <tr class="heading2">
                 <td></td>
                 <td></td>
-                <td></td>
-                <td>Sub total: $385.00</td>
+                <td>Sub total:</td>
+                <td>
+                    $
+                    <script>document.write(subtotal.toFixed(2))</script>
+                </td>
             </tr>
 
             <tr class="heading2">
-                <td> Tax </td>
+                <td> Tax @
+                    <script>document.write(tax_rate.toFixed(2))</script>%
+                </td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td>
+                    $
+                    <script>document.write(tax.toFixed(2))</script>
+                </td>
             </tr>
             <tr class="heading2">
                 <td> Shipping </td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td>$
+                    <script>document.write(shipping.toFixed(2))</script>
+                </td>
             </tr>
             <tr class="heading">
-                <td> Total </td>
+                <td> Grand Total </td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td>$
+                    <script>document.write(grand_total.toFixed(2))</script>
+                </td>
             </tr>
         </table>
     </div>
+    <br>
+    <br>
 </body>
-
-</html>
-
-
-</body>
+<footer>
+    Shipping policy: A subtotal $0 - $499.00 will be $20 shipping. A subtotal $500.00 - $1999.00 will be $50 shipping Subtotals over $2000 will be charged 5% of the subtotal amount
+</footer>
 
 </html>
