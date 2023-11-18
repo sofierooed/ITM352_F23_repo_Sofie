@@ -32,6 +32,39 @@
             var returnErrors = returnErrors ? errors : (errors.length == 0);
             return (returnErrors);
         };
+
+        // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
+        let params = (new URL(document.location)).searchParams
+
+        // Execute function when on window load
+        // Function for displaying error message and setting inputs
+        window.onload = function () {
+            // Loop through products to display errors below corresponding quantity inputs
+            for (let i = 0; i < products.length; i++) {
+                // Get the quantity input element for the current product
+                let quantityInput = document.getElementById(`quantity${i}`);
+                // Get the error span element for the current product
+                let errorSpan = document.getElementById(`error${i}`);
+
+                // Check if there is an error message for the current quantity input 
+                if (params.has('quantity' + i)) {
+                    // Set the value of the quantity input from the URL parameter
+                    quantityInput.value = params.get('quantity' + i);
+                }
+
+                // Check if there are error messages in the URL parameters
+                if (params.has("errorsJSONstring")) {
+                    // Parse the JSON string containing error messages into an object
+                    let errorsObject = JSON.parse(params.get("errorsJSONstring"));
+
+                    // Check if there is an error message for the current quantity input 
+                    if (errorsObject[`quantity${i}`]) {
+                        // Display the error message
+                        errorSpan.innerText = errorsObject[`quantity${i}`];
+                    }
+                }
+            }
+        };
     </script>
 
 </head>
@@ -63,7 +96,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Additional carousel items can be added here -->
                 </div>
             </div>
         </div>
@@ -83,6 +115,7 @@
                         <img src="${products[i].image}">
                         <p><label for="quantity${i}_label">Quantity Desired:</label></p>
                         <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
+                        <span id="error${i}" style="color: red;"></span>
                     </section>
                     `);
                 }
@@ -92,7 +125,7 @@
 </body>
 <footer style="text-align: center;">
     <br>
-    <input type="submit">
+    <input type="submit" value="Purchase!">
     <br>
 </footer>
 </form>

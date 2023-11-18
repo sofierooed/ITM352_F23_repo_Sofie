@@ -22,11 +22,11 @@ function isNonNegInt(quantities, returnErrors) {
       quantities = 0;
    }
    // Check if string is a number value
-   if (Number(quantities) != quantities) errors.push(' Not a number'); 
+   if (Number(quantities) != quantities) errors.push(' Not a number');
    // Check if it is non-negative
-   if (quantities < 0) errors.push(' Negative value'); 
+   if (quantities < 0) errors.push(' Negative value');
    // Check that it is an integer
-   if (parseInt(quantities) != quantities) errors.push(' Not an integer'); 
+   if (parseInt(quantities) != quantities) errors.push(' Not an integer');
 
    // Log any errors to the console
    console.log(errors);
@@ -56,12 +56,12 @@ app.get("/product_data.js", function (request, response, next) {
 
 // Process purchase request (validate quantities, check quantity available)
 app.post("/purchase", function (request, response) {
-   console.log(`in purchase`, request.body) //See input in console for
+   console.log(`in purchase`, request.body); // See input in console for
 
-   let errors = []; //Assuming no errors
-   let all_txtboxes = []; //Assuming no input
+   let errors = {}; // Assuming no errors (object)
+   let all_txtboxes = []; // Assuming no input
 
-   //Checking if the quantity for each product is a valid input, and recording any errors that occur
+   // Checking if the quantity for each product is a valid input, and recording any errors that occur
    for (let i in products) {
       let qty = request.body['quantity' + i];
 
@@ -71,16 +71,15 @@ app.post("/purchase", function (request, response) {
       // Collect the values of all textboxes
       all_txtboxes.push(qty);
 
-      // Validate quantity input with non negative integer function
+      // Validate quantity input with non-negative integer function
       if (isNonNegInt(qty) === false) {
          errors['quantity' + i] = isNonNegInt(qty, true);
-      } //Validate quantity input with avaliable quantities
+      } // Validate quantity input with available quantities
       else if (parseInt(qty) > products[i].quantity_available) {
-         // Display error in console if quantity exceeds available quantity
+         // Display error in console if the quantity exceeds available quantity
          console.error(`Quantity exceeds the available quantity for ${products[i].name}`);
          errors['quantity' + i] = 'Quantity exceeds the available quantity';
-      }
-      else {
+      } else {
          // Update inventory for the purchased item
          products[i].quantity_available -= parseInt(qty);
       }
@@ -92,20 +91,22 @@ app.post("/purchase", function (request, response) {
    // Check if all values in all_txtboxes are zero
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
 
-   // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
-   var qstr = qs.stringify(request.body);
-
-   // If valid create invoice with input as querystring (no errors, and not all zero inputs)
+   // If valid create invoice with input as query string (no errors, and not all zero inputs)
    if (Object.entries(errors).length === 0 && !allZeros) {
-         // Redirect to the invoice.html page
-         response.redirect(`invoice.html?${qstr}`);
-   } 
-   
-   else {
-      //Not valid, send back to display products and display error messages
-      response.redirect(`product_display.html`);
+      // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
+      let qstr = qs.stringify(request.body);
+      // Redirect to the invoice.html page
+      response.redirect(`invoice.html?${qstr}`);
+   } else {
+      // Add errors object to request.body to put into the query string
+      request.body["errorsJSONstring"] = JSON.stringify(errors);
+      // Back to the order page and putting errors in the query string
+      response.redirect(
+         "./product_display.html?" + qs.stringify(request.body)
+      );
    }
 });
+
 
 // Route all other GET requests to files in public
 app.use(express.static(__dirname + '/public'));
