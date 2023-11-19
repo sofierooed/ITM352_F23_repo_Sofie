@@ -36,9 +36,24 @@
         // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
         let params = (new URL(document.location)).searchParams
 
-        // Execute function when on window load
+        // Execute function when on window load 
         // Function for displaying error message and setting inputs
         window.onload = function () {
+            // Get the 'errorsJSONstring' from URL parameters
+            let errorsJSONString = params.get('errorsJSONstring');
+
+            // Check if 'errorsJSONstring' exists and parse it
+            if (errorsJSONString) {
+                // convert the JSON-formatted string into a JavaScript object and access the 'allZeros' property
+                let allZerosError = JSON.parse(errorsJSONString)?.allZeros;
+
+                // If 'allZerosError' exists, display the error message
+                if (allZerosError) {
+                    // Update the content of an HTML element with the ID 'allZerosError
+                    document.getElementById('allZerosError').innerText = allZerosError;
+                }
+            }
+
             // Loop through products to display errors below corresponding quantity inputs
             for (let i = 0; i < products.length; i++) {
                 // Get the quantity input element for the current product
@@ -103,6 +118,10 @@
 
 
     <h4>LATEST PRODUCTS</h4>
+    <div footer style="text-align: center;">
+        <p id="allZerosError" style="color: red;"></p>
+    </div>
+
     <form action="/purchase" method="POST">
         <div class="products-container">
             <script>

@@ -85,11 +85,17 @@ app.post("/purchase", function (request, response) {
       }
    }
 
-   // Console.log the new inventory
-   console.log("New Inventory:", products);
 
    // Check if all values in all_txtboxes are zero
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
+
+   // Display an error if all quantities are zero
+   if (allZeros) {
+      errors['allZeros'] = 'No quantities were selected';
+   }
+
+   // Console.log the new inventory
+   console.log("New Inventory:", products);
 
    // If valid create invoice with input as query string (no errors, and not all zero inputs)
    if (Object.entries(errors).length === 0 && !allZeros) {
