@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!--
+        Author: Sofie Røed
+        Purpose: Invoice interface and data
+        Retrieved template from: https://github.com/sparksuite/simple-html-invoice-template (10 Nov 2023)
+        Assignment 1
+    -->
 
 <head>
     <meta charset="UTF-8">
@@ -14,14 +20,13 @@
 <body>
     <script>
 
-
-        // JS to generate todays date using DOM, retrieved from ChatGPT
+        // JS to generate todays date using DOM to follow template, retrieved from ChatGPT
         // Wait for the DOM content to be fully loaded before executing the script
         document.addEventListener("DOMContentLoaded", function () {
             // Get the element with the id "invoiceDate" from the HTML
             let dateElement = document.getElementById("invoiceDate");
             // Create a new Date object to represent the current date and time
-            // Convert the date to a string in a human-readable format using toDateString()
+            // Convert the date to a string using toDateString()
             let currentDate = new Date().toDateString();
             // Set the innerHTML of the selected element to display the current date 
             dateElement.innerHTML = new Date().toDateString();
@@ -40,6 +45,7 @@
         };
 
         /* Function to generate invoice rows */
+        // Inspired by previous labs
         function generate_item_rows(product_quantities_array) {
             // Loop through the product quantities array
             for (let i = 0; i < product_quantities_array.length; i++) {
@@ -52,17 +58,17 @@
                     let extended_price = quantity * products[i].price;
 
                     // Output a table row with product information and the calculated extended price, using a template string.
-                    //Included IR5
+                    //Included IR5 styled in css sheet
                     document.write(`
                         <tr class="item">
                             <td width="43%">
-                                <div class="img_mouseover">
+                                <div class="img_block">
                                     <img src="${products[i].image}" >
-                                        ${products[i].name}
                                         <div class="prod_description">
                                             ${products[i].description}
                                         </div>
                                 </div>
+                                ${products[i].name}
                             </td>
                             <td align="center" width="11%">${quantity}</td>
                             <td width="13%">$${products[i].price}</td>

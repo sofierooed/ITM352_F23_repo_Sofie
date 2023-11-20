@@ -1,11 +1,20 @@
-
+/*
+    Author: Sofie Røed
+    Purpose: Style for invoice
+    Retrieved template inspiration from: https://www.free-css.com/free-css-templates/page293/giftos (10 Nov 2023)
+    Assignment 1
+*/
 img{
     width: 20px;
     margin-right: 20px;
 }
 
-.img_mouseover .prod_description {
-    display: none;
+/* 
+    IR 5 - If the user hovers over the icon, have a popup window appear with a product description 
+    Inspiration from browserhistory WOD
+*/ 
+.img_block .prod_description {
+    display: none; /* Initially, hide the product description */
     bottom: 5%;
     left: 5%;
     right: 5%;
@@ -16,7 +25,8 @@ img{
     font-size: 15px;
 }
 
-.img_mouseover:hover .prod_description {
+/* When hovering over the element, display the product description */
+.img_block:hover .prod_description {
     display: block;
 }
 
