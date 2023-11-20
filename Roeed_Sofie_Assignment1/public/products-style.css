@@ -8,7 +8,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("font-awesome.min.css");
 
-
+/* Body styling */
 body {
     font-family: "Poppins", sans-serif;
     margin: 0;
@@ -16,13 +16,14 @@ body {
     background-color: #fdf2f6;
 }
 
+/* Header styling */
 header {
     background-color: #fdf2f6;
     text-align: left;
     margin-top: 10px;
 }
 
-
+/* Heading styling */
 h1 {
     color: #ff7eb9;
     font-variant: small-caps;
@@ -43,13 +44,12 @@ h4 {
     font-size: 50px;
 }
 
-.img-box {
-    display: inline-block;
-    margin: 10px;
-    width: 10cm;
+.col-md-7 p {
+    color: #fdf2f6;
 }
 
 
+/* Product container styling */
 .products-container {
     display: flex;
     flex-wrap: wrap;
@@ -57,6 +57,7 @@ h4 {
     text-align: center;
 }
 
+/* Individual product item styling */
 .item {
     width: 25%;
     margin: 20px;
@@ -65,12 +66,14 @@ h4 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Image styling */
 img {
     width: 100%;
     height: auto;
     border-radius: 8px; /* Added border-radius for rounded images */
 }
 
+/* Footer styling */
 footer {
     text-align: center;
     margin: 20px 0;
@@ -78,16 +81,14 @@ footer {
     padding: 10px; /* Added padding for better spacing */
 }
 
-/*SLIDER*/
+/* Slider section styling */
 .slider_section {
     background-color: #ff7eb9;
     text-align: center;
 }
 
-.slider_container {
-    margin: 20px 0;
-}
 
+/* Detail box styling */
 .detail-box {
     text-align: left;
     padding: 20px;
@@ -97,37 +98,10 @@ footer {
     color: #fdf2f6;
 }
 
-.detail-box p {
+.detail-box > p {
     color: #fdf2f6;
 }
 
-.detail-box a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #fff;
-    color: #ff7eb9;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
 
-.detail-box a:hover {
-    background-color: #ff7eb9;
-    color: #fdf2f6;
-}
-
-.carousel_btn-box {
-    margin-top: 20px;
-}
-
-.carousel_btn-box a {
-    font-size: 24px;
-    color: #ff7eb9;
-}
-
-.carousel_btn-box img {
-    margin: 0 10px;
-}
 
 

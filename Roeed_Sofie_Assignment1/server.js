@@ -88,12 +88,7 @@ app.post("/purchase", function (request, response) {
          // Check if the entered quantity exceeds the available quantity for the product
          // If yes, log an error in the console and record the error message
          console.error(`Quantity exceeds the available quantity for ${products[i].name}`);
-         errors['quantity' + i] = 'Quantity exceeds the available quantity';
-      }
-      // If the quantity input is valid and within the available quantity, update the inventory
-      else {
-         // Update the inventory by subtracting the purchased quantity
-         products[i].quantity_available -= parseInt(qty);
+         errors['quantity' + i] = `Quantity exceeds the available quantity of ${products[i].quantity_available}`;
       }
    }
 
@@ -106,11 +101,19 @@ app.post("/purchase", function (request, response) {
       errors['allZeros'] = 'No quantities were selected';
    }
 
-   // Console.log the new inventory
-   console.log("New Inventory:", products);
 
    // Check if there are no errors and at least one product has a valid quantity
    if (Object.entries(errors).length === 0 && !allZeros) {
+      // Update the inventory by subtracting the purchased quantity (moved outside the loop)
+      for (let i in products) {
+         let qty = request.body['quantity' + i];
+         // Set quantity to zero if it's an empty string or not provided using ternary operator
+         // qty is empty string, true set to 0, false set to provided quantity
+         qty = qty === '' ? 0 : qty;
+         products[i].quantity_available -= parseInt(qty);
+         // IR 1 - Track quantity sold
+         products[i].total_sold += parseInt(qty);
+      }
       // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
       // Retrieved from lab 12
       let qstr = qs.stringify(request.body);
@@ -124,7 +127,13 @@ app.post("/purchase", function (request, response) {
          "./product_display.html?" + qs.stringify(request.body)
       );
    }
+
+   // Console.log the new inventory
+   console.log("New Inventory:", products);
+
 });
+
+
 
 
 // Route all other GET requests to files in public

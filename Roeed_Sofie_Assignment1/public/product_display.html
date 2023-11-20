@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!--
+<!--
         Author: Sofie Røed
         Purpose: Webshop interface and product display
         Retrieved template inspiration from: https://www.free-css.com/free-css-templates/page293/giftos (10 Nov 2023)
@@ -77,12 +77,18 @@
                 if (params.has("errorsJSONstring")) {
                     // Parse the JSON string containing error messages into an object
                     let errorsObject = JSON.parse(params.get("errorsJSONstring"));
+                    //Display error in purchase button, IR4
+                    document.getElementById('purchase_button').value = "Please Select Some Items to Purchase";
+
 
                     // Check if there is an error message for the current quantity input 
                     if (errorsObject[`quantity${i}`]) {
                         // Display the error message
                         errorSpan.innerText = errorsObject[`quantity${i}`];
+                        //Display error in purchase button, IR4
+                        document.getElementById('purchase_button').value = "Select Non-Negative Integers";
                     }
+
                 }
             }
         };
@@ -95,43 +101,41 @@
         <h3>BY.SOFIE</h3>
     </header>
 
+
+
     <section class="slider_section">
-        <div class="slider_container">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <div class="detail-box">
-                                        <h1>
-                                            WELCOME TO BY.SOFIE <br>
-                                            accessories shop
-                                        </h1>
-                                        <p>
-                                            Our hats and bags are custom painted in your favourite colors. <br>
-                                            Please scroll further down to see our products.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-md-7">
+            <div class="detail-box">
+                <table>
+                    <tr>
+                        <td>
+                            <h1>
+                                WELCOME TO BY.SOFIE <br>
+                                accessories shop
+                            </h1>
+                            <p>
+                                Our hats and bags are custom painted in your favourite colors. <br>
+                                Please scroll further down to see our products.
+                            </p>
+                        </td>
+                        <td>
+                            <img src="./images/flower_bag.jpg" style="width: 400px; margin-left: 300px;">
+                        </td>
+                    </tr>
+                </table>
             </div>
-        </div>
     </section>
 
 
     <h4>LATEST PRODUCTS</h4>
-    <div footer style="text-align: center;">
+    <div style="text-align: center;">
         <p id="allZerosError" style="color: red;"></p>
     </div>
 
     <form action="/purchase" method="POST">
         <div class="products-container">
             <script>
-                //Loop to display products
+                //Loop to display products, incorporated IR 1
                 for (let i = 0; i < products.length; i++) {
                     document.write(`
                     <section class="item">
@@ -140,6 +144,7 @@
                         <img src="${products[i].image}">
                         <p><label for="quantity${i}_label">Quantity Desired:</label></p>
                         <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
+                        <p>Total Quantity Sold: ${products[i].total_sold}</p>
                         <span id="error${i}" style="color: red;"></span>
                     </section>
                     `);
@@ -150,7 +155,7 @@
 </body>
 <footer style="text-align: center;">
     <br>
-    <input type="submit" value="Purchase!">
+    <input type="submit" value="Purchase!" id="purchase_button" class="purchase_button">
     <br>
 </footer>
 </form>
