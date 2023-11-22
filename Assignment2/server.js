@@ -1,166 +1,150 @@
+/*
+   Author: Sofie Røed
+   Purpose: Surver.js file to run server for webshop
+   Assignment 1
+*/
 
-var fs = require('fs');
-var myParser = require("body-parser");
-var qs = require('querystring');
-var express = require('express');
-var app = express();
 
-var products = require('./product_data.json');
+//Express application setup
+const express = require('express');
+const app = express();
+// Importing the 'querystring' module to provide utilities for parsing and formatting URL query strings. 
+// Retrieved from class.
+const qs = require('querystring');
 
-var user_quantity_data; // make a global variable to hold the product selections until we get to the invoice
+//Filesync setup and load user data for login
+const fs = require('fs');
+let user_data_filename = 'user_data.json';
+let user_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
+let users_reg_data = JSON.parse(user_reg_data_JSON);
 
-var filename = 'registration_data.json';
 
-// get the user data
-if (fs.existsSync(filename)) {
-    var stats = fs.statSync(filename);
-    data = fs.readFileSync(filename, 'utf-8');
-    users_reg_data = JSON.parse(data);
-} else {
-    console.log(filename + ' does not exist!');
-}
+//Load product data from JSON file
+const products_array = require(__dirname + '/product_data.json');
+let products = products_array;
 
-// Routing and middleware
-app.use(myParser.urlencoded({ extended: true }));
+// Middleware to automatically decode data encoded in a POST request and allow access through request.body
+// Retrieved from lab 12.
+app.use(express.urlencoded({ extended: true }));
 
-app.all('*', function (req, res, next) {
-    console.log(`${req.method} request to ${req.path}`);
-    next();
+// Function to check if quantities entered are whole numbers, not negative, and a number 
+// Retrieved from previous labs
+function isNonNegInt(quantities, returnErrors) {
+   // assume no errors at first
+   let errors = [];
+   //Set quantities to 0 if no input (empty string)
+   if (quantities === '') {
+      quantities = 0;
+   }
+   // Check if string is a number value
+   if (Number(quantities) != quantities) errors.push(' Not a number');
+   // Check if it is non-negative
+   if (quantities < 0) errors.push(' Negative value');
+   // Check that it is an integer
+   if (parseInt(quantities) != quantities) errors.push(' Not an integer');
+
+   // Determine whether to return errors or a boolean indicating validation success
+   var returnErrors = returnErrors ? errors : (errors.length == 0);
+   return (returnErrors);
+};
+
+
+
+// Routing
+
+// monitor all requests regardless of method and path
+app.all('*', function (request, response, next) {
+   console.log(request.method + ' to ' + request.path);
+   next();
 });
 
-app.get('/products', function (req, res, next) {
-    res.json(products);
+// When the server receives a GET request for "/product_data.js", respond with a JavaScript string of data provided by the JSON file
+// Retrieved from lab 12
+app.get("/product_data.js", function (request, response, next) {
+   response.type('application/javascript');
+   var products_str = `var products = ${JSON.stringify(products_array)};`;
+   response.send(products_str);
 });
 
-app.get('/purchase', function (req, res, next) {
-    user_quantity_data = req.query; // save for later
-    if (typeof req.query['purchase_submit'] != 'undefined') {
-        console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.query));
+// Process purchase request (validate quantities, check quantity available)
+app.post("/purchase", function (request, response) {
+   console.log(`in purchase`, request.body); // See input in console for
 
-        user_quantity_data = req.query; // get the query string data which has the form data
-        // form was submitted so check that quantities are valid then redirect to invoice if ok.
+   // Assuming no errors (object)
+   let errors = {};
+   // Assuming no input
+   let all_txtboxes = [];
 
-        has_errors = false; // assume quantities are valid from the start
-        total_qty = 0; // need to check if something was selected so we will look if the total > 0
-        for (i = 0; i < products.length; i++) {
-            if (user_quantity_data[`quantity${i}`] != 'undefined') {
-                a_qty = user_quantity_data[`quantity${i}`];
-                total_qty += a_qty;
-                if (!isNonNegInt(a_qty)) {
-                    has_errors = true; // oops, invalid quantity
-                }
-            }
-        }
-        // Now respond to errors or redirect to login if all is ok
-        if (has_errors || total_qty == 0) {
-            res.redirect('products_display.html?' + qs.stringify(user_quantity_data));
-        } else { // all good to go!
-            res.redirect('login');
-        }
+   // Checking if the quantity for each product is a valid input, and recording any errors that occur
+   for (let i in products) {
+      let qty = request.body['quantity' + i];
 
-    }
+      // Set quantity to zero if it's an empty string or not provided using ternary operator
+      // qty is empty string, true set to 0, false set to provided quantity
+      qty = qty === '' ? 0 : qty;
+
+      // Pushing the quantity values to the all_txtboxes array
+      all_txtboxes.push(qty);
+
+      // Validate quantity input with non-negative integer function
+      if (isNonNegInt(qty) === false) {
+         // If not, record the error message in the 'errors' object
+         errors['quantity' + i] = isNonNegInt(qty, true);
+      } // If the quantity input is a non-negative integer, proceed to the next check
+      else if (parseInt(qty) > products[i].quantity_available) {
+         // Check if the entered quantity exceeds the available quantity for the product
+         // If yes, log an error in the console and record the error message
+         console.error(`Quantity exceeds the available quantity for ${products[i].name}`);
+         errors['quantity' + i] = `Quantity exceeds the available quantity of ${products[i].quantity_available}`;
+      }
+   }
+
+
+   // Check if all values in the 'all_txtboxes' array are equal to zero
+   const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
+
+   // Display an error if all quantities are zero
+   if (allZeros) {
+      errors['allZeros'] = 'No quantities were selected';
+   }
+
+
+   // Check if there are no errors and at least one product has a valid quantity
+   if (Object.entries(errors).length === 0 && !allZeros) {
+      // Update the inventory by subtracting the purchased quantity (moved outside the loop)
+      for (let i in products) {
+         let qty = request.body['quantity' + i];
+         // Set quantity to zero if it's an empty string or not provided using ternary operator
+         // qty is empty string, true set to 0, false set to provided quantity
+         qty = qty === '' ? 0 : qty;
+         products[i].quantity_available -= parseInt(qty);
+         // IR 1 - Track quantity sold
+         products[i].total_sold += parseInt(qty);
+      }
+      // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
+      // Retrieved from lab 12
+      let qstr = qs.stringify(request.body);
+      // Redirect to the invoice.html page with the query string containing the purchase details
+      response.redirect(`invoice.html?${qstr}`);
+   } else {
+      // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
+      request.body["errorsJSONstring"] = JSON.stringify(errors);
+      // Redirect back to the product display page with the errors in the query string to be able to display relevant errors
+      response.redirect(
+         "./product_display.html?" + qs.stringify(request.body)
+      );
+   }
+
+   // Console.log the new inventory
+   console.log("New Inventory:", products);
+
 });
 
-app.get("/login", function (request, response) {
-    // only allow login after selecting products
-    if (typeof user_quantity_data != 'undefined') {
-        // Give a simple login form
-        str = `
-<body>
-<form action="" method="POST">
-<input type="text" name="username" size="40" placeholder="enter username" ><br />
-<input type="password" name="password" size="40" placeholder="enter password"><br />
-<input type="submit" value="Submit" id="submit">
-</form>
-<a href="register">Click here to regsiter<a>
-</body>
-    `;
-        response.send(str);
-    } else {
-        str = `
-    <head>
-    <script>
-        alert('You need to select some products before logging in');
-        
-        window.location = './products_display.html';
-    </script>
-    </head>
-        `;
-        response.send(str);
-    }
 
 
-});
 
-app.post("/login", function (request, response) {
-    // Process login form POST and redirect to logged in page if ok, back to login page if not
-    the_username = request.body['username'];
-    the_password = request.body['password'];
-    if (typeof users_reg_data[the_username] != 'undefined') {
-        if (users_reg_data[the_username].password == the_password) {
-            user_quantity_data['username'] = the_username;
-            response.redirect('/invoice.html?' + qs.stringify(user_quantity_data));
-        } else {
-            response.redirect('/login');
-        }
-    }
-});
+// Route all other GET requests to files in public
+app.use(express.static(__dirname + '/public'));
 
-app.get("/register", function (request, response) {
-    // only allow login after selecting products
-    if (typeof user_quantity_data != 'undefined') {
-        // Give a simple register form
-        str = `
-<body>
-<form action="" method="POST">
-<input type="text" name="username" size="40" placeholder="enter username" ><br />
-<input type="password" name="password" size="40" placeholder="enter password"><br />
-<input type="password" name="repeat_password" size="40" placeholder="enter password again"><br />
-<input type="email" name="email" size="40" placeholder="enter email"><br />
-<input type="submit" value="Submit" id="submit">
-</form>
-</body>
-    `;
-        response.send(str);
-    } else {
-        str = `
-        <head>
-        <script>
-            alert('You need to select some products before registering!');
-            
-            window.location = './products_display.html';
-        </script>
-        </head>
-            `;
-        response.send(str);
-    }
-});
-
-app.post("/register", function (request, response) {
-    // process a simple register form
-    username = request.body.username;
-    // validate the user info before saving 
-    // check is username taken
-
-    users_reg_data[username] = {};
-    users_reg_data[username].password = request.body.password;
-    users_reg_data[username].email = request.body.email;
-    fs.writeFileSync(filename, JSON.stringify(users_reg_data));
-    console.log("Saved: " + users_reg_data);
-    user_quantity_data['username'] = username; // add the username to the data that will be sent to the invoice so the user can be identified with this transient data
-    response.redirect('/invoice.html?' + qs.stringify(user_quantity_data)); // transient data passed to invoice in a query string
-});
-
-app.use(express.static(__dirname + '/static'));
-
-var listener = app.listen(8080, () => { console.log('server started listening on port ' + listener.address().port) });
-
-// helper functions
-function isNonNegInt(q, return_errors = false) {
-    errors = []; // assume no errors at first
-    if (q == '') q = 0; // handle blank inputs as if they are 0
-    if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
-    else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
-    else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
-    return return_errors ? errors : (errors.length == 0);
-}
+// Start server
+app.listen(8080, () => console.log(`listening on port 8080`));

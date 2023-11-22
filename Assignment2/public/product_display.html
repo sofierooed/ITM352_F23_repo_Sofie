@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+        Author: Sofie Røed
+        Purpose: Webshop interface and product display
+        Retrieved template inspiration from: https://www.free-css.com/free-css-templates/page293/giftos (10 Nov 2023)
+        Assignment 1
+    -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>by.sofie webshop</title>
+    <script src="./product_data.js" type="text/javascript"></script>
+
+    <!-- Link to stylesheet and HTML Template-->
+    <link rel="stylesheet" href="products-style.css">
+
+    <script>
+        // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
+        function isNonNegInt(quantities, returnErrors) {
+            let errors = []; // assume no errors at first
+            //Set quantities to 0 if no input (empty string)
+            if (quantities === '') {
+                quantities = 0;
+            }
+            // Check if string is a number value
+            if (Number(quantities) != quantities) errors.push(' Not a number');
+            // Check if it is non-negative
+            if (quantities < 0) errors.push(' Negative value');
+            // Check that it is an integer
+            if (parseInt(quantities) != quantities) errors.push(' Not an integer');
+
+            // Log any errors to the console
+            console.log(errors);
+
+            // Determine whether to return errors or a boolean indicating validation success
+            var returnErrors = returnErrors ? errors : (errors.length == 0);
+            return (returnErrors);
+        };
+
+        // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
+        let params = (new URL(document.location)).searchParams
+
+        // Execute function when on window load 
+        // Function for displaying error message and setting inputs
+        window.onload = function () {
+            // Get the 'errorsJSONstring' from URL parameters
+            let errorsJSONString = params.get('errorsJSONstring');
+
+            // Check if 'errorsJSONstring' exists and parse it
+            if (errorsJSONString) {
+                // convert the JSON-formatted string into a JavaScript object and access the 'allZeros' property
+                let allZerosError = JSON.parse(errorsJSONString)?.allZeros;
+
+                // If 'allZerosError' exists, display the error message
+                if (allZerosError) {
+                    // Update the content of an HTML element with the ID 'allZerosError
+                    document.getElementById('allZerosError').innerText = allZerosError;
+                }
+            }
+
+            // Loop through products to display errors below corresponding quantity inputs
+            for (let i = 0; i < products.length; i++) {
+                // Get the quantity input element for the current product
+                let quantityInput = document.getElementById(`quantity${i}`);
+                // Get the error span element for the current product
+                let errorSpan = document.getElementById(`error${i}`);
+
+                // Check if there is an error message for the current quantity input 
+                if (params.has('quantity' + i)) {
+                    // Set the value of the quantity input from the URL parameter
+                    quantityInput.value = params.get('quantity' + i);
+                }
+
+                // Check if there are error messages in the URL parameters
+                if (params.has("errorsJSONstring")) {
+                    // Parse the JSON string containing error messages into an object
+                    let errorsObject = JSON.parse(params.get("errorsJSONstring"));
+                    //Display error in purchase button, IR4
+                    document.getElementById('purchase_button').value = "Please Select Some Items to Purchase";
+
+
+                    // Check if there is an error message for the current quantity input 
+                    if (errorsObject[`quantity${i}`]) {
+                        // Display the error message
+                        errorSpan.innerText = errorsObject[`quantity${i}`];
+                        //Display error in purchase button, IR4
+                        document.getElementById('purchase_button').value = "Select Non-Negative Integers";
+                    }
+
+                }
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <h3>BY.SOFIE</h3>
+    </header>
+
+
+
+    <section class="slider_section">
+        <div class="col-md-7">
+            <div class="detail-box">
+                <table>
+                    <tr>
+                        <td>
+                            <h1>
+                                WELCOME TO BY.SOFIE <br>
+                                accessories shop
+                            </h1>
+                            <p>
+                                Our hats and bags are custom painted in your favourite colors. <br>
+                                Please scroll further down to see our products.
+                            </p>
+                        </td>
+                        <td>
+                            <img src="./images/flower_bag.jpg" style="width: 400px; margin-left: 300px;">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </section>
+
+
+    <h4>LATEST PRODUCTS</h4>
+    <div style="text-align: center;">
+        <p id="allZerosError" style="color: red;"></p>
+    </div>
+
+    <form action="/purchase" method="POST">
+        <div class="products-container">
+            <script>
+                //Loop to display products, incorporated IR 1
+                for (let i = 0; i < products.length; i++) {
+                    document.write(`
+                    <section class="item">
+                        <h2>${products[i].name}</h2>
+                        <p>$${products[i].price}</p>
+                        <img src="${products[i].image}">
+                        <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+                        <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
+                        <p>Total Quantity Sold: ${products[i].total_sold}</p>
+                        <span id="error${i}" style="color: red;"></span>
+                    </section>
+                    `);
+                }
+            </script>
+        </div>
+        </main>
+</body>
+<footer style="text-align: center;">
+    <br>
+    <input type="submit" value="Purchase!" id="purchase_button" class="purchase_button">
+    <br>
+</footer>
+</form>
+
+</html>
