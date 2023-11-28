@@ -90,6 +90,8 @@ app.post("/purchase", function (request, response) {
       if (isNonNegInt(qty) === false) {
          // If not, record the error message in the 'errors' object
          errors['quantity' + i] = isNonNegInt(qty, true);
+         //Return errors in console
+         console.log(errors);
       } // If the quantity input is a non-negative integer, proceed to the next check
       else if (parseInt(qty) > products[i].quantity_available) {
          // Check if the entered quantity exceeds the available quantity for the product
