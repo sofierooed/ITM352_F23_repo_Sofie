@@ -141,10 +141,8 @@
 
                 // Compute variable for shipping
                 let shipping;
-                if (subtotal < 500) {
-                    shipping = 20;
-                } else if (subtotal < 2000) {
-                    shipping = 50;
+                if (subtotal > 700) {
+                    shipping = 0;
                 } else {
                     shipping = 0.05 * subtotal;
                 }
@@ -190,6 +188,7 @@
                     <script>document.write(grand_total.toFixed(2))</script>
                 </td>
             </tr>
+            <!--IR 5-->
             <tr class="hover_info">
                 <td>
                     <div>
@@ -203,8 +202,7 @@
     <br>
 </body>
 <footer>
-    Shipping policy: A subtotal $0 - $499.00 will be $20 shipping. A subtotal $500.00 - $1999.00 will be $50 shipping
-    Subtotals over $2000 will be charged 5% of the subtotal amount
+    Shipping policy: Free shipping with a sub total over $700. All orders below will have a 5% shipping fee.
 </footer>
 
 </html>
