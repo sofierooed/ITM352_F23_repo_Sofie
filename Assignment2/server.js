@@ -1,7 +1,7 @@
 /*
    Author: Sofie Røed
    Purpose: Surver.js file to run server for webshop
-   Assignment 1
+   Assignment 2
 */
 
 
@@ -124,8 +124,8 @@ app.post("/purchase", function (request, response) {
       // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
       // Retrieved from lab 12
       let qstr = qs.stringify(request.body);
-      // Redirect to the invoice.html page with the query string containing the purchase details
-      response.redirect(`invoice.html?${qstr}`);
+      // Redirect to the login.html page with the query string containing the purchase details
+      response.redirect(`login.html?${qstr}`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -140,6 +140,41 @@ app.post("/purchase", function (request, response) {
 
 });
 
+//Process login information, validate the username and password
+app.post("/login", function (request, response, next) {
+	// output the data in the request body (quantities) to the console
+	console.log(request.body);
+
+   //Set no errors at the beginning
+   let errors = {};
+
+   // Set username and password to variables, format username as lowercase so input is not validated incorrectly
+	let username = request.body["username"].toLowerCase();
+	let password = request.body["password"];
+
+   //Validate input in login form
+   //Check if username field is blank, add to error
+   if (username == "") {
+		errors[`email_error`] = `Enter an email address!`;
+
+   } // If not blank, check if username entered is a valid email address based on assignment 2 directions
+   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(username)) {
+		errors[`email_error`] = `${username} is an invalid email address!`;
+
+   } //If username not blank, and valid, check if username is in data
+   else if (user_data.hasOwnProperty(username) !== true) {
+		errors[`username_error`] = `${username} is not a registered email!`;
+
+   } //Validate password for the username 
+   else if (password !== user_data[username].password){
+      errors[`password_error`] = `Password is incorrect!`;
+
+   } //If valid, define variable name
+   else {
+		let name = user_data[username].name;
+	}
+   
+});
 
 
 

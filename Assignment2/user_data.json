@@ -1,19 +1,16 @@
 {
-    "itm352": {
+    "itm352@hawaii.edu": {
         "name": "ITM 352",
-        "password": "grader",
-        "email": "itm352@hawaii.edu"
+        "password": "grader"
     },
 
-    "sofierooed": {
+    "sofier@hawaii.edu": {
         "name": "Sofie Roeed",
-        "password": "sofiepassword",
-        "email": "sofier@hawaii.edu"
+        "password": "sofiepassword"
     },
 
-    "dport": {
+    "dport@hawaii.edu": {
         "name": "Dan Port",
-        "password": "portspassword",
-        "email": "dport@hawaii.edu"
+        "password": "portspassword"
     }
 }
