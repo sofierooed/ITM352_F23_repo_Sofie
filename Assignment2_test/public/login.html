@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Log in form </title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+
+<script>
+    var params = (new URL(document.location)).searchParams;
+    // on window onload execute function
+    window.onload = function () {
+        if (params.has("errorsJSONstring")) {
+            var errorsObject = JSON.parse(params.get("errorsJSONstring"));
+
+            // if there are errors in the validity of the email address format
+            if (typeof errorsObject[`email_error`] != "undefined") {
+                document.getElementById('email_error_span').innerHTML = errorsObject[`email_error`];
+            }// if there are password errors, output errors
+            else if (typeof errorsObject["password_error"] != "undefined") {
+                document.getElementById('password_error_span').innerHTML = errorsObject[`password_error`];
+                // make username sticky if password is wrong
+                document.getElementById('email').value = params.get('email');
+            }
+        }
+    }
+    //function to show welcome login alert if there are no errors
+    function showAlert(){
+        if(document.getElementById('password_error_span').innerHTML=="" && document.getElementById('email_error_span').innerHTML==""){
+            alert(`Logged in! Welcome back!`);
+            }};
+</script>
+
+<body>
+    <div class="wrapper">
+        <h2>Log in</h2>
+        <form action="/login" method="POST">
+            <div class="input-box">
+                <input type="text" placeholder="Enter your email" id="email" name="email" required>
+            </div>
+            <span style="color:red" id="email_error_span"></span>
+            <div class="input-box">
+                <input type="password" placeholder="Enter your password" id="password" name="password" required>
+            </div>
+            <span style="color:red" id="password_error_span"></span>
+            <div class="input-box button">
+                <input type="Submit" value="Log in">
+            </div>
+        </form>
+        <form action="./registration.html" method="GET">
+            <h2> New customer?</h2>
+            <div class="input-box button">
+                <input type="Submit" value="Register Now">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -147,7 +147,7 @@ app.post("/login", function (request, response, next) {
    let errors = {};
 
    // Set username and password to variables, format username as lowercase so input is not validated incorrectly
-   let the_username = request.body["email"].toLowerCase();
+   let the_username = request.body["username"].toLowerCase();
    let the_password = request.body["password"];
 
    //Validate input in login form
@@ -160,23 +160,42 @@ app.post("/login", function (request, response, next) {
       errors[`email_error`] = `${the_username} is an invalid email address!`;
 
    } //If username not blank, and valid, check if username is in data
-   else if (user_data.hasOwnProperty(the_username) !== true) {
+   else if (users_reg_data .hasOwnProperty(the_username) !== true) {
       errors[`email_error`] = `${the_username} is not a registered email!`;
 
    } //Validate password for the username 
    // If email correct, check if password is blank
-   else if (password == "") {
+   else if (the_password == "") {
 		errors[`password_error`] = `Enter your password!`;
    } //If correct email, and password not blank, check if password matches the username
-   else if (the_password !== user_data[the_username].password) {
+   else if (the_password !== users_reg_data [the_username].password) {
       errors[`password_error`] = `Password is incorrect!`;
 
    } //If valid password and email, define variable name
    else {
-      let name = user_data[the_username].name;
+      let name = users_reg_data [the_username].name;
+   }
+
+   //If no errors, redirect to invoice and put quantities, name, email in query string
+   if(Object.entries(errors).length === 0){
+      let qstr = qs.stringify(request.body);
+		let params = new URLSearchParams(qstr);
+		params.append("username", the_username);
+		params.append("name", name);
+		response.redirect("./invoice.html?" + params.toString());
+   }else{
+      let qstr = qs.stringify(request.body);
+      // add errors object to request.body to put into the querystring
+		//request.body["errorsJSONstring"] = JSON.stringify(errors);
+		let params = new URLSearchParams();
+		params.append("username", username);
+		params.append("name", name);
+		params.append("errorsJSONstring", JSON.stringify(errors));
+		response.redirect("./login.html?" + params.toString());
    }
 
 });
+
 
 
 

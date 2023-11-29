@@ -5,26 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Log in form  </title>
+    <title> Registration form  </title>
     <link rel="stylesheet" href="registration.css">
 </head>
 
 <body>
     <div class="wrapper">
-        <h2>Log in</h2>
-        <form action="/login" method="POST">
+        <h2>Registration</h2>
+        <form action="#">
             <div class="input-box">
-                <input type="text" placeholder="Enter your email" id="email" name="email" required>
+                <input type="text" name ="email" placeholder="Enter your email" required>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Create password" id="password" name="password" required>
+                <input type="text"  name="name" placeholder="Enter your full name" required>
             </div>
-            <div class="input-box button">
-                <input type="Submit" value="Log in" >
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Create password" required>
             </div>
-        </form>
-        <form action="./registration.html" method="GET">
-            <h2> New customer?</h2>
+            <div class="input-box">
+                <input type="password" placeholder="Confirm password" required>
+            </div>
             <div class="input-box button">
                 <input type="Submit" value="Register Now">
             </div>

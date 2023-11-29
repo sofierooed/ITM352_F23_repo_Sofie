@@ -1,0 +1,106 @@
+/*
+    Author: Sofie Røed
+    Purpose: Webshop interface and product display
+    Retrieved template inspiration from: https://www.free-css.com/free-css-templates/page293/giftos (10 Nov 2023)
+    Assignment 2
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Body styling */
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fdf2f6;
+}
+
+/* Header styling */
+header {
+    background-color: #fdf2f6;
+    text-align: left;
+    margin-top: 10px;
+}
+
+/* Heading styling */
+h1 {
+    color: #ff7eb9;
+    font-variant: small-caps;
+    font-size: 3em;
+    margin: 10px;
+    padding: 10px;
+}
+
+h3 {
+    color: black;
+    text-align: left;
+    font-size: 20px;
+}
+
+h4 {
+    color: black;
+    text-align: center;
+    font-size: 50px;
+}
+
+.col-md-7 p {
+    color: #fdf2f6;
+}
+
+
+/* Product container styling */
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Individual product item styling */
+.item {
+    width: 25%;
+    margin: 20px;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Image styling */
+img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Added border-radius for rounded images */
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    margin: 20px 0;
+    background-color: #ff7eb9; /* Added background color to footer for consistency */
+    padding: 10px; /* Added padding for better spacing */
+}
+
+/* Slider section styling */
+.slider_section {
+    background-color: #ff7eb9;
+    text-align: center;
+}
+
+
+/* Detail box styling */
+.detail-box {
+    text-align: left;
+    padding: 20px;
+}
+
+.detail-box h1 {
+    color: #fdf2f6;
+}
+
+.detail-box > p {
+    color: #fdf2f6;
+}
+
+
+
+
