@@ -4,7 +4,6 @@
    Assignment 2
 */
 
-
 //Express application setup
 const express = require('express');
 const app = express();
@@ -17,7 +16,6 @@ const fs = require('fs');
 let user_data_filename = 'user_data.json';
 let user_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
 let users_reg_data = JSON.parse(user_reg_data_JSON);
-
 
 //Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
@@ -47,8 +45,6 @@ function isNonNegInt(quantities, returnErrors) {
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return (returnErrors);
 };
-
-
 
 // Routing
 
@@ -144,38 +140,42 @@ app.post("/purchase", function (request, response) {
 
 //Process login information, validate the username and password
 app.post("/login", function (request, response, next) {
-	// output the data in the request body (quantities) to the console
-	console.log(request.body);
+   // output the data in the request body (quantities) to the console
+   console.log(request.body);
 
    //Set no errors at the beginning
    let errors = {};
 
    // Set username and password to variables, format username as lowercase so input is not validated incorrectly
-	let username = request.body["username"].toLowerCase();
-	let password = request.body["password"];
+   let the_username = request.body["email"].toLowerCase();
+   let the_password = request.body["password"];
 
    //Validate input in login form
    //Check if username field is blank, add to error
-   if (username == "") {
-		errors[`email_error`] = `Enter an email address!`;
+   if (the_username == "") {
+      errors[`email_error`] = `Enter an email address!`;
 
    } // If not blank, check if username entered is a valid email address based on assignment 2 directions
-   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(username)) {
-		errors[`email_error`] = `${username} is an invalid email address!`;
+   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(the_username)) {
+      errors[`email_error`] = `${the_username} is an invalid email address!`;
 
    } //If username not blank, and valid, check if username is in data
-   else if (user_data.hasOwnProperty(username) !== true) {
-		errors[`username_error`] = `${username} is not a registered email!`;
+   else if (user_data.hasOwnProperty(the_username) !== true) {
+      errors[`email_error`] = `${the_username} is not a registered email!`;
 
    } //Validate password for the username 
-   else if (password !== user_data[username].password){
+   // If email correct, check if password is blank
+   else if (password == "") {
+		errors[`password_error`] = `Enter your password!`;
+   } //If correct email, and password not blank, check if password matches the username
+   else if (the_password !== user_data[the_username].password) {
       errors[`password_error`] = `Password is incorrect!`;
 
-   } //If valid, define variable name
+   } //If valid password and email, define variable name
    else {
-		let name = user_data[username].name;
-	}
-   
+      let name = user_data[the_username].name;
+   }
+
 });
 
 
