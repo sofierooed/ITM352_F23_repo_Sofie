@@ -79,6 +79,7 @@ app.post("/purchase", function (request, response) {
    // Assuming no input
    let all_txtboxes = [];
 
+
    // Checking if the quantity for each product is a valid input, and recording any errors that occur
    for (let i in products) {
       let qty = request.body['quantity' + i];
@@ -115,11 +116,12 @@ app.post("/purchase", function (request, response) {
 
    // Check if there are no errors and at least one product has a valid quantity
    if (Object.entries(errors).length === 0 && !allZeros) {
-      // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
+      selected_qty = request.body;
+      response.redirect("login.html?" + qs.stringify(selected_qty));
       // Retrieved from lab 12
-      selected_qty = qs.stringify(request.body);
+      //selected_qty = qs.stringify(request.body);
       // Redirect to the LOGIN page with the query string containing the purchase details
-      response.redirect(`login.html?${selected_qty}`);
+      //response.redirect(`login.html?${selected_qty}`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -134,6 +136,7 @@ app.post("/purchase", function (request, response) {
 
 //Post to login page, inspiration from lab 13
 app.post("/login", function (request, response) {
+   console.log(request.body);
    // Process login form POST and redirect to logged in page if ok, back to login page if not
    let the_email = request.body['email'].toLowerCase();
    let the_password = request.body['password'];
@@ -143,54 +146,58 @@ app.post("/login", function (request, response) {
 
    //Validate user input, for every error, push message to object
    //If no email
-   if(the_email == ""){
+   if (the_email == "") {
       login_error[`email_error`] = `Enter an email address!`;
-   } //If email is in incorrect format
-   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(the_email)){
+   } //If email is in incorrect format, return error
+   //(Researched what regular expression could be used for the specific instance, created from W3 schools reference)
+   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(the_email)) {
       login_error[`email_error`] = `${the_email} is an invalid email address!`;
-   } // If not in user_data
-   else if (users_reg_data.hasOwnProperty(the_email) !== true){
+   } // If not in user_data, return error
+   else if (!users_reg_data.hasOwnProperty(the_email)) {
       login_error[`email_error`] = `${the_email} is not a registered email!`;
-   }
-   //If email has no errors, Validate password
-   //If password is blank
-   else if (the_password == ""){
+   } //If email has no errors, Validate password
+   //If password is blank, return error
+   else if (the_password == "") {
       login_error[`password_error`] = `Enter your password!`
-   } //If password do not match email
-   else if(the_password !== users_reg_data[the_email].password){
+   }//If password do not match email, return error
+   else if (the_password !== users_reg_data[the_email].password) {
       login_error[`password_error`] = `The password is incorrect!`;
    } else {
-		var the_name = users_reg_data[the_email].name;
-	}
+      var the_name = users_reg_data[the_email].name;
+   }
 
-
-   // if all login is valid, redirect to invoice and put quantities, name, email in query string
-	if (Object.keys(login_error).length === 0) {
-      // Update the inventory by subtracting the purchased quantity (moved outside the loop)
-		for (let i in products) {
+   // if no login errors, redirect to invoice and put quantities, name, email in query string
+   if (Object.entries(login_error).length === 0) {
+      // Update the inventory by subtracting the purchased quantity 
+      for (let i in products) {
          // tracking the quantity available by subtracting purchased quantities
-			products[i].quantity_available -= Number(selected_qty['quantity' + i]);
-			products[i].total_sold += Number(selected_qty['quantity' + i]);
-		}
+         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
+         products[i].quantity_available -= purchasedQty;
+         products[i].total_sold += purchasedQty;
+      }
 
-		let params = new URLSearchParams(selected_qty);
-		params.append("email", the_email);
-		params.append("name", the_name);
-		response.redirect("./invoice.html?" + params.toString());
-	}
-	// login is not valid, go back to login page and display error message
-	else {
-		// add errors object to request.body to put into the querystring
-		//request.body["errorsJSONstring"] = JSON.stringify(errors);
-		let params = new URLSearchParams();
-		params.append("email", the_email);
-		params.append("name", the_name);
-		params.append("errorsJSONstring", JSON.stringify(login_error));
-		response.redirect("./login.html?" + params.toString());
+      // Write the updated products array back to the product_data.json file (ChatGPT helped me convert the array into a JSOn string so the format of the file looks nicer)
+      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(products, null, 2));
 
-		// back to the order page and putting errors in the querystring
-		//response.redirect("./login.html?" + querystring.stringify(errors));
-	}
+
+      let params = new URLSearchParams(selected_qty);
+      params.append("email", the_email);
+      params.append("name", the_name);
+      response.redirect("./invoice.html?" + params.toString());
+   }
+   // login is not valid, go back to login page and display error message
+   else {
+      // add errors object to request.body to put into the querystring
+      //request.body["errorsJSONstring"] = JSON.stringify(errors);
+      let params = new URLSearchParams();
+      params.append("email", the_email);
+      params.append("name", the_name);
+      params.append("errorsJSONstring", JSON.stringify(login_error));
+      response.redirect("./login.html?" + params.toString());
+
+      // back to the order page and putting errors in the querystring
+      //response.redirect("./login.html?" + querystring.stringify(errors));
+   }
 
 
 });
@@ -216,3 +223,10 @@ app.use(express.static(__dirname + '/public'));
 
 // Start server
 app.listen(8080, () => console.log(`listening on port 8080`));
+
+/*
+   } //IR 2 - If not passwords have at least one number and one special character, return error
+   //(Researched what regular expression could be used for the specific instance, created from W3 schools reference)
+   else if(!/(?=.*\d)(?=.*[\W_])/.test(the_password)){
+      login_error[`password_error`] = `Password must contain at least one number and one special character!`;
+*/

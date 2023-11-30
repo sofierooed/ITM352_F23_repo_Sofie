@@ -4,6 +4,16 @@ const app = express();
 const fs = require('fs');
 let users_reg_data = {};
 let user_data_filename = 'user_data.json';
+
+//Add new user
+let username = 'newuser';
+users_reg_data[username] = {};
+users_reg_data[username].password = 'newpass';
+users_reg_data[username].email = 'newuser@user.com';
+// Add it to user_data.json
+fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
+
+
 //If the user data file exist, read it and parse it
 if (fs.existsSync(user_data_filename)) {
     //Get filesize and print
@@ -73,6 +83,26 @@ app.post("/register", function (request, response) {
     users_reg_data[username].email = request.body.email;
     // Add it to user_data.json
     fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
+
+    // Check if the email address is already taken
+    if (!validateEmail(request.body.email)) {
+        reg_errors.push('Please enter a valid email address');
+    } else if (user_data.hasOwnProperty(request.body.email.toLowerCase())) {
+        reg_errors.push('This email address is already registered. Please use a different email address');
+    }
+
+    // Check if password and confirm password match
+    if (request.body.password !== request.body.repeat_password) {
+        reg_errors.push('Passwords do not match.');
+    }
+
+    if (Object.keys(reg_errors).length == 0) {
+        user_data[username] = {};
+        user_data[username].name = request.body.name;
+        user_data[username].password = request.body.password;
+        user_data[username].last_login = '';
+        user_data[username].login_count = 0;
+        fs.writeFileSync(filename, JSON.stringify(user_data));
 
 });
 

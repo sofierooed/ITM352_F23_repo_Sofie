@@ -1,8 +1,9 @@
 /*
    Author: Sofie Røed
    Purpose: Surver.js file to run server for webshop
-   Assignment 2
+   Assignment 1
 */
+
 
 //Express application setup
 const express = require('express');
@@ -10,12 +11,6 @@ const app = express();
 // Importing the 'querystring' module to provide utilities for parsing and formatting URL query strings. 
 // Retrieved from class.
 const qs = require('querystring');
-
-//Filesync setup and load user data for login
-const fs = require('fs');
-let user_data_filename = 'user_data.json';
-let user_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
-let users_reg_data = JSON.parse(user_reg_data_JSON);
 
 //Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
@@ -45,6 +40,8 @@ function isNonNegInt(quantities, returnErrors) {
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return (returnErrors);
 };
+
+
 
 // Routing
 
@@ -86,8 +83,6 @@ app.post("/purchase", function (request, response) {
       if (isNonNegInt(qty) === false) {
          // If not, record the error message in the 'errors' object
          errors['quantity' + i] = isNonNegInt(qty, true);
-         //Return errors in console
-         console.log(errors);
       } // If the quantity input is a non-negative integer, proceed to the next check
       else if (parseInt(qty) > products[i].quantity_available) {
          // Check if the entered quantity exceeds the available quantity for the product
@@ -122,8 +117,8 @@ app.post("/purchase", function (request, response) {
       // Convert the key-value pairs in the 'request.body' object into a URL-encoded query string
       // Retrieved from lab 12
       let qstr = qs.stringify(request.body);
-      // Redirect to the login.html page with the query string containing the purchase details
-      response.redirect(`login.html?${qstr}`);
+      // Redirect to the invoice.html page with the query string containing the purchase details
+      response.redirect(`invoice.html?${qstr}`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -135,64 +130,6 @@ app.post("/purchase", function (request, response) {
 
    // Console.log the new inventory
    console.log("New Inventory:", products);
-
-});
-
-//Process login information, validate the username and password
-app.post("/login", function (request, response, next) {
-   // output the data in the request body (quantities) to the console
-   console.log(request.body);
-
-   //Set no errors at the beginning
-   let errors = {};
-
-   // Set username and password to variables, format username as lowercase so input is not validated incorrectly
-   let the_username = request.body["username"].toLowerCase();
-   let the_password = request.body["password"];
-
-   //Validate input in login form
-   //Check if username field is blank, add to error
-   if (the_username == "") {
-      errors[`email_error`] = `Enter an email address!`;
-
-   } // If not blank, check if username entered is a valid email address based on assignment 2 directions
-   else if (!/^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(the_username)) {
-      errors[`email_error`] = `${the_username} is an invalid email address!`;
-
-   } //If username not blank, and valid, check if username is in data
-   else if (users_reg_data .hasOwnProperty(the_username) !== true) {
-      errors[`email_error`] = `${the_username} is not a registered email!`;
-
-   } //Validate password for the username 
-   // If email correct, check if password is blank
-   else if (the_password == "") {
-		errors[`password_error`] = `Enter your password!`;
-   } //If correct email, and password not blank, check if password matches the username
-   else if (the_password !== users_reg_data [the_username].password) {
-      errors[`password_error`] = `Password is incorrect!`;
-
-   } //If valid password and email, define variable name
-   else {
-      let name = users_reg_data [the_username].name;
-   }
-
-   //If no errors, redirect to invoice and put quantities, name, email in query string
-   if(Object.entries(errors).length === 0){
-      let qstr = qs.stringify(request.body);
-		let params = new URLSearchParams(qstr);
-		params.append("username", the_username);
-		params.append("name", name);
-		response.redirect("./invoice.html?" + params.toString());
-   }else{
-      let qstr = qs.stringify(request.body);
-      // add errors object to request.body to put into the querystring
-		//request.body["errorsJSONstring"] = JSON.stringify(errors);
-		let params = new URLSearchParams();
-		params.append("username", username);
-		params.append("name", name);
-		params.append("errorsJSONstring", JSON.stringify(errors));
-		response.redirect("./login.html?" + params.toString());
-   }
 
 });
 
