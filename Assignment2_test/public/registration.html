@@ -15,24 +15,21 @@
     window.onload = function () {
         console.log('Window loaded!');
         if (params.has("errorsJSONstring")) {
-            var errorsObject = JSON.parse(params.get("errorsJSONstring"));
+            let errorsObject = JSON.parse(params.get("errorsJSONstring"));
+            console.log('Errors Object:', errorsObject);
 
             // if there are errors in the validity of the email address format
             if (typeof errorsObject[`email_error`] != "undefined") {
                 document.getElementById('email_error_span').innerHTML = errorsObject['email_error'];
-            } else if (typeof errorsObject[`name_error`] != "undefined") {
+            } //Name error
+            else if (typeof errorsObject[`name_error`] != "undefined") {
                 document.getElementById('name_error_span').innerHTML = errorsObject[`name_error`];
-                // make username sticky if password is wrong
-                document.getElementById('email').value = params.get('email');
-            } else if (typeof errorsObject[`password_error`] != "undefined") {
+            } //Password error
+            else if (typeof errorsObject[`password_error`] != "undefined") {
                 document.getElementById('password_error_span').innerHTML = errorsObject[`password_error`];
-                // make username sticky if password is wrong
-                document.getElementById('email').value = params.get('email');
-            }// if there are password errors, output errors
+            }// if there are repeat password errors, output errors
             else if (typeof errorsObject[`repeatpassword_error`] != "undefined") {
                 document.getElementById('repeatpassword_error_span').innerHTML = errorsObject[`repeatpassword_error`];
-                // make username sticky if password is wrong
-                document.getElementById('email').value = params.get('email');
             }
         }
     }

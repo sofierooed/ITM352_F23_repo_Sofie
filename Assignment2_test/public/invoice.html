@@ -37,6 +37,10 @@
         let quantities = [];
         let subtotal = 0;
 
+        //variables for personalized invoice
+        let name = params.get('name');
+        let email = params.get('email');
+
         //Create loop to generate the quanitities array
         for (let i = 0; i < products.length; i++) {
             paramName = `quantity${i}`;
@@ -98,8 +102,9 @@
                                 by.Sofie
                             </td>
                             <td class="invoice-created">
-                                Invoice<br />
-                                Created: <span id="invoiceDate"></span><br />
+                                <script>document.write(`Thank you for your purchase ${name}`)</script> <br />
+                                <script>document.write(`Your invoice is emailed to ${email}`)</script> <br />
+                                <span id="invoiceDate"></span><br />
                             </td>
                         </tr>
                     </table>

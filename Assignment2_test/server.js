@@ -141,11 +141,12 @@ app.post("/purchase", function (request, response) {
 //-------------------------LOGIN-----------------------------
 
 //Post to login page, inspiration from lab 13
-app.post("/login", function (request, response) {
+app.post("/login", function (request, response, next) {
    console.log(request.body);
    // Process login form POST and redirect to logged in page if ok, back to login page if not
    let the_email = request.body['email'].toLowerCase();
    let the_password = request.body['password'];
+   let the_name;
 
    //Assume no errors (object)
    let login_error = {};
@@ -169,7 +170,7 @@ app.post("/login", function (request, response) {
    else if (the_password !== users_reg_data[the_email].password) {
       login_error[`password_error`] = `The password is incorrect!`;
    } else {
-      var the_name = users_reg_data[the_email].name;
+      the_name = users_reg_data[the_email].name;
    }
 
    // if no login errors, redirect to invoice and put quantities, name, email in query string
@@ -215,70 +216,69 @@ app.post("/login", function (request, response) {
 //-------------------------REGISTRATION-----------------------------
 
 //Post to registration page, inspiration from lab 13
-app.post("/register", function (request, response) {
+app.post("/register", function (request, response, next) {
    // process a simple register form
    //Add new user
-   let email = request.body["email"].toLowerCase();
-   let name = request.body["name"];
-   let password = request.body["password"];
-   let repeatpassword = request.body["repeatpassword"];
+   let the_email = request.body["email"].toLowerCase();
+   let the_name = request.body["name"];
+   let the_password = request.body["password"];
+   let the_repeatpassword = request.body["repeatpassword"];
 
    let successful_reg = []; //Empty succesfull registration
 
-   let registration_errors = []; // an empty error to store errors
+   let registration_errors = {}; // an empty error to store errors
 
    //Validate email
    //From w3resource - (Email Validation)
-   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false) {
+   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(the_email) == false) {
       registration_errors[`email_error`] = `Please enter a valid email address`;
    } //Validate that there is an input
-   else if (email === "") {
+   else if (the_email === "") {
       registration_errors[`email_error`] = `Please enter an email address`;
    } //Email adress is already registered
-   else if (typeof users_reg_data[email] != "undefined") {
-      registration_errors[`email_error`] = `${email} is already registered! Please enter a different email address.`;
+   else if (typeof users_reg_data[the_email] != "undefined") {
+      registration_errors[`email_error`] = `${the_email} is already registered! Please enter a different email address.`;
    }
 
    //Validate name
    //Name is blank
-   if (name === "") {
+   if (the_name === "") {
       registration_errors[`name_error`] = `Please enter a name`;
    } // name does not include both first and last, only letters (regex from ChatGPT)
-   else if (!/^[a-zA-Z]+\s+[a-zA-Z]+$/.test(name)) {
+   else if (!/^[a-zA-Z]+\s+[a-zA-Z]+$/.test(the_name)) {
       registration_errors[`name_error`] = `Please enter full name`;
    } // name length is greater than 30 characters or less than 2
-   else if (name.length > 30 || name.length < 2) {
+   else if (the_name.length > 30 || the_name.length < 2) {
       registration_errors[`name_error`] = `Name cannot be greater than 2 characters or less than 30 characters.`;
    }
 
    //Validate password
    //Password is blank
-   if (password === "") {
+   if (the_password === "") {
       registration_errors[`password_error`] = `Please enter a password`;
    } //Does not have a minimum of 10 characters maximum of 16.
-   else if (password.length > 16 || password.length < 10) {
+   else if (the_password.length > 16 || the_password.length < 10) {
       registration_errors[`password_error`] = `Password length must be between 10 and 16 characters!`;
    } //Does contain space (regex from chatgpt)
-   else if (!/^\S+$/.test(password)) {
+   else if (!/^\S+$/.test(the_password)) {
       registration_errors[`password_error`] = `Password cannot contain spaces`;
    } //IR2 - Require that passwords have at least one number and one special character (regex from chatgpt)
-   else if (!/^(?=.*\d)(?=.*\W).+$/.test(password)) {
+   else if (!/^(?=.*\d)(?=.*\W).+$/.test(the_password)) {
       registration_errors[`password`] = `Passwords must have at least one number and one special character`;
    } //Repeat password is blank
-   else if (repeatpassword === "") {
+   else if (the_repeatpassword === "") {
       registration_errors[`repeatpassword_error`] = `Please enter password again`;
    } //Passwords do not match
-   else if (repeatpassword !== password) {
+   else if (the_repeatpassword !== the_password) {
       registration_errors[`repeatpassword_error`] = `Passwords do not match`;
    }
 
-   console.log(registration_errors);
 
    //If no errors, go to invoice and send all info to querystring
    if (Object.entries(registration_errors).length === 0) {
-      users_reg_data[email] = {};
-      users_reg_data[email].name = request.body.name;
-      users_reg_data[email].password = request.body.password;
+      users_reg_data[the_email] = {};
+      users_reg_data[the_email].name = request.body.the_name;
+      users_reg_data[the_email].password = request.body.the_password;
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
 
       // push this to display when the user return to login after successfully registering a new account 
@@ -286,15 +286,27 @@ app.post("/register", function (request, response) {
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {
-      // If errors exist, redirect to registration page with errors
+      /*// If errors exist, redirect to registration page with errors
       request.body["registration_errors"] = JSON.stringify(registration_errors);
       let params = new URLSearchParams(request.body);
-      response.redirect("./registration.html?" + params.toString());
+      response.redirect("/registration.html?" + params.toString());
+      */
+      //Create a new URLSearchParams object
+      let params = new URLSearchParams();
+      //Append the "email" parameter with the value of the_email to the URLSearchParams object
+      params.append("email", the_email);
+      //Append the "name" parameter with the value of the_name to the URLSearchParams object
+      params.append("name", the_name);
+      //Append the "password" parameter with the value of the_name to the URLSearchParams object
+      params.append("password", the_password);
+      //Convert the login_error object to a JSON string and append it as "errorsJSONstring" parameter
+      params.append("errorsJSONstring", JSON.stringify(registration_errors));
+      //Redirect the user to the "./login.html" page with the parameters as part of the URL
+      response.redirect("/registration.html?" + params.toString());
    }
 }
 
 );
-
 
 
 // Route all other GET requests to files in public
