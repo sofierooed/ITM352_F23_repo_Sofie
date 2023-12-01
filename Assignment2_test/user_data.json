@@ -1,16 +1,18 @@
 {
-    "itm352@hawaii.edu": {
-        "name": "ITM 352",
-        "password": "grader"
-    },
-
-    "sofier@hawaii.edu": {
-        "name": "Sofie Roeed",
-        "password": "sofiepassword"
-    },
-
-    "dport@hawaii.edu": {
-        "name": "Dan Port",
-        "password": "portspassword"
-    }
+  "itm352@hawaii.edu": {
+    "name": "ITM 352",
+    "password": "grader"
+  },
+  "sofier@hawaii.edu": {
+    "name": "Sofie Roeed",
+    "password": "sofiepassword"
+  },
+  "dport@hawaii.edu": {
+    "name": "Dan Port",
+    "password": "portspassword"
+  },
+  "sofierooed@gmail.com": {
+    "name": "Sofie Roeed",
+    "password": "Vinter123!"
+  }
 }

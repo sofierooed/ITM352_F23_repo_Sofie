@@ -22,8 +22,8 @@ let selected_qty = {};
 // load file system interface
 const fs = require('fs');
 let user_data_filename = 'user_data.json';
-let user_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
-let users_reg_data = JSON.parse(user_reg_data_JSON);
+let users_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
+let users_reg_data = JSON.parse(users_reg_data_JSON);
 
 
 
@@ -69,6 +69,9 @@ app.get("/product_data.js", function (request, response, next) {
    var products_str = `var products = ${JSON.stringify(products_array)};`;
    response.send(products_str);
 });
+
+
+//-------------------------PURCHASE-----------------------------
 
 // Process purchase request (validate quantities, check quantity available)
 app.post("/purchase", function (request, response) {
@@ -126,13 +129,16 @@ app.post("/purchase", function (request, response) {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
       // Redirect back to the product display page with the errors in the query string to be able to display relevant errors
-      response.redirect(
-         "./product_display.html?" + qs.stringify(request.body)
+      response.redirect("./product_display.html?" + qs.stringify(request.body)
       );
    }
 
 
 });
+
+
+
+//-------------------------LOGIN-----------------------------
 
 //Post to login page, inspiration from lab 13
 app.post("/login", function (request, response) {
@@ -176,45 +182,125 @@ app.post("/login", function (request, response) {
          products[i].total_sold += purchasedQty;
       }
 
-      // Write the updated products array back to the product_data.json file (ChatGPT helped me convert the array into a JSOn string so the format of the file looks nicer)
+      // Write the updated products array back to the product_data.json file 
+      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
       fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(products, null, 2));
 
-
+      //Create a new URLSearchParams object using the selected_qty parameter
       let params = new URLSearchParams(selected_qty);
+      //Append the "email" parameter with the value of the_email to the URLSearchParams object
       params.append("email", the_email);
+      //Append the "name" parameter with the value of the_name to the URLSearchParams object
       params.append("name", the_name);
+      //Redirect the user to the "./invoice.html" page with the parameters as part of the URL
       response.redirect("./invoice.html?" + params.toString());
-   }
-   // login is not valid, go back to login page and display error message
+   } // login is not valid, go back to login page and display error message
    else {
-      // add errors object to request.body to put into the querystring
-      //request.body["errorsJSONstring"] = JSON.stringify(errors);
+      //Create a new URLSearchParams object
       let params = new URLSearchParams();
+      //Append the "email" parameter with the value of the_email to the URLSearchParams object
       params.append("email", the_email);
+      //Append the "name" parameter with the value of the_name to the URLSearchParams object
       params.append("name", the_name);
+      //Convert the login_error object to a JSON string and append it as "errorsJSONstring" parameter
       params.append("errorsJSONstring", JSON.stringify(login_error));
+      //Redirect the user to the "./login.html" page with the parameters as part of the URL
       response.redirect("./login.html?" + params.toString());
 
-      // back to the order page and putting errors in the querystring
-      //response.redirect("./login.html?" + querystring.stringify(errors));
    }
 
 
 });
+
+//-------------------------REGISTRATION-----------------------------
 
 //Post to registration page, inspiration from lab 13
 app.post("/register", function (request, response) {
    // process a simple register form
    //Add new user
-   let email = request.body.email;
-   users_reg_data[email] = {};
-   users_reg_data[email].password = request.body.password;
-   users_reg_data[email].email = request.body.email;
-   // Add it to user_data.json
-   fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
+   let email = request.body["email"].toLowerCase();
+   let name = request.body["name"];
+   let password = request.body["password"];
+   let repeatpassword = request.body["repeatpassword"];
 
-});
+   let successful_reg = []; //Empty succesfull registration
 
+   let registration_errors = []; // an empty error to store errors
+
+   //Validate email
+   //From w3resource - (Email Validation)
+   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false) {
+      registration_errors[`email_error`] = `Please enter a valid email address`;
+   } //Validate that there is an input
+   else if (email === "") {
+      registration_errors[`email_error`] = `Please enter an email address`;
+   } //Email adress is already registered
+   else if (typeof users_reg_data[email] != "undefined") {
+      registration_errors[`email_error`] = `${email} is already registered! Please enter a different email address.`;
+   }
+
+   //Validate name
+   //Name is blank
+   if (name === "") {
+      registration_errors[`name_error`] = `Please enter a name`;
+   } // name does not include both first and last, only letters (regex from ChatGPT)
+   else if (!/^[a-zA-Z]+\s+[a-zA-Z]+$/.test(name)) {
+      registration_errors[`name_error`] = `Please enter full name`;
+   } // name length is greater than 30 characters or less than 2
+   else if (name.length > 30 || name.length < 2) {
+      registration_errors[`name_error`] = `Name cannot be greater than 2 characters or less than 30 characters.`;
+   }
+
+   //Validate password
+   //Password is blank
+   if (password === "") {
+      registration_errors[`password_error`] = `Please enter a password`;
+   } //Does not have a minimum of 10 characters maximum of 16.
+   else if (password.length > 16 || password.length < 10) {
+      registration_errors[`password_error`] = `Password length must be between 10 and 16 characters!`;
+   } //Does contain space (regex from chatgpt)
+   else if (!/^\S+$/.test(password)) {
+      registration_errors[`password_error`] = `Password cannot contain spaces`;
+   } //IR2 - Require that passwords have at least one number and one special character (regex from chatgpt)
+   else if (!/^(?=.*\d)(?=.*\W).+$/.test(password)) {
+      registration_errors[`password`] = `Passwords must have at least one number and one special character`;
+   } //Repeat password is blank
+   else if (repeatpassword === "") {
+      registration_errors[`repeatpassword_error`] = `Please enter password again`;
+   } //Passwords do not match
+   else if (repeatpassword !== password) {
+      registration_errors[`repeatpassword_error`] = `Passwords do not match`;
+   }
+
+   console.log(registration_errors);
+
+   //If no errors, go to invoice and send all info to querystring
+   if (Object.entries(registration_errors).length === 0) {
+      users_reg_data[email] = {};
+      users_reg_data[email].name = request.body.name;
+      users_reg_data[email].password = request.body.password;
+      fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
+
+      // push this to display when the user return to login after successfully registering a new account 
+      successful_reg.push(`Your account has been registered!`)
+      response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
+   }
+   else if ((registration_errors).length > 0) {
+      //Create a new URLSearchParams object
+      let params = new URLSearchParams();
+      //Append the "email" parameter with the value to the URLSearchParams object
+      params.append("email", email);
+      params.append("name", name);
+      params.append("password", password);
+      params.append("repeatpassword", repeatpassword);
+      //Convert the login_error object to a JSON string and append it as "errorsJSONstring" parameter
+      params.append("errorsJSONstring", JSON.stringify(registration_errors));
+      //Redirect the user to the "./registration.html" page with the parameters as part of the URL
+      response.redirect("./registration.html?" + params.toString());
+   }
+}
+
+);
 
 
 
@@ -224,9 +310,3 @@ app.use(express.static(__dirname + '/public'));
 // Start server
 app.listen(8080, () => console.log(`listening on port 8080`));
 
-/*
-   } //IR 2 - If not passwords have at least one number and one special character, return error
-   //(Researched what regular expression could be used for the specific instance, created from W3 schools reference)
-   else if(!/(?=.*\d)(?=.*[\W_])/.test(the_password)){
-      login_error[`password_error`] = `Password must contain at least one number and one special character!`;
-*/

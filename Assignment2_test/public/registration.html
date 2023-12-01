@@ -5,25 +5,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Registration form  </title>
+    <title> Registration form </title>
     <link rel="stylesheet" href="registration.css">
 </head>
+
+<script>
+    var params = (new URL(document.location)).searchParams;
+    // on window onload execute function
+    window.onload = function () {
+        console.log('Window loaded!');
+        if (params.has("errorsJSONstring")) {
+            var errorsObject = JSON.parse(params.get("errorsJSONstring"));
+
+            // if there are errors in the validity of the email address format
+            if (typeof errorsObject[`email_error`] != "undefined") {
+                document.getElementById('email_error_span').innerHTML = errorsObject['email_error'];
+            } else if (typeof errorsObject[`name_error`] != "undefined") {
+                document.getElementById('name_error_span').innerHTML = errorsObject[`name_error`];
+                // make username sticky if password is wrong
+                document.getElementById('email').value = params.get('email');
+            } else if (typeof errorsObject[`password_error`] != "undefined") {
+                document.getElementById('password_error_span').innerHTML = errorsObject[`password_error`];
+                // make username sticky if password is wrong
+                document.getElementById('email').value = params.get('email');
+            }// if there are password errors, output errors
+            else if (typeof errorsObject[`repeatpassword_error`] != "undefined") {
+                document.getElementById('repeatpassword_error_span').innerHTML = errorsObject[`repeatpassword_error`];
+                // make username sticky if password is wrong
+                document.getElementById('email').value = params.get('email');
+            }
+        }
+    }
+</script>
+
 
 <body>
     <div class="wrapper">
         <h2>Registration</h2>
-        <form action="#">
+        <form action="/register" method="POST">
             <div class="input-box">
-                <input type="text" name ="email" placeholder="Enter your email" required>
+                <input type="text" name="email" placeholder="Enter your email" required>
+                <span style="color:red" id="email_error_span"></span>
             </div>
             <div class="input-box">
-                <input type="text"  name="name" placeholder="Enter your full name" required>
+                <input type="text" name="name" placeholder="Enter your full name" required>
+                <span style="color:red" id="name_error_span"></span>
             </div>
             <div class="input-box">
                 <input type="password" name="password" placeholder="Create password" required>
+                <span style="color:red" id="password_error_span"></span>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Confirm password" required>
+                <input type="password" name="repeatpassword" placeholder="Confirm password" required>
+                <span style="color:red" id="repeatpassword_error_span"></span>
             </div>
             <div class="input-box button">
                 <input type="Submit" value="Register Now">
