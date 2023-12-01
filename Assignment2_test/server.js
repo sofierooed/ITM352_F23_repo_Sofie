@@ -239,10 +239,9 @@ app.post("/register", function (request, response, next) {
    else if (typeof users_reg_data[the_email] != "undefined") {
       registration_errors[`email_error`] = `${the_email} is already registered! Please enter a different email address.`;
    }
-
    //Validate name
    //Name is blank
-   if (the_name === "") {
+   else if (the_name === "") {
       registration_errors[`name_error`] = `Please enter a name`;
    } // name does not include both first and last, only letters (regex from ChatGPT)
    else if (!/^[a-zA-Z]+\s+[a-zA-Z]+$/.test(the_name)) {
@@ -251,10 +250,9 @@ app.post("/register", function (request, response, next) {
    else if (the_name.length > 30 || the_name.length < 2) {
       registration_errors[`name_error`] = `Name cannot be greater than 2 characters or less than 30 characters.`;
    }
-
    //Validate password
    //Password is blank
-   if (the_password === "") {
+   else if (the_password === "") {
       registration_errors[`password_error`] = `Please enter a password`;
    } //Does not have a minimum of 10 characters maximum of 16.
    else if (the_password.length > 16 || the_password.length < 10) {
@@ -277,8 +275,8 @@ app.post("/register", function (request, response, next) {
    //If no errors, go to invoice and send all info to querystring
    if (Object.entries(registration_errors).length === 0) {
       users_reg_data[the_email] = {};
-      users_reg_data[the_email].name = request.body.the_name;
-      users_reg_data[the_email].password = request.body.the_password;
+      users_reg_data[the_email].name = the_name;
+      users_reg_data[the_email].password = the_password;
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
 
       // push this to display when the user return to login after successfully registering a new account 
@@ -286,11 +284,6 @@ app.post("/register", function (request, response, next) {
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {
-      /*// If errors exist, redirect to registration page with errors
-      request.body["registration_errors"] = JSON.stringify(registration_errors);
-      let params = new URLSearchParams(request.body);
-      response.redirect("/registration.html?" + params.toString());
-      */
       //Create a new URLSearchParams object
       let params = new URLSearchParams();
       //Append the "email" parameter with the value of the_email to the URLSearchParams object
