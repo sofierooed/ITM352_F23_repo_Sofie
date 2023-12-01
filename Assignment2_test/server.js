@@ -285,17 +285,10 @@ app.post("/register", function (request, response) {
       successful_reg.push(`Your account has been registered!`)
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
-   else if ((registration_errors).length > 0) {
-      //Create a new URLSearchParams object
-      let params = new URLSearchParams();
-      //Append the "email" parameter with the value to the URLSearchParams object
-      params.append("email", email);
-      params.append("name", name);
-      params.append("password", password);
-      params.append("repeatpassword", repeatpassword);
-      //Convert the login_error object to a JSON string and append it as "errorsJSONstring" parameter
-      params.append("errorsJSONstring", JSON.stringify(registration_errors));
-      //Redirect the user to the "./registration.html" page with the parameters as part of the URL
+   else {
+      // If errors exist, redirect to registration page with errors
+      request.body["registration_errors"] = JSON.stringify(registration_errors);
+      let params = new URLSearchParams(request.body);
       response.redirect("./registration.html?" + params.toString());
    }
 }
