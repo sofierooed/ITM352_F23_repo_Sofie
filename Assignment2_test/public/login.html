@@ -14,7 +14,7 @@
     // on window onload execute function
     window.onload = function () {
         if (params.has("errorsJSONstring")) {
-            var errorsObject = JSON.parse(params.get("errorsJSONstring"));
+            let errorsObject = JSON.parse(params.get("errorsJSONstring"));
 
             // if there are errors in the validity of the email address format
             if (typeof errorsObject[`email_error`] != "undefined") {
@@ -25,6 +25,8 @@
                 // make username sticky if password is wrong
                 document.getElementById('email').value = params.get('email');
             }
+        } else if (params.has("successful_reg")){
+            document.getElementById('reg_success').innerHTML = "Your account has been registered, please log in to complete your purchase!";
         }
     }
 
@@ -33,6 +35,7 @@
 <body>
     <div class="wrapper">
         <h2>Log in</h2>
+        <span style="color:palevioletred" id="reg_success"></span>
         <form action="/login" method="POST">
             <div class="input-box">
                 <input type="text" placeholder="Enter your email" id="email" name="email" required>

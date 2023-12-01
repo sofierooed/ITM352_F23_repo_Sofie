@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!--
+<!--
         Author: Sofie Røed
         Purpose: Invoice interface and data
         Retrieved template from: https://github.com/sparksuite/simple-html-invoice-template (10 Nov 2023)
@@ -28,8 +28,15 @@
             // Create a new Date object to represent the current date and time
             // Convert the date to a string using toDateString()
             let currentDate = new Date().toDateString();
+            // Assignment 2 IR 4
+            // Extract login_count and last_login from the URL parameters
+            let loginCount = params.get('login_count');
+            let lastLogin = params.get('last_login');
             // Set the innerHTML of the selected element to display the current date 
             dateElement.innerHTML = new Date().toDateString();
+            // Display login_count and last_login in the invoice
+            document.getElementById("loginCount").innerText = `Login Count: ${loginCount}`;
+            document.getElementById("lastLogin").innerText = `Last Login: ${lastLogin}`;
         });
 
         // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
@@ -62,7 +69,7 @@
                     let extended_price = quantity * products[i].price;
 
                     // Output a table row with product information and the calculated extended price, using a template string.
-                    //Included IR5 styled in css sheet
+                    //Included Assignment 1 IR5 styled in css sheet
                     document.write(`
                         <tr class="item">
                             <td width="43%">
@@ -91,7 +98,7 @@
     </script>
 
 
-    <!--Table to display invoice-->
+    <!--Table to display invoice, w personalization-->
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
             <tr class="top">
@@ -105,6 +112,8 @@
                                 <script>document.write(`Thank you for your purchase ${name}`)</script> <br />
                                 <script>document.write(`Your invoice is emailed to ${email}`)</script> <br />
                                 <span id="invoiceDate"></span><br />
+                                <span id="loginCount" style="color: hotpink;"></span><br />
+                                <span id="lastLogin" style="color: hotpink;"></span>
                             </td>
                         </tr>
                     </table>
@@ -193,11 +202,14 @@
                     <script>document.write(grand_total.toFixed(2))</script>
                 </td>
             </tr>
-            <!--IR 5-->
+            <!--Assignment 1, IR 5-->
             <tr class="hover_info">
                 <td>
                     <div>
                         *Hover over product icon for more information
+                    </div>
+                    <div class="logout">
+                        <button onclick="location.href = '/product_display.html'">Logout</button>
                     </div>
                 </td>
             </tr>

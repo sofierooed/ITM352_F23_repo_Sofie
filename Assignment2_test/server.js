@@ -120,7 +120,7 @@ app.post("/purchase", function (request, response) {
    // Check if there are no errors and at least one product has a valid quantity
    if (Object.entries(errors).length === 0 && !allZeros) {
       selected_qty = request.body;
-      response.redirect("login.html?" + qs.stringify(selected_qty));
+      response.redirect("/login.html?" + qs.stringify(selected_qty));
       // Retrieved from lab 12
       //selected_qty = qs.stringify(request.body);
       // Redirect to the LOGIN page with the query string containing the purchase details
@@ -129,11 +129,24 @@ app.post("/purchase", function (request, response) {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
       // Redirect back to the product display page with the errors in the query string to be able to display relevant errors
-      response.redirect("./product_display.html?" + qs.stringify(request.body)
+      response.redirect("/product_display.html?" + qs.stringify(request.body)
       );
    }
 
 
+});
+
+//No user may access invoice without logging in
+app.get('/invoice.html', function (request, response, next) {
+   let userEmail = request.query.email;
+
+   // Check if userEmail is not present in users_reg_data
+   if (!users_reg_data.hasOwnProperty(userEmail)) {
+      // Redirect to the login page
+      return response.redirect('/product_display.html');
+   } else {
+      next();
+   }
 });
 
 
@@ -175,12 +188,19 @@ app.post("/login", function (request, response, next) {
 
    // if no login errors, redirect to invoice and put quantities, name, email in query string
    if (Object.entries(login_error).length === 0) {
+      // Assignment2, IR4: keep track of the number of times a user how logged in and the last time that they logged in. 
+      // define variables for, and update the user's login count and last login time
+      users_reg_data[the_email]['login_count'] = users_reg_data[the_email]['login_count'] + 1;
+      users_reg_data[the_email]['last_login'] = new Date().toLocaleString();
+      // Write the updated users_reg_data back to the user_data.json file
+      fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
       // Update the inventory by subtracting the purchased quantity 
       for (let i in products) {
          // tracking the quantity available by subtracting purchased quantities
          let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
          products[i].quantity_available -= purchasedQty;
          products[i].total_sold += purchasedQty;
+
       }
 
       // Write the updated products array back to the product_data.json file 
@@ -193,6 +213,9 @@ app.post("/login", function (request, response, next) {
       params.append("email", the_email);
       //Append the "name" parameter with the value of the_name to the URLSearchParams object
       params.append("name", the_name);
+      // Include login_count and last_login in the URL parameters
+      params.append("login_count", users_reg_data[the_email]['login_count']);
+      params.append("last_login", users_reg_data[the_email]['last_login']);
       //Redirect the user to the "./invoice.html" page with the parameters as part of the URL
       response.redirect("./invoice.html?" + params.toString());
    } // login is not valid, go back to login page and display error message
@@ -260,7 +283,7 @@ app.post("/register", function (request, response, next) {
    } //Does contain space (regex from chatgpt)
    else if (!/^\S+$/.test(the_password)) {
       registration_errors[`password_error`] = `Password cannot contain spaces`;
-   } //IR2 - Require that passwords have at least one number and one special character (regex from chatgpt)
+   } //Assignment 2 IR2 - Require that passwords have at least one number and one special character (code from RTFMing)
    else if (!/^(?=.*\d)(?=.*\W).+$/.test(the_password)) {
       registration_errors[`password`] = `Passwords must have at least one number and one special character`;
    } //Repeat password is blank
@@ -273,6 +296,7 @@ app.post("/register", function (request, response, next) {
 
 
    //If no errors, go to invoice and send all info to querystring
+   // If no errors, go to invoice and send all info to query string
    if (Object.entries(registration_errors).length === 0) {
       users_reg_data[the_email] = {};
       users_reg_data[the_email].name = the_name;
@@ -281,6 +305,7 @@ app.post("/register", function (request, response, next) {
 
       // push this to display when the user return to login after successfully registering a new account 
       successful_reg.push(`Your account has been registered!`)
+      console.log("Saved: " + users_reg_data);
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {
@@ -300,6 +325,8 @@ app.post("/register", function (request, response, next) {
 }
 
 );
+
+
 
 
 // Route all other GET requests to files in public

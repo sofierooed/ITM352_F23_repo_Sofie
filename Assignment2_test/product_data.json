@@ -1,50 +1,50 @@
 [
   {
     "name": "Blue Bag",
-    "price": 500,
+    "price": 300,
     "image": "./images/bag_blue.jpg",
-    "quantity_available": 7,
+    "quantity_available": 50,
     "total_sold": 3,
     "description": "Handpainted beachbag with blue colors"
   },
   {
     "name": "Orange Bag",
-    "price": 500,
+    "price": 300,
     "image": "./images/bag_orange.jpg",
-    "quantity_available": 5,
-    "total_sold": 5,
+    "quantity_available": 45,
+    "total_sold": 10,
     "description": "Handpainted beachbag with orange colors"
   },
   {
     "name": "Purple Bag",
-    "price": 500,
+    "price": 300,
     "image": "./images/bag_purple.jpg",
-    "quantity_available": 8,
-    "total_sold": 2,
+    "quantity_available": 50,
+    "total_sold": 6,
     "description": "Handpainted beachbag with purple colors"
   },
   {
     "name": "Blue Hat",
-    "price": 300,
+    "price": 100,
     "image": "./images/hat_blue.jpg",
-    "quantity_available": 6,
-    "total_sold": 4,
+    "quantity_available": 48,
+    "total_sold": 6,
     "description": "Handpainted beachhat with blue colors"
   },
   {
     "name": "Orange Hat",
-    "price": 300,
+    "price": 100,
     "image": "./images/hat_orange.jpg",
-    "quantity_available": 3,
-    "total_sold": 7,
+    "quantity_available": 48,
+    "total_sold": 9,
     "description": "Handpainted beachhat with orange colors"
   },
   {
     "name": "Pink Hat",
-    "price": 300,
+    "price": 100,
     "image": "./images/hat_pink.jpg",
-    "quantity_available": 5,
-    "total_sold": 5,
+    "quantity_available": 48,
+    "total_sold": 9,
     "description": "Handpainted beachhat with pink colors"
   }
 ]
