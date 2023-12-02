@@ -2,7 +2,7 @@
     Author: Sofie Røed
     Purpose: Style for index page
     Retrieved template from: https://github.com/sparksuite/simple-html-invoice-template (10 Nov 2023)
-    Assignment 1
+    Assignment 2
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
@@ -10,7 +10,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "poppins", sans-serif;
+    font-family: "Poppins", sans-serif;
     background-color: #fdf2f6;
 }
 
@@ -46,7 +46,7 @@ h2 {
 
 a {
     text-decoration: none;
-    color: #333; 
+    color: #333;
 }
 
 img {
@@ -56,5 +56,3 @@ img {
 h1, h2, a {
     transition: color 0.3s;
 }
-
-

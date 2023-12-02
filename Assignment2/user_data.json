@@ -1,16 +1,26 @@
 {
-    "itm352@hawaii.edu": {
-        "name": "ITM 352",
-        "password": "grader"
-    },
-
-    "sofier@hawaii.edu": {
-        "name": "Sofie Roeed",
-        "password": "sofiepassword"
-    },
-
-    "dport@hawaii.edu": {
-        "name": "Dan Port",
-        "password": "portspassword"
-    }
+  "itm352@hawaii.edu": {
+    "name": "ITM 352",
+    "password": "grader",
+    "login_count": 0,
+    "last_login": ""
+  },
+  "sofier@hawaii.edu": {
+    "name": "Sofie Roeed",
+    "password": "sofiepassword",
+    "login_count": 2,
+    "last_login": "12/1/2023, 5:25:53 PM"
+  },
+  "dport@hawaii.edu": {
+    "name": "Dan Port",
+    "password": "portspassword",
+    "login_count": 0,
+    "last_login": ""
+  },
+  "leam@gmail.com": {
+    "name": "Lea Myhren",
+    "password": "lealea123!",
+    "login_count": "1",
+    "last_login": "12/1/2023, 3:40:24 PM"
+  }
 }

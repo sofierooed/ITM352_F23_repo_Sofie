@@ -135,20 +135,20 @@
     <form action="/purchase" method="POST">
         <div class="products-container">
             <script>
-                //Loop to display products, incorporated IR 1
+                //Loop to display products, incorporated Assignment 1 IR 1
                 for (let i = 0; i < products.length; i++) {
                     document.write(`
                     <section class="item">
                         <h2>${products[i].name}</h2>
                         <p>$${products[i].price}</p>
                         <img src="${products[i].image}">
-                        <p><label for="quantity${i}_label">Quantity Desired:</label></p>
+                        <p><label for="quantity${i}">Quantity Desired:</label></p>
                         <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
                         <p>Total Quantity Sold: ${products[i].total_sold}</p>
                         <p>Total Quantity Available: ${products[i].quantity_available}</p>
                         <span id="error${i}" style="color: red;"></span>
                     </section>
-                    `);
+    `);
                 }
             </script>
         </div>

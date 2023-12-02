@@ -4,13 +4,14 @@
     Retrieved template inspiration from: https://www.free-css.com/free-css-templates/page293/giftos (10 Nov 2023)
     Assignment 2
 */
+
 img{
     width: 20px;
     margin-right: 20px;
 }
 
 /* 
-    IR 5 - If the user hovers over the icon, have a popup window appear with a product description 
+    Assignment 1, IR 5 - If the user hovers over the icon, have a popup window appear with a product description 
     Inspiration from browserhistory WOD
 */ 
 .img_block .prod_description {
