@@ -9,24 +9,26 @@
     <link rel="stylesheet" href="registration.css">
 </head>
 
+
+
 <script>
     let params = (new URL(document.location)).searchParams;
     // on window onload execute function
-
     window.onload = function () {
         if (params.has("errorsJSONstring")) {
             let errorsObject = JSON.parse(params.get("errorsJSONstring"));
+            document.getElementById("submitbutton").value = "Continue";
+            // put the error messages in the span for the element where the error occurred
             for (let error in errorsObject) {
-                // put the error messages in the span for the element where the error occurred
-                if (error in errorsObject) {
-                    document.getElementById(`${error}_span`).innerHTML = errorsObject[error];
-
-                }
+                document.getElementById(`${error}_span`).innerHTML = errorsObject[error];
             }
         }
+
+        // Set input values based on query parameters so the values are sticky
+        document.getElementsByName("email")[0].value = params.get("email") || "";
+        document.getElementsByName("name")[0].value = params.get("name") || "";
     }
 </script>
-
 
 <body>
     <div class="wrapper">
@@ -60,7 +62,7 @@
             </div>
             <br>
             <div class="input-box button">
-                <input type="Submit" value="Register Now">
+                <input type="Submit" value="Register Now" id="submitbutton">
             </div>
         </form>
     </div>

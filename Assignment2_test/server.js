@@ -4,66 +4,59 @@
    Assignment 2
 */
 
-
-//Express application setup
+// Express application setup
 const express = require('express');
 const app = express();
-// Importing the 'querystring' module to provide utilities for parsing and formatting URL query strings. 
-// Retrieved from class.
-const qs = require('querystring');
+
+// Importing modules, retrieved from class
+const qs = require('querystring'); // Utilities for parsing and formatting URL query strings
 const url = require("url");
 
-//Load product data from JSON file
+// Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
 let products = products_array;
-let selected_qty = {};
+let selected_qty = {}; // Store selected quantities for further use
 
-//Filesync setup and load user data for login
-// load file system interface
+// File system setup and load user data for login
 const fs = require('fs');
-let user_data_filename = 'user_data.json';
-let users_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
-let users_reg_data = JSON.parse(users_reg_data_JSON);
-
+const user_data_filename = 'user_data.json';
+const users_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
+const users_reg_data = JSON.parse(users_reg_data_JSON);
 
 
 // Middleware to automatically decode data encoded in a POST request and allow access through request.body
-// Retrieved from lab 12.
+//From lab 12
 app.use(express.urlencoded({ extended: true }));
 
 // Function to check if quantities entered are whole numbers, not negative, and a number 
 // Retrieved from previous labs
 function isNonNegInt(quantities, returnErrors) {
-   // assume no errors at first
    let errors = [];
-   //Set quantities to 0 if no input (empty string)
+   
    if (quantities === '') {
       quantities = 0;
    }
-   // Check if string is a number value
-   if (Number(quantities) != quantities) errors.push(' Not a number');
-   // Check if it is non-negative
-   if (quantities < 0) errors.push(' Negative value');
-   // Check that it is an integer
-   if (parseInt(quantities) != quantities) errors.push(' Not an integer');
 
-   // Determine whether to return errors or a boolean indicating validation success
+   if (Number(quantities) != quantities) errors.push('Not a number');
+   if (quantities < 0) errors.push('Negative value');
+   if (parseInt(quantities) != quantities) errors.push('Not an integer');
+
    var returnErrors = returnErrors ? errors : (errors.length == 0);
-   return (returnErrors);
-};
+   return returnErrors;
+}
 
 
 
 // Routing
 
-// monitor all requests regardless of method and path
+// Log all requests regardless of method and path
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
    next();
 });
 
-// When the server receives a GET request for "/product_data.js", respond with a JavaScript string of data provided by the JSON file
-// Retrieved from lab 12
+// Respond with a JavaScript string of data provided by the JSON file when receiving a GET request for "/product_data.js"
+//From lab 12
 app.get("/product_data.js", function (request, response, next) {
    response.type('application/javascript');
    var products_str = `var products = ${JSON.stringify(products_array)};`;
@@ -77,9 +70,8 @@ app.get("/product_data.js", function (request, response, next) {
 app.post("/purchase", function (request, response) {
    console.log(`in purchase`, request.body); // See input in console for
 
-   // Assuming no errors (object)
+   // Assuming no errors (object), and no input
    let errors = {};
-   // Assuming no input
    let all_txtboxes = [];
 
 
@@ -110,7 +102,6 @@ app.post("/purchase", function (request, response) {
 
    // Check if all values in the 'all_txtboxes' array are equal to zero
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
-
    // Display an error if all quantities are zero
    if (allZeros) {
       errors['allZeros'] = 'No quantities were selected';
@@ -120,11 +111,8 @@ app.post("/purchase", function (request, response) {
    // Check if there are no errors and at least one product has a valid quantity
    if (Object.entries(errors).length === 0 && !allZeros) {
       selected_qty = request.body;
+      //Redirect to login with quanityt selected in qs
       response.redirect("/login.html?" + qs.stringify(selected_qty));
-      // Retrieved from lab 12
-      //selected_qty = qs.stringify(request.body);
-      // Redirect to the LOGIN page with the query string containing the purchase details
-      //response.redirect(`login.html?${selected_qty}`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -136,7 +124,7 @@ app.post("/purchase", function (request, response) {
 
 });
 
-//No user may access invoice without logging in
+// Ensure user cannot access the invoice without logging in
 app.get('/invoice.html', function (request, response, next) {
    let userEmail = request.query.email;
 
@@ -156,6 +144,7 @@ app.get('/invoice.html', function (request, response, next) {
 //Post to login page, inspiration from lab 13
 app.post("/login", function (request, response, next) {
    console.log(request.body);
+
    // Process login form POST and redirect to logged in page if ok, back to login page if not
    let the_email = request.body['email'].toLowerCase();
    let the_password = request.body['password'];
@@ -194,6 +183,7 @@ app.post("/login", function (request, response, next) {
       users_reg_data[the_email]['last_login'] = new Date().toLocaleString();
       // Write the updated users_reg_data back to the user_data.json file
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
+
       // Update the inventory by subtracting the purchased quantity 
       for (let i in products) {
          // tracking the quantity available by subtracting purchased quantities
@@ -235,7 +225,6 @@ app.post("/login", function (request, response, next) {
 
 
 });
-
 //-------------------------REGISTRATION-----------------------------
 
 //Post to registration page, inspiration from lab 13
@@ -248,8 +237,7 @@ app.post("/register", function (request, response, next) {
    let the_repeatpassword = request.body["repeatpassword"];
 
    let successful_reg = []; //Empty succesfull registration
-
-   let registration_errors = {}; // an empty error to store errors
+   let registration_errors = {}; // Empty error to store errors
 
    //Validate email
    //From w3resource - (Email Validation)
@@ -296,16 +284,17 @@ app.post("/register", function (request, response, next) {
 
 
    //If no errors, go to invoice and send all info to querystring
-   // If no errors, go to invoice and send all info to query string
    if (Object.entries(registration_errors).length === 0) {
       users_reg_data[the_email] = {};
       users_reg_data[the_email].name = the_name;
       users_reg_data[the_email].password = the_password;
+      users_reg_data[the_email].login_count = "";
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
 
       // push this to display when the user return to login after successfully registering a new account 
       successful_reg.push(`Your account has been registered!`)
       console.log("Saved: " + users_reg_data);
+      
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {
@@ -325,7 +314,6 @@ app.post("/register", function (request, response, next) {
 }
 
 );
-
 
 
 
