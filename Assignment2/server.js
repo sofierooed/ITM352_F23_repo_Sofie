@@ -273,7 +273,7 @@ app.post("/register", function (request, response, next) {
       registration_errors[`password_error`] = `Password cannot contain spaces`;
    } //Assignment 2 IR2 - Require that passwords have at least one number and one special character (code from RTFMing)
    else if (!/^(?=.*\d)(?=.*\W).+$/.test(the_password)) {
-      registration_errors[`password`] = `Passwords must have at least one number and one special character`;
+      registration_errors[`password_error`] = `Passwords must have at least one number and one special character`;
    } //Repeat password is blank
    else if (the_repeatpassword === "") {
       registration_errors[`repeatpassword_error`] = `Please enter password again`;
