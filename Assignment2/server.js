@@ -126,10 +126,10 @@ app.post("/purchase", function (request, response) {
 
 // Ensure user cannot access the invoice without logging in
 app.get('/invoice.html', function (request, response, next) {
-   let userEmail = request.query.email;
+   let the_email = request.query.email;
 
-   // Check if userEmail is not present in users_reg_data
-   if (!users_reg_data.hasOwnProperty(userEmail)) {
+   // Check if the_email is not present in users_reg_data
+   if (!users_reg_data.hasOwnProperty(the_email)) {
       // Redirect to the login page
       return response.redirect('/product_display.html');
    } else {
