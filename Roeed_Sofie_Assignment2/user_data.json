@@ -28,5 +28,11 @@
     "password": "elseelse1!",
     "login_count": "1",
     "last_login": "12/3/2023, 10:55:00 AM"
+  },
+  "hanne@gmail.no": {
+    "name": "Hanne Roeed",
+    "password": "hanne123!!",
+    "login_count": "1",
+    "last_login": "12/3/2023, 8:50:31 PM"
   }
 }
