@@ -1,5 +1,37 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
+.topnav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+.topnav h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ff7eb9;
+}
+
+.topnav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.topnav a:hover {
+    color: #ff7eb9;
+}
+
+.topnav a.active {
+    background-color: #ff7eb9;
+    color: white;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +49,7 @@ body {
 
 .wrapper {
     position: relative;
-    max-width: 430px;
+    max-width: 800px;
     width: 100%;
     background: #fff;
     padding: 34px;
