@@ -1,6 +1,5 @@
 {
-  "bags":
-  [
+  "bags": [
     {
       "name": "Blue Bag",
       "price": 300,
@@ -24,7 +23,7 @@
       "quantity_available": 42,
       "total_sold": 14,
       "description": "Handpainted beachbag with purple colors"
-    }, 
+    },
     {
       "name": "Neutral Bag",
       "price": 300,
@@ -32,7 +31,7 @@
       "quantity_available": 42,
       "total_sold": 14,
       "description": "Handpainted beachbag with neutral colors"
-    }, 
+    },
     {
       "name": "Pink Bag",
       "price": 300,
@@ -40,7 +39,7 @@
       "quantity_available": 42,
       "total_sold": 14,
       "description": "Handpainted beachbag with pink colors"
-    }, 
+    },
     {
       "name": "Turquoise Bag",
       "price": 300,
@@ -49,10 +48,8 @@
       "total_sold": 14,
       "description": "Handpainted beachbag with turquoise colors"
     }
-
-  ], 
-  "hats":
-  [
+  ],
+  "hats": [
     {
       "name": "Blue Hat",
       "price": 100,
@@ -76,7 +73,7 @@
       "quantity_available": 42,
       "total_sold": 15,
       "description": "Handpainted beachhat with pink colors"
-    }, 
+    },
     {
       "name": "Coral Hat",
       "price": 100,
@@ -84,14 +81,15 @@
       "quantity_available": 42,
       "total_sold": 15,
       "description": "Handpainted beachhat with coral colors"
-    },     {
+    },
+    {
       "name": "Neutral Hat",
       "price": 100,
       "image": "./images/hat_neutral.jpg",
       "quantity_available": 42,
       "total_sold": 15,
       "description": "Handpainted beachhat with neutral colors"
-    }, 
+    },
     {
       "name": "Black Hat",
       "price": 100,
@@ -101,8 +99,7 @@
       "description": "Handpainted beachhat with black colors"
     }
   ],
-  "towels":
-  [
+  "towels": [
     {
       "name": "Blue towel",
       "price": 200,
@@ -126,7 +123,7 @@
       "quantity_available": 47,
       "total_sold": 7,
       "description": "Beach towel with pink colors"
-    }, 
+    },
     {
       "name": "Purple towel",
       "price": 200,
@@ -134,7 +131,7 @@
       "quantity_available": 47,
       "total_sold": 7,
       "description": "Beach towel with purple colors"
-    },         
+    },
     {
       "name": "Black towel",
       "price": 200,
@@ -142,7 +139,7 @@
       "quantity_available": 47,
       "total_sold": 7,
       "description": "Beach towel with black colors"
-    }, 
+    },
     {
       "name": "Neutral towel",
       "price": 200,

@@ -136,7 +136,7 @@ app.get('/invoice.html', function (request, response, next) {
    // Check if the_email is not present in users_reg_data
    if (!users_reg_data.hasOwnProperty(the_email)) {
       // Redirect to the login page
-      return response.redirect('/index.html');
+      return response.redirect('/login.html');
    } else {
       next();
    }
