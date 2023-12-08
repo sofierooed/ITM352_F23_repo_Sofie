@@ -1,0 +1,139 @@
+/*
+    Author: Sofie Røed
+    Purpose: Style for index page
+    Retrieved template from: https://github.com/sparksuite/simple-html-invoice-template (10 Nov 2023)
+    Assignment 2
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.topnav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+}
+
+.topnav h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #ff7eb9;
+}
+
+.topnav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.topnav a:hover {
+    color: #ff7eb9;
+}
+
+.topnav a.active {
+    background-color: #ff7eb9;
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #fdf2f6;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3em;
+    color: #ff7eb9;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #ff7eb9;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 30%;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.column:hover {
+    transform: scale(1.1);
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+img {
+    width: 100%;
+}
+
+h1, h2, a {
+    transition: color 0.3s;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.product-info {
+    flex: 40%;
+    text-align: center;
+}
+
+.product-info h1 {
+    color: #ff7eb9;
+}
+
+.product-info p {
+    color: #ff7eb9;
+}
+
+.product-info a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff7eb9;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.product-info a:hover {
+    background-color: #e0568e;
+}
+
+.product-image {
+    flex: 40%;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+
+.product-image img {
+    width: 100%;
+}
+
+.product-container:hover .product-image {
+    transform: scale(1.1);
+}

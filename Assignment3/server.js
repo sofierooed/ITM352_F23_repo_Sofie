@@ -16,6 +16,9 @@ const url = require("url");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+//Set up session
+const session = require('express-session');
+
 // Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
 let products = products_array;
@@ -131,6 +134,7 @@ app.post("/purchase", function (request, response) {
 
 // Ensure user cannot access the invoice without logging in
 app.get('/invoice.html', function (request, response, next) {
+   //Retrieve email from cookie
    let the_email = request.query.email;
 
    // Check if the_email is not present in users_reg_data
