@@ -8,8 +8,8 @@
   "sofier@hawaii.edu": {
     "name": "Sofie Roeed",
     "password": "sofiepassword",
-    "login_count": 45,
-    "last_login": "12/11/2023, 11:36:32 AM"
+    "login_count": 47,
+    "last_login": "12/11/2023, 12:36:28 PM"
   },
   "dport@hawaii.edu": {
     "name": "Dan Port",
@@ -34,5 +34,11 @@
     "password": "hanne123!!",
     "login_count": "1",
     "last_login": "12/3/2023, 8:50:31 PM"
+  },
+  "hanne@gmail.kz": {
+    "name": "hanne roeed",
+    "password": "hannehanne123!",
+    "login_count": "1",
+    "last_login": "12/11/2023, 1:23:15 PM"
   }
 }

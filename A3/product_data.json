@@ -4,24 +4,24 @@
       "name": "Blue Bag",
       "price": 300,
       "image": "./images/bag_blue.jpg",
-      "quantity_available": 46,
-      "total_sold": 7,
+      "quantity_available": 45,
+      "total_sold": 8,
       "description": "Handpainted beachbag with blue colors"
     },
     {
       "name": "Orange Bag",
       "price": 300,
       "image": "./images/bag_orange.jpg",
-      "quantity_available": 39,
-      "total_sold": 16,
+      "quantity_available": 37,
+      "total_sold": 18,
       "description": "Handpainted beachbag with orange colors"
     },
     {
       "name": "Purple Bag",
       "price": 300,
       "image": "./images/bag_purple.jpg",
-      "quantity_available": 39,
-      "total_sold": 17,
+      "quantity_available": 38,
+      "total_sold": 18,
       "description": "Handpainted beachbag with purple colors"
     },
     {
@@ -78,24 +78,24 @@
       "name": "Coral Hat",
       "price": 100,
       "image": "./images/hat_coral.jpg",
-      "quantity_available": 42,
-      "total_sold": 15,
+      "quantity_available": 41,
+      "total_sold": 16,
       "description": "Handpainted beachhat with coral colors"
     },
     {
       "name": "Neutral Hat",
       "price": 100,
       "image": "./images/hat_neutral.jpg",
-      "quantity_available": 39,
-      "total_sold": 18,
+      "quantity_available": 38,
+      "total_sold": 19,
       "description": "Handpainted beachhat with neutral colors"
     },
     {
       "name": "Black Hat",
       "price": 100,
       "image": "./images/hat_black.jpg",
-      "quantity_available": 42,
-      "total_sold": 15,
+      "quantity_available": 41,
+      "total_sold": 16,
       "description": "Handpainted beachhat with black colors"
     }
   ],

@@ -351,6 +351,7 @@ app.post('/invoice', function (request, response) {
 
 app.post("/logout", function (request, response) {
    delete request.session.login;
+   delete request.session.cart;
    console.log('User logged out.');
    response.clearCookie("email");
    response.clearCookie("name");

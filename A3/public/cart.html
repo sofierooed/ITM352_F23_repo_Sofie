@@ -38,7 +38,9 @@
         shopping_cart = JSON.parse(response);
     });
 
+    let subtotal = 0;
     let quantities = [];
+
     /* Function to generate invoice rows */
     // Inspired by previous labs
     function generate_item_rows(products) {
@@ -61,22 +63,25 @@
                     //Included Assignment 1 IR5 styled in css sheet
                     document.write(`
                 <tr class="item">
-                    <td width="43%">
+                    <td width="15%">
                         <div class="img_block">
                             <img src="${products[i].image}" >
                         </div>
                     </td>
-                    <td>
-                        ${products[i].name}
-                    </td>
-                    <td align="center" width="11%">${quantity}</td>
+                    <td width="15%">${products[i].name}</td>
+                    <td align="center" width="15%">${quantity}</td>
                     <td width="13%">$${products[i].price}</td>
+                    <td width="13%">$${products[i].price * quantity}</td>
+                    <td><button class="remove_item"> - </button><button class="add_item"> + </button></td>
                 </tr>
             `);
+                    subtotal += extended_price;
                 }
             }
         }
     }
+
+
 
 
 
@@ -106,15 +111,75 @@
                 <td>Item</td>
                 <td>Quantity</td>
                 <td>Price</td>
+                <td>Extended Price</td>
+                <td></td>
             </tr>
             <script>
                 generate_item_rows(quantities);  
             </script>
+            <script>
+                // Compute tax amount
+                let tax_rate = 5.25;
+                let tax = subtotal * (tax_rate / 100);
+
+                // Compute variable for shipping
+                let shipping;
+                if (subtotal > 700) {
+                    shipping = 0;
+                } else {
+                    shipping = 0.05 * subtotal;
+                }
+
+                // Compute grand total adding tax and subtotal price
+                let grand_total = subtotal + tax + shipping;
+            </script>
+            <tr class="heading">
+                <td>Sub Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> $
+                    <script>document.write(subtotal.toFixed(2))</script>
+                </td>
+                <td></td>
+            </tr>
+            <tr class="heading">
+                <td> Tax @
+                    <script>document.write(tax_rate.toFixed(2))</script>%
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> $
+                    <script>document.write(tax.toFixed(2))</script>
+                </td>
+                <td></td>
+            </tr>
+            <tr class="heading">
+                <td>Shipping</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> $
+                    <script>document.write(shipping.toFixed(2))</script>
+                </td>
+                <td></td>
+            </tr>
+            <tr class="heading">
+                <td>Grand Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td> $
+                    <script>document.write(grand_total.toFixed(2))</script>
+                </td>
+                <td></td>
+            </tr>
         </table>
         <form action="/invoice" method="POST">
             <button class="confirm_purchase_button">Confirm Purchase</button>
         </form>
-        
+
     </main>
 </body>
 
