@@ -16,13 +16,11 @@ const url = require("url");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-//Set up session
-const session = require('express-session');
-
 // Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
-let products = products_array;
+let all_products = products_array;
 let selected_qty = {}; // Store selected quantities for further use
+let  products;
 
 // File system setup and load user data for login
 const fs = require('fs');
@@ -39,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 // Retrieved from previous labs
 function isNonNegInt(quantities, returnErrors) {
    let errors = [];
-
+   
    if (quantities === '') {
       quantities = 0;
    }
@@ -51,7 +49,6 @@ function isNonNegInt(quantities, returnErrors) {
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return returnErrors;
 }
-
 
 
 
@@ -67,7 +64,7 @@ app.all('*', function (request, response, next) {
 //From lab 12
 app.get("/product_data.js", function (request, response, next) {
    response.type('application/javascript');
-   var products_str = `var products = ${JSON.stringify(products_array)};`;
+   var products_str = `var all_products = ${JSON.stringify(all_products)};`;
    response.send(products_str);
 });
 
@@ -75,16 +72,21 @@ app.get("/product_data.js", function (request, response, next) {
 //-------------------------PURCHASE-----------------------------
 
 // Process purchase request (validate quantities, check quantity available)
-app.post("/add_cart_hats", function (request, response) {
-   console.log(`in purchase`, request.body); // See input in console for
+app.post("/purchase", function (request, response) {
+   console.log(`Request.body:`, request.body); // See input in console for
+   let productType = request.body.product_type;
+   products = all_products[productType];
 
    // Assuming no errors (object), and no input
    let errors = {};
    let all_txtboxes = [];
 
+   console.log('Request body:', request.body);
+   console.log('All products:', all_products);
+   console.log(products);
 
    // Checking if the quantity for each product is a valid input, and recording any errors that occur
-   for (let i in products) {
+   for (let i = 0; i < products.length; i++) {
       let qty = request.body['quantity' + i];
 
       // Set quantity to zero if it's an empty string or not provided using ternary operator
@@ -107,7 +109,6 @@ app.post("/add_cart_hats", function (request, response) {
       }
    }
 
-
    // Check if all values in the 'all_txtboxes' array are equal to zero
    const allZeros = all_txtboxes.every(value => parseInt(value) === 0);
    // Display an error if all quantities are zero
@@ -119,14 +120,15 @@ app.post("/add_cart_hats", function (request, response) {
    // Check if there are no errors and at least one product has a valid quantity
    if (Object.entries(errors).length === 0 && !allZeros) {
       selected_qty = request.body;
+      // Add productType to the selected_qty object
+      selected_qty.productType = productType;
       //Redirect to login with quanityt selected in qs
       response.redirect("/login.html?" + qs.stringify(selected_qty));
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
-      console.log(errors);
       request.body["errorsJSONstring"] = JSON.stringify(errors);
       // Redirect back to the product display page with the errors in the query string to be able to display relevant errors
-      response.redirect("/hats_display.html?" + qs.stringify(request.body)
+      response.redirect("/product_display.html?" + qs.stringify(request.body)
       );
    }
 
@@ -135,13 +137,12 @@ app.post("/add_cart_hats", function (request, response) {
 
 // Ensure user cannot access the invoice without logging in
 app.get('/invoice.html', function (request, response, next) {
-   //Retrieve email from cookie
    let the_email = request.query.email;
 
    // Check if the_email is not present in users_reg_data
    if (!users_reg_data.hasOwnProperty(the_email)) {
       // Redirect to the login page
-      return response.redirect('/login.html');
+      return response.redirect('/product_display.html');
    } else {
       next();
    }
@@ -154,11 +155,16 @@ app.get('/invoice.html', function (request, response, next) {
 //Post to login page, inspiration from lab 13
 app.post("/login", function (request, response, next) {
    console.log(request.body);
+   console.log("Inside the login route");
 
    // Process login form POST and redirect to logged in page if ok, back to login page if not
    let the_email = request.body['email'].toLowerCase();
    let the_password = request.body['password'];
    let the_name;
+
+   // Extract productType from the query string
+   let productType = request.query.productType;
+
 
    //Assume no errors (object)
    let login_error = {};
@@ -198,14 +204,19 @@ app.post("/login", function (request, response, next) {
       for (let i in products) {
          // tracking the quantity available by subtracting purchased quantities
          let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-         products[i].quantity_available -= purchasedQty;
-         products[i].total_sold += purchasedQty;
+
+         console.log(`Product ${i}: Quantity available before purchase: ${all_products[productType][i].quantity_available}`);
+
+         all_products[productType][i].quantity_available -= purchasedQty;
+         all_products[productType][i].total_sold += purchasedQty;
+
+         console.log(`Product ${i}: Quantity available after purchase: ${all_products[productType][i].quantity_available}`);
 
       }
 
       // Write the updated products array back to the product_data.json file 
       //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
-      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(products, null, 2));
+      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       //Send cookie to indicate login
       response.cookie("email", the_email, { expire: Date.now() + 5 * 1000 })
@@ -307,7 +318,7 @@ app.post("/register", function (request, response, next) {
       // push this to display when the user return to login after successfully registering a new account 
       successful_reg.push(`Your account has been registered!`)
       console.log("Saved: " + users_reg_data);
-
+      
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {

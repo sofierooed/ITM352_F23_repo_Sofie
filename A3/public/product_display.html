@@ -17,8 +17,19 @@
     <link rel="stylesheet" href="products-style.css">
 
     <script>
+        // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
+        let params = (new URL(document.location)).searchParams
+        //Default to bags if product_type not specified in qs
+        let prod_key = "Bags";
+        if(params.has("product_type")){
+            let temp = params.get("product_type");
+            if(typeof all_products[temp] !="undefined"){
+                prod_key = temp;
+            }
+            
+        }
 
-        products = products.hats
+        let products = all_products[prod_key];
 
         // Function to check if quantities entered are whole numbers, not negative, and a number (from previous labs)
         function isNonNegInt(quantities, returnErrors) {
@@ -42,12 +53,11 @@
             return (returnErrors);
         };
 
-        // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
-        let params = (new URL(document.location)).searchParams
 
         // Execute function when on window load 
         // Function for displaying error message and setting inputs
         window.onload = function () {
+            console.log('Products:', products);
             // Get the 'errorsJSONstring' from URL parameters
             let errorsJSONString = params.get('errorsJSONstring');
 
@@ -101,21 +111,7 @@
 
 <body>
     <header>
-        <!--Navigation bar from w3 schools-->
-        <tr>
-            <td>
-                <div class="topnav">
-                    <h3>BY.SOFIE</h3> 
-                    <a href="index.html">Home</a>
-                    <a class="active" href="hats_display.html">Hats</a>
-                    <a href="bags_display.html">Bags</a>
-                    <a href="towels_display.html">Towels</a>
-                    <a href="login.html">Login</a>
-                    <a href="registration.html">Registration</a>
-                    <a href="shoppingcart.html">Shopping Cart</a>
-                </div>
-            </td>
-        </tr>
+        <h3>BY.SOFIE</h3>
     </header>
 
 
@@ -149,7 +145,7 @@
         <p id="allZerosError" style="color: red;"></p>
     </div>
 
-    <form action="/add_cart_hats" method="POST">
+    <form action="/purchase" method="POST">
         <div class="products-container">
             <script>
                 //Loop to display products, incorporated Assignment 1 IR 1
@@ -173,8 +169,11 @@
 </body>
 <footer style="text-align: center;">
     <br>
-    <input type="submit" value="Add to cart!" id="purchase_button" class="purchase_button">
+    <input type="submit" value="Purchase!" id="purchase_button" class="purchase_button">
     <br>
+    <script>
+        document.write('<input type="hidden" name="product_type" value="'+ prod_key +'">')
+    </script>
 </footer>
 </form>
 
