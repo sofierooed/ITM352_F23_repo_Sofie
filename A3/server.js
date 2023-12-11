@@ -56,6 +56,7 @@ function isNonNegInt(quantities, returnErrors) {
 
 
 
+
 // Routing
 
 // Log all requests regardless of method and path
@@ -126,8 +127,19 @@ app.post("/purchase", function (request, response) {
       selected_qty = request.body;
       // Add productType to the selected_qty object
       selected_qty.productType = productType;
-      //Redirect to login with quanityt selected in qs
-      response.redirect("/login.html?" + qs.stringify(selected_qty));
+
+      //Make empty cart in session for user if there is no already
+      if(typeof request.session.cart == 'undefined'){
+         request.session.cart = {};
+      }//Add purchase data quantity to session
+      request.session.cart[productType] = {};
+      for(i=0; i<products.length; i++){
+         if(selected_qty[`quantity${i}`] != ''){
+            request.session.cart[productType][`quantity${i}`] = selected_qty[`quantity${i}`];
+      }
+      }
+      //Redirect to product page with confirmation message
+      response.redirect(`/product_display.html?`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -137,6 +149,10 @@ app.post("/purchase", function (request, response) {
    }
 
 
+});
+
+app.post("/get_cart", function (request, response) {
+   response.json(request.session.cart);
 });
 
 // Ensure user cannot access the invoice without logging in
@@ -219,7 +235,7 @@ app.post("/login", function (request, response, next) {
       fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       //Send cookie to indicate login
-      response.cookie("email", the_email, { expire: Date.now() + 5 * 1000 })
+      response.cookie("name", the_name, { expire: Date.now() + 5 * 1000 });
 
       //Create a new URLSearchParams object using the selected_qty parameter
       let params = new URLSearchParams(selected_qty);
@@ -339,7 +355,11 @@ app.post("/register", function (request, response, next) {
 
 );
 
-
+app.post("/logout", function (request, response){
+   delete request.session.login;
+   console.log('User logged out.');
+   response.redirect('index.html'); // Redirect the user to the desired page after logging out
+});
 
 // Route all other GET requests to files in public
 app.use(express.static(__dirname + '/public'));

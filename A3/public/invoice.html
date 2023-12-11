@@ -22,17 +22,7 @@
 
         // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
         let params = (new URL(document.location)).searchParams
-        //Default to bags if product_type not specified in qs
-        let prod_key = "Bags";
-        if (params.has("product_type")) {
-            let temp = params.get("product_type");
-            if (typeof all_products[temp] != "undefined") {
-                prod_key = temp;
-            }
 
-        }
-
-        let products = all_products[prod_key];
 
         // JS to generate todays date using DOM to follow template, retrieved from ChatGPT
         // Wait for the DOM content to be fully loaded before executing the script
@@ -53,6 +43,27 @@
             document.getElementById("lastLogin").innerText = `Last Login: ${lastLogin}`;
         });
 
+        // This function asks the server for a "service" and converts the response to text. 
+        // Function from A3 code examples
+        function loadJSON(service, callback) {
+            let xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('POST', service, false);
+            xobj.onreadystatechange = function () {
+                if (xobj.readyState == 4 && xobj.status == "200") {
+                    // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                    callback(xobj.responseText);
+                }
+            };
+            xobj.send(null);
+        }
+
+        //Get shoppingcart data for user session from server, from A3 code examples
+        loadJSON('get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+        });
+
         // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
         let quantities = [];
         let subtotal = 0;
@@ -61,48 +72,46 @@
         let name = params.get('name');
         let email = params.get('email');
 
-        //Create loop to generate the quanitities array
-        for (let i = 0; i < products.length; i++) {
-            paramName = `quantity${i}`;
-            quantity = params.get(paramName);
-            quantities.push(quantity);
-        };
 
         /* Function to generate invoice rows */
         // Inspired by previous labs
-        function generate_item_rows(product_quantities_array) {
+        function generate_item_rows(products) {
             // Loop through the product quantities array
-            for (let i = 0; i < product_quantities_array.length; i++) {
-                // Retrieve the quantity for the current product
-                let quantity = product_quantities_array[i];
+            for (let pkey in shopping_cart) {
+                let products = all_products[pkey];
 
-                // Check if the quantity is greater than 0 before generating the table row
-                if (quantity > 0) {
-                    // Calculate the extended price for the product
-                    let extended_price = quantity * products[i].price;
+                for (let i = 0; i < products.length; i++) {
+                    // Retrieve the quantity for the current product
+                    let quantity = shopping_cart[pkey][`quantity${i}`];
 
-                    // Output a table row with product information and the calculated extended price, using a template string.
-                    //Included Assignment 1 IR5 styled in css sheet
-                    document.write(`
-                        <tr class="item">
-                            <td width="43%">
-                                <div class="img_block">
-                                    <img src="${products[i].image}" >
-                                        <div class="prod_description">
-                                            ${products[i].description}
-                                        </div>
+                    // Check if the quantity is greater than 0 before generating the table row
+                    if (quantity > 0) {
+                        // Calculate the extended price for the product
+                        let extended_price = quantity * products[i].price;
+
+                        // Output a table row with product information and the calculated extended price, using a template string.
+                        //Included Assignment 1 IR5 styled in css sheet
+                        document.write(`
+                <tr class="item">
+                    <td width="43%">
+                        <div class="img_block">
+                            <img src="${products[i].image}" >
+                                <div class="prod_description">
+                                    ${products[i].description}
                                 </div>
-                                ${products[i].name}
-                            </td>
-                            <td align="center" width="11%">${quantity}</td>
-                            <td width="13%">$${products[i].price}</td>
-                            <td width="54%">$${extended_price}</td>
-                        </tr>
-            `);
+                        </div>
+                        ${products[i].name}
+                    </td>
+                    <td align="center" width="11%">${quantity}</td>
+                    <td width="13%">$${products[i].price}</td>
+                    <td width="54%">$${extended_price}</td>
+                </tr>
+    `);
 
 
-                    // Update the subtotal by adding the extended price.
-                    subtotal += extended_price;
+                        // Update the subtotal by adding the extended price.
+                        subtotal += extended_price;
+                    }
                 }
             }
         }
