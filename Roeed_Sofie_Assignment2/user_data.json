@@ -34,5 +34,11 @@
     "password": "hanne123!!",
     "login_count": "1",
     "last_login": "12/3/2023, 8:50:31 PM"
+  },
+  "hanne@hotmail.no": {
+    "name": "Hanne Cecilie",
+    "password": "hannehanne123!",
+    "login_count": "1",
+    "last_login": "12/10/2023, 6:37:54 PM"
   }
 }

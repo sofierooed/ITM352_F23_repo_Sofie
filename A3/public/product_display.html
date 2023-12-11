@@ -21,12 +21,12 @@
         let params = (new URL(document.location)).searchParams
         //Default to bags if product_type not specified in qs
         let prod_key = "Bags";
-        if(params.has("product_type")){
+        if (params.has("product_type")) {
             let temp = params.get("product_type");
-            if(typeof all_products[temp] !="undefined"){
+            if (typeof all_products[temp] != "undefined") {
                 prod_key = temp;
             }
-            
+
         }
 
         let products = all_products[prod_key];
@@ -105,6 +105,15 @@
                 }
             }
         };
+
+        //Function to create navbar from A3 code examples
+        function nav_bar(this_product_key, products_data) {
+            // This makes a navigation bar to other product pages
+            for (let products_key in products_data) {
+                if (products_key == this_product_key) continue;
+                document.write(`<a href='./product_display.html?product_type=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
+            }
+        }
     </script>
 
 </head>
@@ -112,6 +121,12 @@
 <body>
     <header>
         <h3>BY.SOFIE</h3>
+        <div class="topnav">
+        <script>
+            nav_bar(prod_key, all_products);
+        </script>
+        </div>
+        
     </header>
 
 
@@ -141,6 +156,9 @@
 
 
     <h4>LATEST PRODUCTS</h4>
+    <script>
+        document.write(`<h2 style="text-align: center;"> ${prod_key.toUpperCase()} </h2>`)
+    </script>
     <div style="text-align: center;">
         <p id="allZerosError" style="color: red;"></p>
     </div>
@@ -172,7 +190,7 @@
     <input type="submit" value="Purchase!" id="purchase_button" class="purchase_button">
     <br>
     <script>
-        document.write('<input type="hidden" name="product_type" value="'+ prod_key +'">')
+        document.write('<input type="hidden" name="product_type" value="' + prod_key + '">')
     </script>
 </footer>
 </form>

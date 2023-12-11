@@ -27,16 +27,16 @@
     "name": "Blue Hat",
     "price": 100,
     "image": "./images/hat_blue.jpg",
-    "quantity_available": 47,
-    "total_sold": 7,
+    "quantity_available": 46,
+    "total_sold": 8,
     "description": "Handpainted beachhat with blue colors"
   },
   {
     "name": "Orange Hat",
     "price": 100,
     "image": "./images/hat_orange.jpg",
-    "quantity_available": 46,
-    "total_sold": 11,
+    "quantity_available": 45,
+    "total_sold": 12,
     "description": "Handpainted beachhat with orange colors"
   },
   {

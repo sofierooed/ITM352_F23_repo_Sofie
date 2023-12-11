@@ -16,15 +16,19 @@ const url = require("url");
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
+//Set up session
+const session = require('express-session');
+app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+
 // Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
 let all_products = products_array;
 let selected_qty = {}; // Store selected quantities for further use
-let  products;
+let products;
 
 // File system setup and load user data for login
 const fs = require('fs');
-const user_data_filename = 'user_data.json';
+const user_data_filename = __dirname + '/user_data.json';
 const users_reg_data_JSON = fs.readFileSync(user_data_filename, 'utf-8');
 const users_reg_data = JSON.parse(users_reg_data_JSON);
 
@@ -200,17 +204,13 @@ app.post("/login", function (request, response, next) {
       // Write the updated users_reg_data back to the user_data.json file
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
 
+
       // Update the inventory by subtracting the purchased quantity 
       for (let i in products) {
          // tracking the quantity available by subtracting purchased quantities
          let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-
-         console.log(`Product ${i}: Quantity available before purchase: ${all_products[productType][i].quantity_available}`);
-
-         all_products[productType][i].quantity_available -= purchasedQty;
-         all_products[productType][i].total_sold += purchasedQty;
-
-         console.log(`Product ${i}: Quantity available after purchase: ${all_products[productType][i].quantity_available}`);
+         products[i].quantity_available -= purchasedQty;
+         products[i].total_sold += purchasedQty;
 
       }
 

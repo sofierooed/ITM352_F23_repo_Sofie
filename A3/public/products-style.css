@@ -7,6 +7,30 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
+/* Nav styler */
+.topnav {
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px 20px;
+}
+
+
+.topnav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.topnav a:hover {
+    color: #ff7eb9;
+}
+
+
+
 /* Body styling */
 body {
     font-family: "Poppins", sans-serif;
