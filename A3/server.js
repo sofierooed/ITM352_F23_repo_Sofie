@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 //Set up session
 const session = require('express-session');
-app.use(session({secret: "MySecretKey", resave: true, saveUninitialized: true}));
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
 // Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
@@ -41,11 +41,10 @@ app.use(express.urlencoded({ extended: true }));
 // Retrieved from previous labs
 function isNonNegInt(quantities, returnErrors) {
    let errors = [];
-   
+
    if (quantities === '') {
       quantities = 0;
    }
-
    if (Number(quantities) != quantities) errors.push('Not a number');
    if (quantities < 0) errors.push('Negative value');
    if (parseInt(quantities) != quantities) errors.push('Not an integer');
@@ -78,7 +77,6 @@ app.get("/product_data.js", function (request, response, next) {
 
 // Process purchase request (validate quantities, check quantity available)
 app.post("/purchase", function (request, response) {
-   console.log(`Request.body:`, request.body); // See input in console for
    let productType = request.body.product_type;
    products = all_products[productType];
 
@@ -88,7 +86,7 @@ app.post("/purchase", function (request, response) {
 
    console.log('Request body:', request.body);
    console.log('All products:', all_products);
-   console.log(products);
+   console.log('Products on display:', products);
 
    // Checking if the quantity for each product is a valid input, and recording any errors that occur
    for (let i = 0; i < products.length; i++) {
@@ -129,14 +127,14 @@ app.post("/purchase", function (request, response) {
       selected_qty.productType = productType;
 
       //Make empty cart in session for user if there is no already
-      if(typeof request.session.cart == 'undefined'){
+      if (typeof request.session.cart == 'undefined') {
          request.session.cart = {};
       }//Add purchase data quantity to session
       request.session.cart[productType] = {};
-      for(i=0; i<products.length; i++){
-         if(selected_qty[`quantity${i}`] != ''){
+      for (i = 0; i < products.length; i++) {
+         if (selected_qty[`quantity${i}`] != '') {
             request.session.cart[productType][`quantity${i}`] = selected_qty[`quantity${i}`];
-      }
+         }
       }
       //Redirect to product page with confirmation message
       response.redirect(`/product_display.html?`);
@@ -155,18 +153,6 @@ app.post("/get_cart", function (request, response) {
    response.json(request.session.cart);
 });
 
-// Ensure user cannot access the invoice without logging in
-app.get('/invoice.html', function (request, response, next) {
-   let the_email = request.query.email;
-
-   // Check if the_email is not present in users_reg_data
-   if (!users_reg_data.hasOwnProperty(the_email)) {
-      // Redirect to the login page
-      return response.redirect('/product_display.html');
-   } else {
-      next();
-   }
-});
 
 
 
@@ -235,19 +221,14 @@ app.post("/login", function (request, response, next) {
       fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       //Send cookie to indicate login
+      response.cookie("email", the_email, { expire: Date.now() + 5 * 1000 });
       response.cookie("name", the_name, { expire: Date.now() + 5 * 1000 });
+      response.cookie("login_count", users_reg_data[the_email]['login_count'], { expire: Date.now() + 5 * 1000 });
+      response.cookie("last_login", users_reg_data[the_email]['last_login'], { expire: Date.now() + 5 * 1000 });
 
-      //Create a new URLSearchParams object using the selected_qty parameter
-      let params = new URLSearchParams(selected_qty);
-      //Append the "email" parameter with the value of the_email to the URLSearchParams object
-      params.append("email", the_email);
-      //Append the "name" parameter with the value of the_name to the URLSearchParams object
-      params.append("name", the_name);
-      // Include login_count and last_login in the URL parameters
-      params.append("login_count", users_reg_data[the_email]['login_count']);
-      params.append("last_login", users_reg_data[the_email]['last_login']);
-      //Redirect the user to the "./invoice.html" page with the parameters as part of the URL
-      response.redirect("./invoice.html?" + params.toString());
+
+      //Redirect the user to the products page
+      response.redirect("./product_display.html?");
    } // login is not valid, go back to login page and display error message
    else {
       //Create a new URLSearchParams object
@@ -334,7 +315,7 @@ app.post("/register", function (request, response, next) {
       // push this to display when the user return to login after successfully registering a new account 
       successful_reg.push(`Your account has been registered!`)
       console.log("Saved: " + users_reg_data);
-      
+
       response.redirect('./login.html?' + qs.stringify({ successful_reg: `${JSON.stringify(successful_reg)}` }));
    }
    else {
@@ -355,9 +336,26 @@ app.post("/register", function (request, response, next) {
 
 );
 
-app.post("/logout", function (request, response){
+// Ensure user cannot access the invoice without logging in
+app.post('/invoice', function (request, response) {
+   // Check if the request has a cookie named 'email'
+   if (request.cookies.email) {
+      // Redirect to the invoice page if the cookie is present
+      response.redirect('/invoice.html');
+   } else {
+      // Redirect to the product display page if the cookie is not present
+      response.redirect('/login.html');
+   }
+});
+
+
+app.post("/logout", function (request, response) {
    delete request.session.login;
    console.log('User logged out.');
+   response.clearCookie("email");
+   response.clearCookie("name");
+   response.clearCookie("last_login");
+   response.clearCookie("login_count");
    response.redirect('index.html'); // Redirect the user to the desired page after logging out
 });
 

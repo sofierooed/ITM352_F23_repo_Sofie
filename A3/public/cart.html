@@ -42,6 +42,7 @@
     /* Function to generate invoice rows */
     // Inspired by previous labs
     function generate_item_rows(products) {
+
         // Loop through the product quantities array
         for (let pkey in shopping_cart) {
             let products = all_products[pkey];
@@ -52,6 +53,7 @@
 
                 // Check if the quantity is greater than 0 before generating the table row
                 if (quantity > 0) {
+
                     // Calculate the extended price for the product
                     let extended_price = quantity * products[i].price;
 
@@ -70,11 +72,13 @@
                     <td align="center" width="11%">${quantity}</td>
                     <td width="13%">$${products[i].price}</td>
                 </tr>
-    `);
+            `);
                 }
             }
         }
     }
+
+
 
 </script>
 
@@ -104,10 +108,13 @@
                 <td>Price</td>
             </tr>
             <script>
-                generate_item_rows(quantities);
+                generate_item_rows(quantities);  
             </script>
         </table>
-        <a href="./invoice.html" class="confirm_purchase_button">Confirm Purchase</a>
+        <form action="/invoice" method="POST">
+            <button class="confirm_purchase_button">Confirm Purchase</button>
+        </form>
+        
     </main>
 </body>
 

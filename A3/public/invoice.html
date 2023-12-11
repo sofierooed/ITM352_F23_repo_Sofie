@@ -32,15 +32,8 @@
             // Create a new Date object to represent the current date and time
             // Convert the date to a string using toDateString()
             let currentDate = new Date().toDateString();
-            // Assignment 2 IR 4
-            // Extract login_count and last_login from the URL parameters
-            let loginCount = params.get('login_count');
-            let lastLogin = params.get('last_login');
             // Set the innerHTML of the selected element to display the current date 
             dateElement.innerHTML = new Date().toDateString();
-            // Display login_count and last_login in the invoice
-            document.getElementById("loginCount").innerText = `Login Count: ${loginCount}`;
-            document.getElementById("lastLogin").innerText = `Last Login: ${lastLogin}`;
         });
 
         // This function asks the server for a "service" and converts the response to text. 
@@ -116,6 +109,22 @@
             }
         }
 
+        // Extract and parse the 'name' cookie
+        const cookieName = document.cookie.split('; ').find(row => row.startsWith('name='));
+        const userName = cookieName ? decodeURIComponent(cookieName.split('=')[1]) : null;
+
+        // Extract and parse the 'email' cookie
+        const cookieEmail = document.cookie.split('; ').find(row => row.startsWith('email='));
+        const userEmail = cookieEmail ? decodeURIComponent(cookieEmail.split('=')[1]) : null;
+
+        // Extract and parse the 'login_count' cookie
+        const cookieLogin_count = document.cookie.split('; ').find(row => row.startsWith('login_count='));
+        const userLogin_count = cookieLogin_count ? decodeURIComponent(cookieLogin_count.split('=')[1]) : null;
+
+        // Extract and parse the 'login_count' cookie
+        const cookieLast_login = document.cookie.split('; ').find(row => row.startsWith('last_login='));
+        const userLast_login = cookieLogin_count ? decodeURIComponent(cookieLast_login.split('=')[1]) : null;
+
 
     </script>
 
@@ -131,11 +140,11 @@
                                 by.Sofie
                             </td>
                             <td class="invoice-created">
-                                <script>document.write(`Thank you for your purchase ${name}`)</script> <br />
-                                <script>document.write(`Your invoice is emailed to ${email}`)</script> <br />
+                                <script>document.write(`Thank you for your purchase ${userName}`)</script> <br />
+                                <script>document.write(`Your invoice is emailed to ${userEmail}`)</script> <br />
                                 <span id="invoiceDate"></span><br />
-                                <span id="loginCount" style="color: hotpink;"></span><br />
-                                <span id="lastLogin" style="color: hotpink;"></span>
+                                <script>document.write(`Login Count: ${userLogin_count}`)</script> <br />
+                                <script>document.write(`Last Login: ${userLast_login}`)</script> <br />
                             </td>
                         </tr>
                     </table>
@@ -230,9 +239,9 @@
                     <div>
                         *Hover over product icon for more information
                     </div>
-                    <div class="logout">
-                        <button onclick="location.href = '/product_display.html'">Logout</button>
-                    </div>
+                    <form action="/logout" method="POST">
+                        <button class="log_out_button">log out</button>
+                    </form>
                 </td>
             </tr>
         </table>
