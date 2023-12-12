@@ -61,6 +61,10 @@ function isNonNegInt(quantities, returnErrors) {
 // Log all requests regardless of method and path
 app.all('*', function (request, response, next) {
    console.log(request.method + ' to ' + request.path);
+   //Make empty cart in session for user if there is no already
+   if (typeof request.session.cart == 'undefined') {
+      request.session.cart = {};
+   }
    next();
 });
 
@@ -126,16 +130,20 @@ app.post("/purchase", function (request, response) {
       // Add productType to the selected_qty object
       selected_qty.productType = productType;
 
-      //Make empty cart in session for user if there is no already
-      if (typeof request.session.cart == 'undefined') {
-         request.session.cart = {};
-      }//Add purchase data quantity to session
-      request.session.cart[productType] = {};
-      for (i = 0; i < products.length; i++) {
-         if (selected_qty[`quantity${i}`] != '') {
-            request.session.cart[productType][`quantity${i}`] = selected_qty[`quantity${i}`];
+
+      if (typeof request.session.cart[productType] == 'undefined') {
+         request.session.cart[productType] = {};
+         for (let i in all_products[productType]) {
+            request.session.cart[productType][`quantity${i}`] = 0;
          }
       }
+      //Add purchase data quantity to session
+      for (i = 0; i < products.length; i++) {
+         if (selected_qty[`quantity${i}`] != '') {
+            request.session.cart[productType][`quantity${i}`] += Number(selected_qty[`quantity${i}`]);
+         }
+      }
+
       //Redirect to product page with confirmation message
       response.redirect(`/product_display.html?`);
    } else {

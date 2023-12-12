@@ -17,6 +17,22 @@
     <link rel="stylesheet" href="products-style.css">
 
     <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
         // Extracting and parsing query parameters from the current URL using the URL constructor and the searchParams property
         let params = (new URL(document.location)).searchParams
 
@@ -145,9 +161,22 @@
         <h3 style="display: flex; justify-content: space-between;">
             <a>BY.SOFIE</a>
             <span id="welcomeMessage">WELCOME</span>
-            <form action="/logout" method="POST">
-                <button class="log_out_button">log out</button>
-            </form>
+            <script>
+            //If the user is logged in, get name from cookie and print print a log out button
+            if(getCookie("email")!==""){
+                document.write(`            
+                <form action="/logout" method="POST">
+                    <button class="log_out_button">log out ${getCookie("email")}</button>
+            </form>`);
+            } else{
+                document.write(`            
+                    <button class="log_in_button" onclick="location.href='./login.html'">log in</button>`);
+            }
+
+            //Otherwise give link to login
+
+
+            </script>
         </h3>
         <div class="topnav">
             <script>
