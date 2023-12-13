@@ -77,7 +77,7 @@ app.get("/product_data.js", function (request, response, next) {
 });
 
 
-//-------------------------PURCHASE-----------------------------
+//-------------------------ADD TO CART-----------------------------
 
 // Process purchase request (validate quantities, check quantity available)
 app.post("/purchase", function (request, response) {
@@ -149,6 +149,19 @@ app.post("/purchase", function (request, response) {
          }
       }
 
+      //IR 7 Assignment 3- UPDATE CART COUNT
+      for (let i in products) {
+         // tracking the quantity available by subtracting purchased quantities
+         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
+         products[i].cartcount += purchasedQty;
+
+      }
+
+      // Write the updated products array back to the product_data.json file 
+      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
+      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
+
+
       //Redirect to product page with confirmation message
       response.redirect(`/product_display.html`);
    } else {
@@ -219,19 +232,6 @@ app.post("/login", function (request, response, next) {
       // Write the updated users_reg_data back to the user_data.json file
       fs.writeFileSync(__dirname + '/user_data.json', JSON.stringify(users_reg_data, null, 2));
 
-
-      // Update the inventory by subtracting the purchased quantity 
-      for (let i in products) {
-         // tracking the quantity available by subtracting purchased quantities
-         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-         products[i].quantity_available -= purchasedQty;
-         products[i].total_sold += purchasedQty;
-
-      }
-
-      // Write the updated products array back to the product_data.json file 
-      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
-      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       //Send cookie to indicate login
       response.cookie("email", the_email, { expire: Date.now() + 5 * 1000 });
@@ -349,9 +349,26 @@ app.post("/register", function (request, response, next) {
 
 );
 
+//----------DISPLAY INVOICE WHEN PURCHASE COMPLETE------------------
+
 app.get('/invoice', function (request, response) {
    // Check if the request has a cookie named 'email'
    if (request.cookies.email) {
+
+      // Update the inventory by subtracting the purchased quantity 
+      for (let i in products) {
+         // tracking the quantity available by subtracting purchased quantities
+         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
+         products[i].quantity_available -= purchasedQty;
+         products[i].total_sold += purchasedQty;
+         //IR 7 - remove cartcount for products when purchased
+         products[i].cartcount -= purchasedQty;
+
+      }
+
+      // Write the updated products array back to the product_data.json file 
+      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
+      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       // Generate HTML invoice string
       let invoice_str = `
@@ -437,8 +454,11 @@ app.get('/invoice', function (request, response) {
             <td>$${grand_total.toFixed(2)}</td>
          </tr>
       </table>`;
-
+   
+      delete request.session.cart;
+      
       response.send(invoice_str);
+
 
    } else {
       // Redirect to the product display page if the cookie is not present
@@ -446,8 +466,22 @@ app.get('/invoice', function (request, response) {
    }
 });
 
+//---------LOGOUT USER AND DELETE SESSION/COOKIE--------------------
 
 app.post("/logout", function (request, response) {
+
+   //IR 7 Assignment 3- UPDATE CART COUNT
+   for (let i in products) {
+      // tracking the quantity available by subtracting purchased quantities
+      let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
+      products[i].cartcount += purchasedQty;
+
+   }
+
+   // Write the updated products array back to the product_data.json file 
+   //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
+   fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
+
    delete request.session.login;
    delete request.session.cart;
    console.log('User logged out.');
