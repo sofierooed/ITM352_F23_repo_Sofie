@@ -161,9 +161,14 @@ app.post("/purchase", function (request, response) {
       //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
       fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
+      //Create a new URLSearchParams object
+      let params = new URLSearchParams();
+      //Append the product tyoe parameter with the value of product type to the URLSearchParams object
+      params.append("product_type", productType);
+
 
       //Redirect to product page with confirmation message
-      response.redirect(`/product_display.html`);
+      response.redirect(`/product_display.html?`+ params.toString());
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -454,9 +459,9 @@ app.get('/invoice', function (request, response) {
             <td>$${grand_total.toFixed(2)}</td>
          </tr>
       </table>`;
-   
+
       delete request.session.cart;
-      
+
       response.send(invoice_str);
 
 

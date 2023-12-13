@@ -42,6 +42,25 @@
             console.log('Shopping Cart:', shopping_cart);
         });
 
+        //Function to calculate total items in cart
+        function calculateTotalItems() {
+            let totalItems = 0;
+
+
+            // Check if the current product key exist
+            if (shopping_cart[prod_key]) {
+                // Loop through the products to calculate the total items in the cart
+                for (let i = 0; i < products.length; i++) {
+                    // Check if the quantity is greater than 0
+                    if (shopping_cart[prod_key]['quantity' + i] > 0) {
+                        totalItems += shopping_cart[prod_key]['quantity' + i];
+                    }
+                }
+            }
+
+            return totalItems;
+        }
+
         //Function to get cookies from W3 schools
         function getCookie(cname) {
             let name = cname + "=";
@@ -101,7 +120,7 @@
         // Function for displaying error message and setting inputs
         window.onload = function () {
 
-            
+
 
             console.log('Products:', products);
             // Get the 'errorsJSONstring' from URL parameters
@@ -175,24 +194,6 @@
             }
         };
 
-        //Function to calculate total items in cart
-        function calculateTotalItems() {
-            let totalItems = 0;
-
-
-            // Check if the current product key exist
-            if (shopping_cart[prod_key]) {
-                // Loop through the products to calculate the total items in the cart
-                for (let i = 0; i < products.length; i++) {
-                    // Check if the quantity is greater than 0
-                    if (shopping_cart[prod_key]['quantity' + i] > 0) {
-                        totalItems += shopping_cart[prod_key]['quantity' + i];
-                    }
-                }
-            }
-
-            return totalItems;
-        }
 
 
 
@@ -291,7 +292,6 @@
                         <img src="${products[i].image}">
                         <p><label for="quantity${i}">Quantity Desired:</label></p>
                         <p><input type="text" id="quantity${i}" name="quantity${i}"></p>
-                        <p>Total Quantity Sold: ${products[i].total_sold}</p>
                         <p>Quantity Currently in a Cart: ${products[i].cartcount}</p>
                         <p>Total Quantity Available: ${products[i].quantity_available}</p>
                         <span id="error${i}" style="color: red;"></span>
