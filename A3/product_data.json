@@ -7,7 +7,7 @@
       "quantity_available": 43,
       "total_sold": 10,
       "description": "Handpainted beachbag with blue colors",
-      "cartcount": 3
+      "cartcount": 0
     },
     {
       "name": "Orange Bag",
@@ -16,7 +16,7 @@
       "quantity_available": 34,
       "total_sold": 21,
       "description": "Handpainted beachbag with orange colors",
-      "cartcount": 22
+      "cartcount": 0
     },
     {
       "name": "Purple Bag",
@@ -25,7 +25,7 @@
       "quantity_available": 37,
       "total_sold": 19,
       "description": "Handpainted beachbag with purple colors",
-      "cartcount": 3
+      "cartcount": 0
     },
     {
       "name": "Neutral Bag",
@@ -34,7 +34,7 @@
       "quantity_available": 39,
       "total_sold": 17,
       "description": "Handpainted beachbag with neutral colors",
-      "cartcount": 2
+      "cartcount": 0
     },
     {
       "name": "Pink Bag",
@@ -43,7 +43,7 @@
       "quantity_available": 33,
       "total_sold": 23,
       "description": "Handpainted beachbag with pink colors",
-      "cartcount": 4
+      "cartcount": 0
     },
     {
       "name": "Turquoise Bag",
@@ -52,7 +52,7 @@
       "quantity_available": 36,
       "total_sold": 20,
       "description": "Handpainted beachbag with turquoise colors",
-      "cartcount": 1
+      "cartcount": 0
     }
   ],
   "Hats": [
@@ -72,7 +72,7 @@
       "quantity_available": 39,
       "total_sold": 18,
       "description": "Handpainted beachhat with orange colors",
-      "cartcount": 2
+      "cartcount": 0
     },
     {
       "name": "Pink Hat",
@@ -81,7 +81,7 @@
       "quantity_available": 40,
       "total_sold": 17,
       "description": "Handpainted beachhat with pink colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Coral Hat",
@@ -90,7 +90,7 @@
       "quantity_available": 39,
       "total_sold": 18,
       "description": "Handpainted beachhat with coral colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Neutral Hat",
@@ -99,7 +99,7 @@
       "quantity_available": 36,
       "total_sold": 21,
       "description": "Handpainted beachhat with neutral colors",
-      "cartcount": 2
+      "cartcount": 0
     },
     {
       "name": "Black Hat",
@@ -119,7 +119,7 @@
       "quantity_available": 44,
       "total_sold": 10,
       "description": "Beach towel with blue colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Green towel",
@@ -128,7 +128,7 @@
       "quantity_available": 43,
       "total_sold": 11,
       "description": "Beach towel with green colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Pink towel",
