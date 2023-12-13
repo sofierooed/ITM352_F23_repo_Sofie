@@ -57,6 +57,7 @@
     let subtotal = 0;
     let quantities = [];
 
+
     /* Function to generate invoice rows */
     // Inspired by previous labs
     function generate_item_rows(products) {
@@ -78,7 +79,7 @@
                     // Output a table row with product information and the calculated extended price, using a template string.
                     //Included Assignment 1 IR5 styled in css sheet
                     document.write(`
-                <tr class="item">
+                <tr id="item_${pkey}_${i}" class="item">
                     <td width="15%">
                         <div class="img_block">
                             <img src="${products[i].image}" >
@@ -88,10 +89,6 @@
                     <td align="center" width="15%">${quantity}</td>
                     <td width="13%">$${products[i].price}</td>
                     <td width="13%">$${products[i].price * quantity}</td>
-                    <td>
-                        <button class="remove_item" onclick="updateQuantity('${pkey}', ${i}, -1)"> - </button>
-                        <button class="add_item" onclick="updateQuantity('${pkey}', ${i}, 1)"> + </button>
-                    </td>
                 </tr>
             `);
                     subtotal += extended_price;
@@ -105,7 +102,11 @@
 
 
 
+
+
+
 </script>
+
 
 <body>
     <header>
@@ -146,7 +147,6 @@
                 <td>Quantity</td>
                 <td>Price</td>
                 <td>Extended Price</td>
-                <td></td>
             </tr>
             <script>
                 generate_item_rows(quantities);  
@@ -175,7 +175,6 @@
                 <td> $
                     <script>document.write(subtotal.toFixed(2))</script>
                 </td>
-                <td></td>
             </tr>
             <tr class="sub_heading">
                 <td> Tax @
@@ -187,7 +186,6 @@
                 <td> $
                     <script>document.write(tax.toFixed(2))</script>
                 </td>
-                <td></td>
             </tr>
             <tr class="sub_heading">
                 <td>Shipping</td>
@@ -197,7 +195,6 @@
                 <td> $
                     <script>document.write(shipping.toFixed(2))</script>
                 </td>
-                <td></td>
             </tr>
             <tr class="heading">
                 <td>Grand Total</td>
@@ -207,7 +204,6 @@
                 <td> $
                     <script>document.write(grand_total.toFixed(2))</script>
                 </td>
-                <td></td>
             </tr>
             <tr>
                 <td></td>

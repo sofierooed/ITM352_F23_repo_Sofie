@@ -20,6 +20,9 @@ app.use(cookieParser());
 const session = require('express-session');
 app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
 
+//Set up nodemailer
+const nodemailer = require('nodemailer');
+
 // Load product data from JSON file
 const products_array = require(__dirname + '/product_data.json');
 let all_products = products_array;
@@ -182,7 +185,6 @@ app.post("/purchase", function (request, response) {
 app.post("/get_cart", function (request, response) {
    response.json(request.session.cart);
 });
-
 
 
 
@@ -353,17 +355,7 @@ app.post("/register", function (request, response, next) {
 
 );
 
-// ------------- UPDATE CART ----------------------
-app.post("/update_cart", function (request, response) {
-   // Assuming that the client sends the updated cart data in the request body
-   let updatedCart = request.body;
 
-   // Update the session's cart with the new data
-   request.session.cart = updatedCart;
-
-   // Send a success response
-   response.status(200).send("Cart updated successfully");
-});
 
 //----------DISPLAY INVOICE WHEN PURCHASE COMPLETE------------------
 
@@ -470,6 +462,36 @@ app.get('/invoice', function (request, response) {
             <td>$${grand_total.toFixed(2)}</td>
          </tr>
       </table>`;
+
+
+      // Set up mail server. Only will work on UH Network due to security restrictions
+      const transporter = nodemailer.createTransport({
+         host: "mail.hawaii.edu",
+         port: 25,
+         secure: false, // use TLS
+         tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false
+         }
+      });
+
+      let user_email = 'sofier@hawaii.edu';
+      let mailOptions = {
+        from: 'by.sofie@game.com',
+        to: user_email,
+        subject: 'by.sofie invoice',
+        html: invoice_str
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+         if (error) {
+            console.error('Error sending email:', error);
+            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
+          } else {
+            console.log('Email sent:', info.response);
+            invoice_str += `<br>Your invoice was mailed to ${user_email}`;
+          }
+      });
 
       delete request.session.cart;
 
