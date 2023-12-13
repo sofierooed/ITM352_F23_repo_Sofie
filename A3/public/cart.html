@@ -88,7 +88,10 @@
                     <td align="center" width="15%">${quantity}</td>
                     <td width="13%">$${products[i].price}</td>
                     <td width="13%">$${products[i].price * quantity}</td>
-                    <td><button class="remove_item"> - </button><button class="add_item"> + </button></td>
+                    <td>
+                        <button class="remove_item" onclick="updateQuantity('${pkey}', ${i}, -1)"> - </button>
+                        <button class="add_item" onclick="updateQuantity('${pkey}', ${i}, 1)"> + </button>
+                    </td>
                 </tr>
             `);
                     subtotal += extended_price;
@@ -96,6 +99,7 @@
             }
         }
     }
+
 
 
 
@@ -208,7 +212,8 @@
             <tr>
                 <td></td>
                 <td>
-                    Shipping policy: Free shipping with a sub total over $700. All orders below will have a 5% shipping fee.
+                    Shipping policy: Free shipping with a sub total over $700. All orders below will have a 5% shipping
+                    fee.
                 </td>
             </tr>
         </table>

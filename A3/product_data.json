@@ -69,8 +69,8 @@
       "name": "Orange Hat",
       "price": 100,
       "image": "./images/hat_orange.jpg",
-      "quantity_available": 40,
-      "total_sold": 17,
+      "quantity_available": 39,
+      "total_sold": 18,
       "description": "Handpainted beachhat with orange colors",
       "cartcount": 0
     },
@@ -78,8 +78,8 @@
       "name": "Pink Hat",
       "price": 100,
       "image": "./images/hat_pink.jpg",
-      "quantity_available": 41,
-      "total_sold": 16,
+      "quantity_available": 40,
+      "total_sold": 17,
       "description": "Handpainted beachhat with pink colors",
       "cartcount": 0
     },
@@ -137,7 +137,7 @@
       "quantity_available": 46,
       "total_sold": 8,
       "description": "Beach towel with pink colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Purple towel",
@@ -146,7 +146,7 @@
       "quantity_available": 46,
       "total_sold": 8,
       "description": "Beach towel with purple colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Black towel",

@@ -40,26 +40,10 @@
 
             // The rest of your code that depends on shopping_cart should be placed here
             console.log('Shopping Cart:', shopping_cart);
+
+
         });
 
-        //Function to calculate total items in cart
-        function calculateTotalItems() {
-            let totalItems = 0;
-
-
-            // Check if the current product key exist
-            if (shopping_cart[prod_key]) {
-                // Loop through the products to calculate the total items in the cart
-                for (let i = 0; i < products.length; i++) {
-                    // Check if the quantity is greater than 0
-                    if (shopping_cart[prod_key]['quantity' + i] > 0) {
-                        totalItems += shopping_cart[prod_key]['quantity' + i];
-                    }
-                }
-            }
-
-            return totalItems;
-        }
 
         //Function to get cookies from W3 schools
         function getCookie(cname) {
@@ -119,8 +103,6 @@
         // Execute function when on window load 
         // Function for displaying error message and setting inputs
         window.onload = function () {
-
-
 
             console.log('Products:', products);
             // Get the 'errorsJSONstring' from URL parameters
@@ -266,7 +248,27 @@
                 </table>
             </div>
     </section>
+    <script>
+        //Function to calculate total items in cart
+        function calculateTotalItems() {
+            
+            let totalItems = 0;
 
+
+            // Check if the current product key exist
+            if (shopping_cart[prod_key]) {
+                // Loop through the products to calculate the total items in the cart
+                for (let i = 0; i < products.length; i++) {
+                    // Check if the quantity is greater than 0
+                    if (shopping_cart[prod_key]['quantity' + i] > 0) {
+                        totalItems += shopping_cart[prod_key]['quantity' + i];
+                    }
+                }
+            }
+
+            return totalItems;
+        }
+    </script>
 
     <script>
         document.write(`<h2 style="text-align: center;"> ${prod_key.toUpperCase()} </h2>`)

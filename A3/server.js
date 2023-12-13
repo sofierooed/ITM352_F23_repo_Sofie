@@ -154,7 +154,6 @@ app.post("/purchase", function (request, response) {
          // tracking the quantity available by subtracting purchased quantities
          let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
          products[i].cartcount += purchasedQty;
-
       }
 
       // Write the updated products array back to the product_data.json file 
@@ -168,7 +167,7 @@ app.post("/purchase", function (request, response) {
 
 
       //Redirect to product page with confirmation message
-      response.redirect(`/product_display.html?`+ params.toString());
+      response.redirect(`/product_display.html?` + params.toString());
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -353,6 +352,18 @@ app.post("/register", function (request, response, next) {
 }
 
 );
+
+// ------------- UPDATE CART ----------------------
+app.post("/update_cart", function (request, response) {
+   // Assuming that the client sends the updated cart data in the request body
+   let updatedCart = request.body;
+
+   // Update the session's cart with the new data
+   request.session.cart = updatedCart;
+
+   // Send a success response
+   response.status(200).send("Cart updated successfully");
+});
 
 //----------DISPLAY INVOICE WHEN PURCHASE COMPLETE------------------
 
