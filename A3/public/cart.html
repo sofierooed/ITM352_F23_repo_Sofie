@@ -11,11 +11,27 @@
 
 <script>
 
+    //Function to get cookies from W3 schools
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
     //Function to create navbar from A3 code examples
     function nav_bar() {
         document.write(`<a href='./index.html'>Home</a>&nbsp&nbsp&nbsp;`);
         document.write(`<a href='./product_display.html'>Products</a>&nbsp&nbsp&nbsp;`);
-        document.write(`<a href='./login.html'>Login</a>&nbsp&nbsp&nbsp;`);
     }
     // This function asks the server for a "service" and converts the response to text. 
     // Function from A3 code examples
@@ -92,9 +108,22 @@
         <h3 style="display: flex; justify-content: space-between;">
             <a>BY.SOFIE</a>
             <span>YOUR SHOPPINGCART</span>
-            <form action="/logout" method="POST">
-                <button class="log_out_button">log out</button>
-            </form>
+            <script>
+                //If the user is logged in, get name from cookie and print print a log out button
+                if (getCookie("email") !== "") {
+                    document.write(`            
+                    <form action="/logout" method="POST">
+                        <button class="log_out_button">log out ${getCookie("email")}</button>
+                </form>`);
+                } else {
+                    document.write(`            
+                        <button class="log_in_button" onclick="location.href='./login.html'">log in</button>`);
+                }
+
+                //Otherwise give link to login
+
+
+            </script>
         </h3>
         <div class="topnav">
             <script>
@@ -105,7 +134,8 @@
     </header>
 
     <main>
-        <table>
+
+        <table id="cartTable">
             <tr class="heading">
                 <td>Image</td>
                 <td>Item</td>
@@ -133,7 +163,7 @@
                 // Compute grand total adding tax and subtotal price
                 let grand_total = subtotal + tax + shipping;
             </script>
-            <tr class="heading">
+            <tr class="sub_heading">
                 <td>Sub Total</td>
                 <td></td>
                 <td></td>
@@ -143,7 +173,7 @@
                 </td>
                 <td></td>
             </tr>
-            <tr class="heading">
+            <tr class="sub_heading">
                 <td> Tax @
                     <script>document.write(tax_rate.toFixed(2))</script>%
                 </td>
@@ -155,7 +185,7 @@
                 </td>
                 <td></td>
             </tr>
-            <tr class="heading">
+            <tr class="sub_heading">
                 <td>Shipping</td>
                 <td></td>
                 <td></td>
@@ -175,12 +205,31 @@
                 </td>
                 <td></td>
             </tr>
+            <tr>
+                <td></td>
+                <td>
+                    Shipping policy: Free shipping with a sub total over $700. All orders below will have a 5% shipping fee.
+                </td>
+            </tr>
         </table>
-        <form action="/invoice" method="POST">
+        <form action="/invoice" method="GET" id="confirmPurchaseButton">
             <button class="confirm_purchase_button">Confirm Purchase</button>
         </form>
 
+        <script>
+            if (Object.keys(shopping_cart).length === 0) {
+                document.write(`<p style="color: red; font-size: 18px; font-weight: bold; text-align: center; ">Your shopping cart is empty, please go back to products and select some items!</p>`);
+
+                // Hide the table and confirm purchase button
+                document.getElementById('cartTable').style.display = 'none';
+                document.getElementById('confirmPurchaseButton').style.display = 'none';
+            }
+        </script>
+
     </main>
+    <footer>
+        <a></a>
+    </footer>
 </body>
 
 </html>

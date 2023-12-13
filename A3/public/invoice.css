@@ -143,3 +143,10 @@ footer{
     text-align: left;
 }
 
+h1, h2 {
+    text-align: center;
+    font-size: 3em;
+    color: #ff7eb9;
+    margin-top: 10px;
+    margin-bottom: 0;
+}

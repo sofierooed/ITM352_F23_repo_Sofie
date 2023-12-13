@@ -130,22 +130,27 @@ app.post("/purchase", function (request, response) {
       // Add productType to the selected_qty object
       selected_qty.productType = productType;
 
-
+      // Check if the user's session does not have a shopping cart
       if (typeof request.session.cart[productType] == 'undefined') {
+         //Create an empty cart if it does not exist
          request.session.cart[productType] = {};
+         // Iterate over each product of the specified productType
          for (let i in all_products[productType]) {
+            // Initialize the quantity for each product in the shopping cart to 0
             request.session.cart[productType][`quantity${i}`] = 0;
          }
       }
       //Add purchase data quantity to session
       for (i = 0; i < products.length; i++) {
+         // Check if the quantity for the current product is not an empty string
          if (selected_qty[`quantity${i}`] != '') {
+            // If the quantity is not empty, add it to the existing quantity in the shopping cart
             request.session.cart[productType][`quantity${i}`] += Number(selected_qty[`quantity${i}`]);
          }
       }
 
       //Redirect to product page with confirmation message
-      response.redirect(`/product_display.html?`);
+      response.redirect(`/product_display.html`);
    } else {
       // If there are errors or all quantities are zero, add errors object to request.body to put into the query string
       request.body["errorsJSONstring"] = JSON.stringify(errors);
@@ -344,12 +349,97 @@ app.post("/register", function (request, response, next) {
 
 );
 
-// Ensure user cannot access the invoice without logging in
-app.post('/invoice', function (request, response) {
+app.get('/invoice', function (request, response) {
    // Check if the request has a cookie named 'email'
    if (request.cookies.email) {
-      // Redirect to the invoice page if the cookie is present
-      response.redirect('/invoice.html');
+
+      // Generate HTML invoice string
+      let invoice_str = `
+         <style>
+            /* Add your CSS styles here */
+            table {
+               width: 100%;
+               border-collapse: collapse;
+               margin-top: 20px;
+            }
+            th, td {
+               border: 1px solid #ddd;
+               padding: 8px;
+               text-align: left;
+            }
+            th {
+               background-color: #f2f2f2;
+            }
+         </style>
+         <div style="text-align: center;">
+            <h2>Thank you for your order!</h2>
+            <p>Please see your invoice below.</p>
+         </div>
+         <table>
+            <tr>
+               <th>Quantity</th>
+               <th>Item</th>
+               <th>Price</th>
+               <th>Extended Price</th>
+            </tr>`;
+
+      let shopping_cart = request.session.cart;
+      // Subtotal
+      let subtotal = 0;
+      //Loop to run trough and display purchased quantities
+      for (product_key in all_products) {
+         for (i = 0; i < all_products[product_key].length; i++) {
+            if (typeof shopping_cart[product_key] == 'undefined') continue;
+            qty = shopping_cart[product_key][`quantity${i}`];
+            if (qty > 0) {
+               extended_price = qty * all_products[product_key][i].price; // Compute extended price
+               subtotal += extended_price; // Add subtotal back to itself
+
+               invoice_str += `
+               <tr>
+                  <td>${qty}</td>
+                  <td>${all_products[product_key][i].name}</td>
+                  <td>$${all_products[product_key][i].price.toFixed(2)}</td>
+                  <td>$${(all_products[product_key][i].price * qty).toFixed(2)}</td>
+               </tr>`;
+            }
+         }
+      }
+
+      // Tax rate
+      let tax_rate = 0.0525;
+      let tax = tax_rate * subtotal;
+
+      // Compute shipping
+      let shipping = (subtotal > 700) ? 0 : 0.05 * subtotal;
+
+      // Grand total
+      let grand_total = subtotal + tax + shipping;
+
+      invoice_str += `
+         <tr>
+            <td colspan="4"></td>
+         </tr>
+         <tr>
+            <td colspan="3">Subtotal</td>
+            <td>$${subtotal.toFixed(2)}</td>
+         </tr>
+         <tr>
+            <td colspan="3">Tax @ 5.25%</td>
+            <td>$${tax.toFixed(2)}</td>
+         </tr>
+         <tr>
+            <td colspan="3">Shipping</td>
+            <td>$${shipping.toFixed(2)}</td>
+         </tr>
+         <tr>
+            <td colspan="3">Total</td>
+            <td>$${grand_total.toFixed(2)}</td>
+         </tr>
+      </table>`;
+
+      response.send(invoice_str);
+
    } else {
       // Redirect to the product display page if the cookie is not present
       response.redirect('/login.html');

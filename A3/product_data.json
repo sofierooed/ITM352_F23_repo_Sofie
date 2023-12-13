@@ -4,17 +4,19 @@
       "name": "Blue Bag",
       "price": 300,
       "image": "./images/bag_blue.jpg",
-      "quantity_available": 45,
-      "total_sold": 8,
-      "description": "Handpainted beachbag with blue colors"
+      "quantity_available": 44,
+      "total_sold": 9,
+      "description": "Handpainted beachbag with blue colors",
+      "cartcount": 0
     },
     {
       "name": "Orange Bag",
       "price": 300,
       "image": "./images/bag_orange.jpg",
-      "quantity_available": 37,
-      "total_sold": 18,
-      "description": "Handpainted beachbag with orange colors"
+      "quantity_available": 36,
+      "total_sold": 19,
+      "description": "Handpainted beachbag with orange colors",
+      "cartcount": 0
     },
     {
       "name": "Purple Bag",
@@ -22,7 +24,8 @@
       "image": "./images/bag_purple.jpg",
       "quantity_available": 38,
       "total_sold": 18,
-      "description": "Handpainted beachbag with purple colors"
+      "description": "Handpainted beachbag with purple colors",
+      "cartcount": 0
     },
     {
       "name": "Neutral Bag",
@@ -30,7 +33,8 @@
       "image": "./images/bag_neutral.jpg",
       "quantity_available": 40,
       "total_sold": 16,
-      "description": "Handpainted beachbag with neutral colors"
+      "description": "Handpainted beachbag with neutral colors",
+      "cartcount": 0
     },
     {
       "name": "Pink Bag",
@@ -38,7 +42,8 @@
       "image": "./images/bag_pink.jpg",
       "quantity_available": 33,
       "total_sold": 23,
-      "description": "Handpainted beachbag with pink colors"
+      "description": "Handpainted beachbag with pink colors",
+      "cartcount": 0
     },
     {
       "name": "Turquoise Bag",
@@ -46,7 +51,8 @@
       "image": "./images/bag_Turquoise.jpg",
       "quantity_available": 37,
       "total_sold": 19,
-      "description": "Handpainted beachbag with turquoise colors"
+      "description": "Handpainted beachbag with turquoise colors",
+      "cartcount": 0
     }
   ],
   "Hats": [
@@ -54,9 +60,10 @@
       "name": "Blue Hat",
       "price": 100,
       "image": "./images/hat_blue.jpg",
-      "quantity_available": 47,
-      "total_sold": 7,
-      "description": "Handpainted beachhat with blue colors"
+      "quantity_available": 46,
+      "total_sold": 8,
+      "description": "Handpainted beachhat with blue colors",
+      "cartcount": 0
     },
     {
       "name": "Orange Hat",
@@ -64,7 +71,8 @@
       "image": "./images/hat_orange.jpg",
       "quantity_available": 40,
       "total_sold": 17,
-      "description": "Handpainted beachhat with orange colors"
+      "description": "Handpainted beachhat with orange colors",
+      "cartcount": 0
     },
     {
       "name": "Pink Hat",
@@ -72,7 +80,8 @@
       "image": "./images/hat_pink.jpg",
       "quantity_available": 41,
       "total_sold": 16,
-      "description": "Handpainted beachhat with pink colors"
+      "description": "Handpainted beachhat with pink colors",
+      "cartcount": 0
     },
     {
       "name": "Coral Hat",
@@ -80,15 +89,17 @@
       "image": "./images/hat_coral.jpg",
       "quantity_available": 41,
       "total_sold": 16,
-      "description": "Handpainted beachhat with coral colors"
+      "description": "Handpainted beachhat with coral colors",
+      "cartcount": 0
     },
     {
       "name": "Neutral Hat",
       "price": 100,
       "image": "./images/hat_neutral.jpg",
-      "quantity_available": 38,
-      "total_sold": 19,
-      "description": "Handpainted beachhat with neutral colors"
+      "quantity_available": 37,
+      "total_sold": 20,
+      "description": "Handpainted beachhat with neutral colors",
+      "cartcount": 0
     },
     {
       "name": "Black Hat",
@@ -96,7 +107,8 @@
       "image": "./images/hat_black.jpg",
       "quantity_available": 41,
       "total_sold": 16,
-      "description": "Handpainted beachhat with black colors"
+      "description": "Handpainted beachhat with black colors",
+      "cartcount": 0
     }
   ],
   "Towels": [
@@ -106,15 +118,17 @@
       "image": "./images/towel_blue.jpeg",
       "quantity_available": 45,
       "total_sold": 9,
-      "description": "Beach towel with blue colors"
+      "description": "Beach towel with blue colors",
+      "cartcount": 0
     },
     {
       "name": "Green towel",
       "price": 200,
       "image": "./images/towel_green.jpeg",
-      "quantity_available": 45,
-      "total_sold": 9,
-      "description": "Beach towel with green colors"
+      "quantity_available": 44,
+      "total_sold": 10,
+      "description": "Beach towel with green colors",
+      "cartcount": 0
     },
     {
       "name": "Pink towel",
@@ -122,7 +136,8 @@
       "image": "./images/towel_pink.jpeg",
       "quantity_available": 46,
       "total_sold": 8,
-      "description": "Beach towel with pink colors"
+      "description": "Beach towel with pink colors",
+      "cartcount": 0
     },
     {
       "name": "Purple towel",
@@ -130,15 +145,17 @@
       "image": "./images/towel_purple.jpeg",
       "quantity_available": 46,
       "total_sold": 8,
-      "description": "Beach towel with purple colors"
+      "description": "Beach towel with purple colors",
+      "cartcount": 0
     },
     {
       "name": "Black towel",
       "price": 200,
       "image": "./images/towel_black.jpeg",
-      "quantity_available": 47,
-      "total_sold": 7,
-      "description": "Beach towel with black colors"
+      "quantity_available": 45,
+      "total_sold": 9,
+      "description": "Beach towel with black colors",
+      "cartcount": 0
     },
     {
       "name": "Neutral towel",
@@ -146,7 +163,8 @@
       "image": "./images/towel_neutral.jpeg",
       "quantity_available": 47,
       "total_sold": 7,
-      "description": "Beach towel with neutral colors"
+      "description": "Beach towel with neutral colors",
+      "cartcount": 0
     }
   ]
 }

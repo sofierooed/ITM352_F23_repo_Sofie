@@ -139,3 +139,16 @@ footer {
     background-color: #ff7eb9;
 }
 
+.log_in_button {
+    border: none;
+    color: #fff;
+    padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #ff7eb9;
+}
+

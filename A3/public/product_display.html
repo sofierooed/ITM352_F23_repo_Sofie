@@ -17,6 +17,32 @@
     <link rel="stylesheet" href="products-style.css">
 
     <script>
+
+        // This function asks the server for a "service" and converts the response to text. 
+        // Function from A3 code examples
+        function loadJSON(service, callback) {
+            let xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('POST', service, true);
+            xobj.onreadystatechange = function () {
+                if (xobj.readyState == 4 && xobj.status == "200") {
+                    // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                    callback(xobj.responseText);
+                }
+            };
+            xobj.send(null);
+        }
+
+        //Get shoppingcart data for user session from server, from A3 code examples
+        loadJSON('get_cart', function (response) {
+            // Parsing JSON string into object
+            shopping_cart = JSON.parse(response);
+
+            // The rest of your code that depends on shopping_cart should be placed here
+            console.log('Shopping Cart:', shopping_cart);
+        });
+
+        //Function to get cookies from W3 schools
         function getCookie(cname) {
             let name = cname + "=";
             let decodedCookie = decodeURIComponent(document.cookie);
@@ -146,7 +172,6 @@
                 if (products_key == this_product_key) continue;
                 document.write(`<a href='./product_display.html?product_type=${products_key}'>${products_key}<a>&nbsp&nbsp&nbsp;`);
             }
-            document.write(`<a href='./login.html'>Login</a>&nbsp&nbsp&nbsp;`);
             document.write(`<a href='./cart.html'>Shoppingcart</a>&nbsp&nbsp&nbsp;`);
         }
 
@@ -162,18 +187,17 @@
             <a>BY.SOFIE</a>
             <span id="welcomeMessage">WELCOME</span>
             <script>
-            //If the user is logged in, get name from cookie and print print a log out button
-            if(getCookie("email")!==""){
-                document.write(`            
+                //If the user is logged in, get name from cookie and print print a log out button
+                if (getCookie("email") !== "") {
+                    document.write(`            
                 <form action="/logout" method="POST">
                     <button class="log_out_button">log out ${getCookie("email")}</button>
             </form>`);
-            } else{
-                document.write(`            
+                } else {
+                    document.write(`            
                     <button class="log_in_button" onclick="location.href='./login.html'">log in</button>`);
-            }
+                }
 
-            //Otherwise give link to login
 
 
             </script>
@@ -225,6 +249,7 @@
             <script>
                 //Loop to display products, incorporated Assignment 1 IR 1
                 for (let i = 0; i < products.length; i++) {
+
                     document.write(`
                     <section class="item">
                         <h2>${products[i].name}</h2>
