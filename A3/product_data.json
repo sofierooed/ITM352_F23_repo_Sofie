@@ -16,7 +16,7 @@
       "quantity_available": 32,
       "total_sold": 21,
       "description": "Handpainted beachbag with orange colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Purple Bag",
@@ -25,7 +25,7 @@
       "quantity_available": 36,
       "total_sold": 19,
       "description": "Handpainted beachbag with purple colors",
-      "cartcount": 1
+      "cartcount": 0
     },
     {
       "name": "Neutral Bag",
