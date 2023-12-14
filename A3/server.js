@@ -393,8 +393,10 @@ app.get('/invoice', function (request, response) {
                <th>Price</th>
                <th>Extended Price</th>
             </tr>`;
-
+      
+      let the_email = request.cookies.email;
       let shopping_cart = request.session.cart;
+      
       // Subtotal
       let subtotal = 0;
       //Loop to run trough and display purchased quantities
@@ -483,7 +485,8 @@ app.get('/invoice', function (request, response) {
          }
       });
 
-      let user_email = 'sofier@hawaii.edu';
+      //Set up mail settings
+      let user_email = the_email;
       let mailOptions = {
          from: 'by.sofie@store.com',
          to: user_email,
@@ -501,9 +504,11 @@ app.get('/invoice', function (request, response) {
          }
       });
 
+      //When email is sendt, send alert for confirmation
       email_msg = `<script>alert('Your invoice was mailed to ${user_email}');</script>`;
 
       // Combine invoice, email message, and button for redirection
+      //Include button to go back to store
       let combinedMessage = `
          ${invoice_str}
          ${email_msg}

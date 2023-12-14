@@ -4,7 +4,7 @@
       "name": "Blue Bag",
       "price": 300,
       "image": "./images/bag_blue.jpg",
-      "quantity_available": 43,
+      "quantity_available": 42,
       "total_sold": 10,
       "description": "Handpainted beachbag with blue colors",
       "cartcount": 0
@@ -13,10 +13,10 @@
       "name": "Orange Bag",
       "price": 300,
       "image": "./images/bag_orange.jpg",
-      "quantity_available": 33,
+      "quantity_available": 32,
       "total_sold": 21,
       "description": "Handpainted beachbag with orange colors",
-      "cartcount": 0
+      "cartcount": 1
     },
     {
       "name": "Purple Bag",
@@ -25,7 +25,7 @@
       "quantity_available": 36,
       "total_sold": 19,
       "description": "Handpainted beachbag with purple colors",
-      "cartcount": 0
+      "cartcount": 1
     },
     {
       "name": "Neutral Bag",
@@ -40,7 +40,7 @@
       "name": "Pink Bag",
       "price": 300,
       "image": "./images/bag_pink.jpg",
-      "quantity_available": 32,
+      "quantity_available": 31,
       "total_sold": 23,
       "description": "Handpainted beachbag with pink colors",
       "cartcount": 0
