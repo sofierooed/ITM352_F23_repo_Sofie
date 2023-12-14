@@ -31,7 +31,7 @@
       "name": "Neutral Bag",
       "price": 300,
       "image": "./images/bag_neutral.jpg",
-      "quantity_available": 39,
+      "quantity_available": 38,
       "total_sold": 17,
       "description": "Handpainted beachbag with neutral colors",
       "cartcount": 0
@@ -40,7 +40,7 @@
       "name": "Pink Bag",
       "price": 300,
       "image": "./images/bag_pink.jpg",
-      "quantity_available": 33,
+      "quantity_available": 32,
       "total_sold": 23,
       "description": "Handpainted beachbag with pink colors",
       "cartcount": 0
@@ -116,8 +116,8 @@
       "name": "Blue towel",
       "price": 200,
       "image": "./images/towel_blue.jpeg",
-      "quantity_available": 44,
-      "total_sold": 10,
+      "quantity_available": 43,
+      "total_sold": 11,
       "description": "Beach towel with blue colors",
       "cartcount": 0
     },
@@ -125,8 +125,8 @@
       "name": "Green towel",
       "price": 200,
       "image": "./images/towel_green.jpeg",
-      "quantity_available": 43,
-      "total_sold": 11,
+      "quantity_available": 42,
+      "total_sold": 12,
       "description": "Beach towel with green colors",
       "cartcount": 0
     },
@@ -143,8 +143,8 @@
       "name": "Purple towel",
       "price": 200,
       "image": "./images/towel_purple.jpeg",
-      "quantity_available": 46,
-      "total_sold": 8,
+      "quantity_available": 45,
+      "total_sold": 9,
       "description": "Beach towel with purple colors",
       "cartcount": 0
     },
@@ -152,8 +152,8 @@
       "name": "Black towel",
       "price": 200,
       "image": "./images/towel_black.jpeg",
-      "quantity_available": 44,
-      "total_sold": 10,
+      "quantity_available": 43,
+      "total_sold": 11,
       "description": "Beach towel with black colors",
       "cartcount": 0
     },

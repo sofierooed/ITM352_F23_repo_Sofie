@@ -118,11 +118,11 @@
                 if (getCookie("email") !== "") {
                     document.write(`            
                     <form action="/logout" method="POST">
-                        <button class="log_out_button">log out ${getCookie("email")}</button>
+                        <button class="log_out_button">Log Out ${getCookie("email")}</button>
                 </form>`);
                 } else {
                     document.write(`            
-                        <button class="log_in_button" onclick="location.href='./login.html'">log in</button>`);
+                        <button class="log_in_button" onclick="location.href='./login.html'">Log In or Register</button>`);
                 }
 
                 //Otherwise give link to login
@@ -214,7 +214,7 @@
             </tr>
         </table>
         <form action="/invoice" method="GET" id="confirmPurchaseButton">
-            <button class="confirm_purchase_button">Confirm Purchase</button>
+            <button class="confirm_purchase_button">Confirm Purchase & Log Out</button>
         </form>
 
         <script>

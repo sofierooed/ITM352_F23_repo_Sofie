@@ -363,20 +363,6 @@ app.get('/invoice', function (request, response) {
    // Check if the request has a cookie named 'email'
    if (request.cookies.email) {
 
-      // Update the inventory by subtracting the purchased quantity 
-      for (let i in products) {
-         // tracking the quantity available by subtracting purchased quantities
-         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-         products[i].quantity_available -= purchasedQty;
-         products[i].total_sold += purchasedQty;
-         //IR 7 - remove cartcount for products when purchased
-         products[i].cartcount -= purchasedQty;
-
-      }
-
-      // Write the updated products array back to the product_data.json file 
-      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
-      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
 
       // Generate HTML invoice string
       let invoice_str = `
@@ -431,6 +417,27 @@ app.get('/invoice', function (request, response) {
          }
       }
 
+      //IR 7 Assignment 3- UPDATE CART COUNT
+      for (let i in products) {
+         // tracking the quantity available by subtracting purchased quantities
+         let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
+         products[i].quantity_available -= purchasedQty;
+         products[i].cartcount -= purchasedQty;
+
+      }
+
+      // Write the updated products array back to the product_data.json file 
+      //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
+      fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
+
+      delete request.session.login;
+      delete request.session.cart;
+      console.log('User logged out.');
+      response.clearCookie("email");
+      response.clearCookie("name");
+      response.clearCookie("last_login");
+      response.clearCookie("login_count");
+
       // Tax rate
       let tax_rate = 0.0525;
       let tax = tax_rate * subtotal;
@@ -464,6 +471,7 @@ app.get('/invoice', function (request, response) {
       </table>`;
 
 
+
       // Set up mail server. Only will work on UH Network due to security restrictions
       const transporter = nodemailer.createTransport({
          host: "mail.hawaii.edu",
@@ -477,25 +485,38 @@ app.get('/invoice', function (request, response) {
 
       let user_email = 'sofier@hawaii.edu';
       let mailOptions = {
-        from: 'by.sofie@game.com',
-        to: user_email,
-        subject: 'by.sofie invoice',
-        html: invoice_str
+         from: 'by.sofie@game.com',
+         to: user_email,
+         subject: 'by.sofie invoice',
+         html: invoice_str
       };
-      
-      transporter.sendMail(mailOptions, function(error, info){
+
+      transporter.sendMail(mailOptions, function (error, info) {
          if (error) {
             console.error('Error sending email:', error);
             invoice_str += '<br>There was an error and your invoice could not be emailed :(';
-          } else {
+         } else {
             console.log('Email sent:', info.response);
             invoice_str += `<br>Your invoice was mailed to ${user_email}`;
-          }
+         }
       });
 
-      delete request.session.cart;
+      email_msg = `<script>alert('Your invoice was mailed to ${user_email}');</script>`;
 
-      response.send(invoice_str);
+      // Combine invoice, email message, and button for redirection
+      let combinedMessage = `
+         ${invoice_str}
+         ${email_msg}
+         <button onclick="redirectToIndex()">Back to store</button>
+         <script>
+            function redirectToIndex() {
+               window.location.href = '/index.html';
+            }
+         </script>
+      `;
+
+      response.send(combinedMessage);
+
 
 
    } else {
@@ -512,7 +533,7 @@ app.post("/logout", function (request, response) {
    for (let i in products) {
       // tracking the quantity available by subtracting purchased quantities
       let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-      products[i].cartcount += purchasedQty;
+      products[i].cartcount -= purchasedQty;
 
    }
 

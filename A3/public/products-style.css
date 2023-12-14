@@ -9,6 +9,7 @@
 
 /* Nav styler */
 .topnav {
+    border: 1px solid #000;
     display: block;
     align-items: center;
     justify-content: space-between;
@@ -100,7 +101,6 @@ img {
 footer {
     text-align: center;
     margin: 20px 0;
-    background-color: #ff7eb9; /* Added background color to footer for consistency */
     padding: 10px; /* Added padding for better spacing */
 }
 
@@ -127,7 +127,7 @@ footer {
 
 
 .log_out_button {
-    border: none;
+    border: 1px solid #000;
     color: #fff;
     padding: 5px 20px;
     text-align: center;
@@ -140,9 +140,22 @@ footer {
 }
 
 .log_in_button {
-    border: none;
+    border: 1px solid #000;
     color: #fff;
     padding: 5px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #ff7eb9;
+}
+
+.purchase_button{
+    border: 1px solid #000;
+    color: #fdf2f6;
+    padding: 10px 50px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
