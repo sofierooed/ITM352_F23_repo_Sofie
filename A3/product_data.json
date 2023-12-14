@@ -13,7 +13,7 @@
       "name": "Orange Bag",
       "price": 300,
       "image": "./images/bag_orange.jpg",
-      "quantity_available": 34,
+      "quantity_available": 33,
       "total_sold": 21,
       "description": "Handpainted beachbag with orange colors",
       "cartcount": 0
@@ -22,7 +22,7 @@
       "name": "Purple Bag",
       "price": 300,
       "image": "./images/bag_purple.jpg",
-      "quantity_available": 37,
+      "quantity_available": 36,
       "total_sold": 19,
       "description": "Handpainted beachbag with purple colors",
       "cartcount": 0
@@ -49,7 +49,7 @@
       "name": "Turquoise Bag",
       "price": 300,
       "image": "./images/bag_Turquoise.jpg",
-      "quantity_available": 36,
+      "quantity_available": 35,
       "total_sold": 20,
       "description": "Handpainted beachbag with turquoise colors",
       "cartcount": 0
@@ -143,7 +143,7 @@
       "name": "Purple towel",
       "price": 200,
       "image": "./images/towel_purple.jpeg",
-      "quantity_available": 45,
+      "quantity_available": 44,
       "total_sold": 9,
       "description": "Beach towel with purple colors",
       "cartcount": 0
@@ -152,7 +152,7 @@
       "name": "Black towel",
       "price": 200,
       "image": "./images/towel_black.jpeg",
-      "quantity_available": 43,
+      "quantity_available": 42,
       "total_sold": 11,
       "description": "Beach towel with black colors",
       "cartcount": 0

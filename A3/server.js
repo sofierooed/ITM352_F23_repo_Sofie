@@ -485,7 +485,7 @@ app.get('/invoice', function (request, response) {
 
       let user_email = 'sofier@hawaii.edu';
       let mailOptions = {
-         from: 'by.sofie@game.com',
+         from: 'by.sofie@store.com',
          to: user_email,
          subject: 'by.sofie invoice',
          html: invoice_str
