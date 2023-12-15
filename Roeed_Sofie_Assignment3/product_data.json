@@ -48,7 +48,7 @@
     {
       "name": "Turquoise Bag",
       "price": 300,
-      "image": "./images/bag_Turquoise.jpg",
+      "image": "./images/bag_turquoise.jpg",
       "quantity_available": 34,
       "total_sold": 20,
       "description": "Handpainted beachbag with turquoise colors",
