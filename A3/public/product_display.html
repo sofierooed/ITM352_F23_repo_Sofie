@@ -43,6 +43,7 @@
 
 
         });
+        
 
 
         //Function to get cookies from W3 schools
@@ -255,6 +256,13 @@
                             <p>
                                 Our hats and bags are custom painted in your favourite colors. <br>
                                 Please scroll further down to see our products.
+                                <br>
+                                <br>
+                                <script>
+                                    if (getCookie("email") !== ""){
+                                        document.write(`Last login: ${getCookie("last_login")}`);
+                                    }
+                                </script>
                             </p>
                         </td>
                         <td>

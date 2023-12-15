@@ -79,17 +79,22 @@
                     // Output a table row with product information and the calculated extended price, using a template string.
                     //Included Assignment 1 IR5 styled in css sheet
                     document.write(`
-                <tr id="item_${pkey}_${i}" class="item">
-                    <td width="15%">
-                        <div class="img_block">
-                            <img src="${products[i].image}" >
-                        </div>
-                    </td>
-                    <td width="15%">${products[i].name}</td>
-                    <td align="center" width="15%">${quantity}</td>
-                    <td width="13%">$${products[i].price}</td>
-                    <td width="13%">$${products[i].price * quantity}</td>
-                </tr>
+                    <tr id="item_${pkey}_${i}" class="item">
+                        <form action="/delete_item_in_cart" method="POST">
+                            <input type="hidden" name="productKey" value="${pkey}">
+                            <input type="hidden" name="productIndex" value="${i}">
+                            <td width="15%">
+                                <div class="img_block">
+                                    <img src="${products[i].image}" >
+                                </div>
+                            </td>
+                            <td width="15%">${products[i].name}</td>
+                            <td align="center" width="15%">${quantity}</td>
+                            <td width="13%">$${products[i].price}</td>
+                            <td width="13%">$${products[i].price * quantity}</td>
+                            <td><input type="submit" value="X"></td>
+                        </form>
+                    </tr>
             `);
                     subtotal += extended_price;
                 }
@@ -147,6 +152,7 @@
                 <td>Quantity</td>
                 <td>Price</td>
                 <td>Extended Price</td>
+                <td>Delete Item</td>
             </tr>
             <script>
                 generate_item_rows(quantities);  
@@ -175,6 +181,7 @@
                 <td> $
                     <script>document.write(subtotal.toFixed(2))</script>
                 </td>
+                <td></td>
             </tr>
             <tr class="sub_heading">
                 <td> Tax @
@@ -186,6 +193,7 @@
                 <td> $
                     <script>document.write(tax.toFixed(2))</script>
                 </td>
+                <td></td>
             </tr>
             <tr class="sub_heading">
                 <td>Shipping</td>
@@ -195,6 +203,7 @@
                 <td> $
                     <script>document.write(shipping.toFixed(2))</script>
                 </td>
+                <td></td>
             </tr>
             <tr class="heading">
                 <td>Grand Total</td>
@@ -204,6 +213,7 @@
                 <td> $
                     <script>document.write(grand_total.toFixed(2))</script>
                 </td>
+                <td></td>
             </tr>
             <tr>
                 <td></td>

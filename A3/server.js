@@ -10,7 +10,6 @@ const app = express();
 
 // Importing modules, retrieved from class
 const qs = require('querystring'); // Utilities for parsing and formatting URL query strings
-const url = require("url");
 
 //Set up cookie
 const cookieParser = require('cookie-parser');
@@ -55,7 +54,6 @@ function isNonNegInt(quantities, returnErrors) {
    var returnErrors = returnErrors ? errors : (errors.length == 0);
    return returnErrors;
 }
-
 
 
 
@@ -144,7 +142,7 @@ app.post("/purchase", function (request, response) {
          }
       }
       //Add purchase data quantity to session
-      for (i = 0; i < products.length; i++) {
+      for (let i = 0; i < products.length; i++) {
          // Check if the quantity for the current product is not an empty string
          if (selected_qty[`quantity${i}`] != '') {
             // If the quantity is not empty, add it to the existing quantity in the shopping cart
@@ -179,11 +177,41 @@ app.post("/purchase", function (request, response) {
       );
    }
 
-
 });
 
+//Retrieve the cart
 app.post("/get_cart", function (request, response) {
    response.json(request.session.cart);
+});
+
+//Creating a possibiity for the user to edit their cart
+app.post("/delete_item_in_cart", function (request, response) {
+   // Retrieve product key and index from the request body
+   const key = request.body.productKey;
+   const index = request.body.productIndex;
+
+   console.log(request.session.cart[key][index]);
+
+   // Get the quantity of the specified product before setting it to 0
+   const removedQuantity = request.session.cart[key][`quantity${index}`];
+
+   // Retrieve the products associated with the key
+   const products = all_products[key];
+
+   // Update cartcount for the specified product
+   if (products && products[index]) {
+      products[index].cartcount -= removedQuantity;
+   }
+
+   // Set the quantity of the specified product to 0 in the cart
+   request.session.cart[key][`quantity${index}`] = 0;
+
+   // Write the updated products array back to the product_data.json file 
+   //(ChatGPT helped me convert the array into a JSON string so the format of the file looks nicer)
+   fs.writeFileSync(__dirname + '/product_data.json', JSON.stringify(all_products, null, 2));
+
+   // Redirect back to the previous page
+   response.redirect('back');
 });
 
 
@@ -199,10 +227,6 @@ app.post("/login", function (request, response, next) {
    let the_email = request.body['email'].toLowerCase();
    let the_password = request.body['password'];
    let the_name;
-
-   // Extract productType from the query string
-   let productType = request.query.productType;
-
 
    //Assume no errors (object)
    let login_error = {};
@@ -363,6 +387,7 @@ app.get('/invoice', function (request, response) {
    // Check if the request has a cookie named 'email'
    if (request.cookies.email) {
 
+      let the_email = request.cookies.email;
 
       // Generate HTML invoice string
       let invoice_str = `
@@ -384,7 +409,7 @@ app.get('/invoice', function (request, response) {
          </style>
          <div style="text-align: center;">
             <h2>Thank you for your order!</h2>
-            <p>Please see your invoice below.</p>
+            <p>Please see your invoice below. Your invoice was emailed to ${the_email}</p>
          </div>
          <table>
             <tr>
@@ -393,10 +418,12 @@ app.get('/invoice', function (request, response) {
                <th>Price</th>
                <th>Extended Price</th>
             </tr>`;
-      
-      let the_email = request.cookies.email;
+
+
       let shopping_cart = request.session.cart;
-      
+
+
+
       // Subtotal
       let subtotal = 0;
       //Loop to run trough and display purchased quantities
@@ -419,13 +446,21 @@ app.get('/invoice', function (request, response) {
          }
       }
 
-      //IR 7 Assignment 3- UPDATE CART COUNT
-      for (let i in products) {
+      // IR 7 Assignment 3- UPDATE CART COUNT
+      for (let i = 0; i < products.length; i++) {
          // tracking the quantity available by subtracting purchased quantities
          let purchasedQty = parseInt(selected_qty['quantity' + i]) || 0; // Ensure a valid number, default to 0
-         products[i].quantity_available -= purchasedQty;
-         products[i].cartcount -= purchasedQty;
+         console.log(purchasedQty);
 
+         if (purchasedQty > 0) {
+            products[i].quantity_available -= purchasedQty;
+            products[i].cartcount -= purchasedQty;
+
+            // Ensure cartcount doesn't go below 0
+            if (products[i].cartcount < 0) {
+               products[i].cartcount = 0;
+            }
+         }
       }
 
       // Write the updated products array back to the product_data.json file 
@@ -497,21 +532,16 @@ app.get('/invoice', function (request, response) {
       transporter.sendMail(mailOptions, function (error, info) {
          if (error) {
             console.error('Error sending email:', error);
-            invoice_str += '<br>There was an error and your invoice could not be emailed :(';
          } else {
             console.log('Email sent:', info.response);
-            invoice_str += `<br>Your invoice was mailed to ${user_email}`;
          }
       });
 
-      //When email is sendt, send alert for confirmation
-      email_msg = `<script>alert('Your invoice was mailed to ${user_email}');</script>`;
 
       // Combine invoice, email message, and button for redirection
       //Include button to go back to store
       let combinedMessage = `
          ${invoice_str}
-         ${email_msg}
          <button onclick="redirectToIndex()">Back to store</button>
          <script>
             function redirectToIndex() {
